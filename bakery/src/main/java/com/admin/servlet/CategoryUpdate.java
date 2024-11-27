@@ -15,8 +15,7 @@ import com.DB.DBConnect;
 import com.entity.Category;
 
 @WebServlet("/update_category")
-@MultipartConfig(
-)
+@MultipartConfig()
 public class CategoryUpdate extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
