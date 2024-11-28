@@ -46,7 +46,7 @@ public class RegisterServlet extends HttpServlet {
             if (userRegistered) {
                 // Thông báo thành công và chuyển hướng đến login.jsp
                 session.setAttribute("successMsg", "Đăng ký thành công! Bạn sẽ được chuyển hướng đến trang đăng nhập sau 3 giây.");
-                response.sendRedirect("register.jsp");
+                response.sendRedirect("index.jsp");
             } else {
                 session.setAttribute("errorMsg", "Đăng ký thất bại. Vui lòng thử lại.");
                 response.sendRedirect("register.jsp");
