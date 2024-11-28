@@ -20,6 +20,10 @@ public class CategoryUpdate extends HttpServlet {
 	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
+        	// Thiết lập encoding cho request và response
+            req.setCharacterEncoding("UTF-8");
+            resp.setCharacterEncoding("UTF-8");
+            
             String id = req.getParameter("id");
             String name = req.getParameter("category");
             String description = req.getParameter("description");

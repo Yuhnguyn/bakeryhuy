@@ -17,6 +17,11 @@ import com.entity.User;
 public class RegisterServlet extends HttpServlet {
   
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	
+    	// Thiết lập encoding cho request và response
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        
         String name = request.getParameter("name");
         String username = request.getParameter("username");
         String phone = request.getParameter("phone");
@@ -46,7 +51,7 @@ public class RegisterServlet extends HttpServlet {
             if (userRegistered) {
                 // Thông báo thành công và chuyển hướng đến login.jsp
                 session.setAttribute("successMsg", "Đăng ký thành công! Bạn sẽ được chuyển hướng đến trang đăng nhập sau 3 giây.");
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("login.jsp");
             } else {
                 session.setAttribute("errorMsg", "Đăng ký thất bại. Vui lòng thử lại.");
                 response.sendRedirect("register.jsp");
