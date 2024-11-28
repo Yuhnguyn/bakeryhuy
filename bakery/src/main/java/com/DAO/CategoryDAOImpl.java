@@ -139,8 +139,9 @@ public class CategoryDAOImpl implements CategoryDAO {
     @Override
     public List<Category> searchCategories(String keyword, String sort) {
         List<Category> categories = new ArrayList<>();
-        String sql = "SELECT * FROM category WHERE name LIKE ? OR id LIKE ?";
-        
+        String sql = "SELECT DISTINCT id, name, thumbnail, description, created_at, updated_at " +
+                     "FROM category WHERE name LIKE ? OR id LIKE ?";
+
         // Thêm điều kiện sắp xếp
         if ("name_asc".equals(sort)) {
             sql += " ORDER BY name ASC";
@@ -173,6 +174,10 @@ public class CategoryDAOImpl implements CategoryDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        // Loại bỏ trùng lặp nếu cần (trong trường hợp lỗi logic phía DB)
+        categories = categories.stream().distinct().toList();
+
         return categories;
     }
 }

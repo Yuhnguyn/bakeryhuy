@@ -124,8 +124,8 @@
                 <th>Thao tác</th>
             </tr>
         </thead>
-        <tbody>
-        <c:forEach var="category" items="${categories}">
+       <tbody>
+    <c:forEach var="category" items="${categories}">
         <tr>
             <td>${category.id}</td>
             <td>${category.name}</td>
@@ -143,31 +143,8 @@
             </td>
         </tr>
     </c:forEach>
-            <!-- Lấy danh sách từ database -->
-            <%
-                CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
-                List<Category> categories = dao.getAllCategories();
-                for (Category category : categories) {
-            %>
-                <tr>
-                    <td><%= category.getId() %></td>
-                    <td><%= category.getName() %></td>
-                    <td>
-                        <img src="${pageContext.request.contextPath}/uploads/category/<%= category.getThumbnail() %>" alt="<%= category.getName() %>" style="width: 50px; height: 50px;">
+</tbody>
 
-                    </td>
-                    <td><%= category.getDescription() %></td>
-                    <td><%= category.getCreatedAt() %></td>
-                    <td><%= category.getUpdatedAt() %></td>
-                    <td>
-                        <a href="update_category.jsp?id=<%= category.getId() %>" class="button btn-approve">Sửa</a>
-                        <a href="delete_category?id=<%= category.getId() %>" class="button btn-reject">Xóa</a>
-                    </td>
-                </tr>
-            <%
-                }
-            %>
-        </tbody>
     </table>
 
     <!-- Nút thêm danh mục -->
