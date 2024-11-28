@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page isELIgnored="false" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.DB.DBConnect" %>
 <%@ page import="com.DAO.CategoryDAOImpl" %>
@@ -16,6 +17,7 @@
             background-color: #f9f9f9;
         }
         h2 {
+        margin-top:100px;
             text-align: center;
             padding: 20px;
             font-size: 24px;
@@ -125,24 +127,7 @@
             </tr>
         </thead>
         <tbody>
-        <c:forEach var="category" items="${categories}">
-        <tr>
-            <td>${category.id}</td>
-            <td>${category.name}</td>
-            <td>
-                <c:if test="${not empty category.thumbnail}">
-                    <img src="${pageContext.request.contextPath}/uploads/category/${category.thumbnail}" alt="${category.name}" style="width: 50px; height: 50px;">
-                </c:if>
-            </td>
-            <td>${category.description}</td>
-            <td>${category.createdAt}</td>
-            <td>${category.updatedAt}</td>
-            <td>
-                <a href="update_category.jsp?id=${category.id}" class="button btn-approve">Sửa</a>
-                <a href="delete_category?id=${category.id}" class="button btn-reject">Xóa</a>
-            </td>
-        </tr>
-    </c:forEach>
+        
             <!-- Lấy danh sách từ database -->
             <%
                 CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
@@ -161,7 +146,7 @@
                     <td><%= category.getUpdatedAt() %></td>
                     <td>
                         <a href="update_category.jsp?id=<%= category.getId() %>" class="button btn-approve">Sửa</a>
-                        <a href="delete_category?id=<%= category.getId() %>" class="button btn-reject">Xóa</a>
+                        <a href="../delete?id=<%= category.getId() %>" class="button btn-reject">Xóa</a>
                     </td>
                 </tr>
             <%
