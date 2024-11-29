@@ -126,33 +126,29 @@
                 <th>Thao tác</th>
             </tr>
         </thead>
-        <tbody>
-        
-            <!-- Lấy danh sách từ database -->
-            <%
-                CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
-                List<Category> categories = dao.getAllCategories();
-                for (Category category : categories) {
-            %>
-                <tr>
-                    <td><%= category.getId() %></td>
-                    <td><%= category.getName() %></td>
-                    <td>
-                        <img src="${pageContext.request.contextPath}/uploads/category/<%= category.getThumbnail() %>" alt="<%= category.getName() %>" style="width: 50px; height: 50px;">
 
-                    </td>
-                    <td><%= category.getDescription() %></td>
-                    <td><%= category.getCreatedAt() %></td>
-                    <td><%= category.getUpdatedAt() %></td>
-                    <td>
-                        <a href="update_category.jsp?id=<%= category.getId() %>" class="button btn-approve">Sửa</a>
-                        <a href="../delete?id=<%= category.getId() %>" class="button btn-reject">Xóa</a>
-                    </td>
-                </tr>
-            <%
-                }
-            %>
-        </tbody>
+       <tbody>
+    <c:forEach var="category" items="${categories}">
+        <tr>
+            <td>${category.id}</td>
+            <td>${category.name}</td>
+            <td>
+                <c:if test="${not empty category.thumbnail}">
+                    <img src="${pageContext.request.contextPath}/uploads/category/${category.thumbnail}" alt="${category.name}" style="width: 50px; height: 50px;">
+                </c:if>
+            </td>
+            <td>${category.description}</td>
+            <td>${category.createdAt}</td>
+            <td>${category.updatedAt}</td>
+            <td>
+                <a href="update_category.jsp?id=${category.id}" class="button btn-approve">Sửa</a>
+                <a href="delete_category?id=${category.id}" class="button btn-reject">Xóa</a>
+            </td>
+        </tr>
+    </c:forEach>
+</tbody>
+
+
     </table>
 
     <!-- Nút thêm danh mục -->

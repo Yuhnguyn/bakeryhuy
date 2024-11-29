@@ -115,67 +115,79 @@ public class CategoryDAOImpl implements CategoryDAO {
         return category;
     }
 
-	@Override
-	public List<Category> getAllCategories() {
-		List<Category> categories = new ArrayList<>();
-		String sql = "SELECT * FROM category ORDER BY created_at DESC";
-		try (PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
-			while (rs.next()) {
-				Category category = new Category();
-				category.setId(rs.getString("id"));
-				category.setName(rs.getString("name"));
-				category.setThumbnail(rs.getString("thumbnail"));
-				category.setDescription(rs.getString("description"));
-				category.setCreatedAt(rs.getTimestamp("created_at"));
-				category.setUpdatedAt(rs.getTimestamp("updated_at"));
-				categories.add(category);
-			}
 
-			System.out.println("Retrieved " + categories.size() + " categories.");
-		} catch (Exception e) {
-			System.err.println("Error retrieving all categories: " + e.getMessage());
-		}
-		return categories;
-	}
 
-	@Override
-	public List<Category> searchCategories(String keyword, String sort) {
-		List<Category> categories = new ArrayList<>();
-		String sql = "SELECT * FROM category WHERE name LIKE ? OR id LIKE ?";
 
-		// Thêm điều kiện sắp xếp
-		if ("name_asc".equals(sort)) {
-			sql += " ORDER BY name ASC";
-		} else if ("name_desc".equals(sort)) {
-			sql += " ORDER BY name DESC";
-		} else if ("date_newest".equals(sort)) {
-			sql += " ORDER BY created_at DESC";
-		} else if ("date_oldest".equals(sort)) {
-			sql += " ORDER BY created_at ASC";
-		}
+    @Override
+    public List<Category> getAllCategories() {
+        List<Category> categories = new ArrayList<>();
+        String sql = "SELECT * FROM category ORDER BY created_at DESC";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-		try (PreparedStatement ps = conn.prepareStatement(sql)) {
-			// Gán giá trị cho tham số tìm kiếm
-			ps.setString(1, "%" + keyword + "%"); // Tìm kiếm theo tên
-			ps.setString(2, "%" + keyword + "%"); // Tìm kiếm theo ID
+            while (rs.next()) {
+                Category category = new Category();
+                category.setId(rs.getString("id"));
+                category.setName(rs.getString("name"));
+                category.setThumbnail(rs.getString("thumbnail"));
+                category.setDescription(rs.getString("description"));
+                category.setCreatedAt(rs.getTimestamp("created_at"));
+                category.setUpdatedAt(rs.getTimestamp("updated_at"));
+                categories.add(category);
+            }
 
-			ResultSet rs = ps.executeQuery();
+            System.out.println("Retrieved " + categories.size() + " categories.");
+        } catch (Exception e) {
+            System.err.println("Error retrieving all categories: " + e.getMessage());
+        }
+        return categories;
+    }
 
-			// Xử lý kết quả trả về
-			while (rs.next()) {
-				Category category = new Category();
-				category.setId(rs.getString("id"));
-				category.setName(rs.getString("name"));
-				category.setThumbnail(rs.getString("thumbnail"));
-				category.setDescription(rs.getString("description"));
-				category.setCreatedAt(rs.getTimestamp("created_at"));
-				category.setUpdatedAt(rs.getTimestamp("updated_at"));
-				categories.add(category);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return categories;
-	}
+
+    @Override
+    public List<Category> searchCategories(String keyword, String sort) {
+        List<Category> categories = new ArrayList<>();
+        String sql = "SELECT DISTINCT id, name, thumbnail, description, created_at, updated_at " +
+                     "FROM category WHERE name LIKE ? OR id LIKE ?";
+
+        // Thêm điều kiện sắp xếp
+        if ("name_asc".equals(sort)) {
+            sql += " ORDER BY name ASC";
+        } else if ("name_desc".equals(sort)) {
+            sql += " ORDER BY name DESC";
+        } else if ("date_newest".equals(sort)) {
+            sql += " ORDER BY created_at DESC";
+        } else if ("date_oldest".equals(sort)) {
+            sql += " ORDER BY created_at ASC";
+        }
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            // Gán giá trị cho tham số tìm kiếm
+            ps.setString(1, "%" + keyword + "%"); // Tìm kiếm theo tên
+            ps.setString(2, "%" + keyword + "%"); // Tìm kiếm theo ID
+
+            ResultSet rs = ps.executeQuery();
+
+            // Xử lý kết quả trả về
+            while (rs.next()) {
+                Category category = new Category();
+                category.setId(rs.getString("id"));
+                category.setName(rs.getString("name"));
+                category.setThumbnail(rs.getString("thumbnail"));
+                category.setDescription(rs.getString("description"));
+                category.setCreatedAt(rs.getTimestamp("created_at"));
+                category.setUpdatedAt(rs.getTimestamp("updated_at"));
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Loại bỏ trùng lặp nếu cần (trong trường hợp lỗi logic phía DB)
+        categories = categories.stream().distinct().toList();
+
+        return categories;
+    }
+
 }
