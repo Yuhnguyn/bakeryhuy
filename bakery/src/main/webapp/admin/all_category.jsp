@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page isELIgnored="false" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.DB.DBConnect" %>
 <%@ page import="com.DAO.CategoryDAOImpl" %>
@@ -16,6 +17,7 @@
             background-color: #f9f9f9;
         }
         h2 {
+        margin-top:100px;
             text-align: center;
             padding: 20px;
             font-size: 24px;
@@ -124,6 +126,7 @@
                 <th>Thao tác</th>
             </tr>
         </thead>
+
        <tbody>
     <c:forEach var="category" items="${categories}">
         <tr>
@@ -144,6 +147,7 @@
         </tr>
     </c:forEach>
 </tbody>
+
 
     </table>
 

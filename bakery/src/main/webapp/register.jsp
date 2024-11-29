@@ -147,7 +147,7 @@ button:hover {
 %>
 
     <!-- Form đăng ký -->
-    <form action="/Bakery/register" method="POST">
+    <form action="register" method="POST">
 
 
       <h2>Đăng ký</h2>

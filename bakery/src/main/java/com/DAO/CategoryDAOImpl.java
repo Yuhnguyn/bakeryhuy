@@ -10,102 +10,111 @@ import java.util.List;
 import com.entity.Category;
 
 public class CategoryDAOImpl implements CategoryDAO {
-    private Connection conn;
+	private Connection conn;
 
-    public CategoryDAOImpl(Connection conn) {
-        this.conn = conn;
-    }
+	public CategoryDAOImpl(Connection conn) {
+		this.conn = conn;
+	}
 
-    @Override
-    public boolean addCategory(Category category) {
-        boolean isAdded = false;
-        String sql = "INSERT INTO category (id, name, description, thumbnail, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, category.getId());
-            ps.setString(2, category.getName());
-            ps.setString(3, category.getDescription());
-            ps.setString(4, category.getThumbnail());
+	@Override
+	public boolean addCategory(Category category) {
+		boolean isAdded = false;
+		String sql = "INSERT INTO category (id, name, description, thumbnail, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())";
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, category.getId());
+			ps.setString(2, category.getName());
+			ps.setString(3, category.getDescription());
+			ps.setString(4, category.getThumbnail());
 
-            int rows = ps.executeUpdate();
-            isAdded = rows > 0;
+			int rows = ps.executeUpdate();
+			isAdded = rows > 0;
 
-            System.out.println("Category added successfully, Rows inserted: " + rows);
-        } catch (Exception e) {
-            System.err.println("Error adding category: " + e.getMessage());
-        }
-        return isAdded;
-    }
+			System.out.println("Category added successfully, Rows inserted: " + rows);
+		} catch (Exception e) {
+			System.err.println("Error adding category: " + e.getMessage());
+		}
+		return isAdded;
+	}
 
-    @Override
-    public boolean isCategoryExists(String id) {
-        boolean exists = false;
-        String sql = "SELECT id FROM category WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                exists = rs.next();
-            }
-        } catch (Exception e) {
-            System.err.println("Error checking if category exists: " + e.getMessage());
-        }
-        return exists;
-    }
+	@Override
+	public boolean isCategoryExists(String id) {
+		boolean exists = false;
+		String sql = "SELECT id FROM category WHERE id = ?";
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, id);
+			try (ResultSet rs = ps.executeQuery()) {
+				exists = rs.next();
+			}
+		} catch (Exception e) {
+			System.err.println("Error checking if category exists: " + e.getMessage());
+		}
+		return exists;
+	}
 
-    public boolean updateCategory(Category category) {
-        boolean isUpdated = false;
-        String sql = "UPDATE category SET name = ?, description = ?, thumbnail = ?, updated_at = NOW() WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, category.getName());
-            ps.setString(2, category.getDescription());
-            ps.setString(3, category.getThumbnail());
-            ps.setString(4, category.getId());
+	@Override
+	public boolean updateCategory(Category category) {
+		boolean f=false;
+		
+		try{
+			String sql = "UPDATE category SET name = ?, description = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, category.getName());
+			stmt.setString(2, category.getDescription());
+			stmt.setString(3, category.getId());
 
-            isUpdated = ps.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return isUpdated;
-    }
+			int i = stmt.executeUpdate();
+			if(i==1) {
+				f=true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return f;
+	}
 
+	@Override
+	public boolean deleteCategory(String id) {
+		boolean isDeleted = false;
+		
+		try {
+			String sql = "DELETE FROM category WHERE id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			int i=ps.executeUpdate();
+			if (i==1) {
+				isDeleted=true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isDeleted;
+	}
 
-    @Override
-    public boolean deleteCategory(String id) {
-        boolean isDeleted = false;
-        String sql = "DELETE FROM category WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, id);
-
-            int rows = ps.executeUpdate();
-            isDeleted = rows > 0;
-
-            System.out.println("Category deleted successfully, Rows deleted: " + rows);
-        } catch (Exception e) {
-            System.err.println("Error deleting category: " + e.getMessage());
-        }
-        return isDeleted;
-    }
-
+	@Override
     public Category getCategoryById(String id) {
-        Category category = null;
-        String sql = "SELECT * FROM category WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    category = new Category();
-                    category.setId(rs.getString("id"));
-                    category.setName(rs.getString("name"));
-                    category.setThumbnail(rs.getString("thumbnail"));
-                    category.setDescription(rs.getString("description"));
-                    category.setCreatedAt(rs.getTimestamp("created_at"));
-                    category.setUpdatedAt(rs.getTimestamp("updated_at"));
-                }
+    	Category category = null;
+        
+        try {
+        	String sql = "SELECT * FROM category WHERE id = ?";
+        	PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+            	category=new Category();
+            	category.setId(rs.getString(1));
+            	category.setName(rs.getString(2));
+            	category.setThumbnail(rs.getString(3));
+            	category.setDescription(rs.getString(4));
+            	category.setCreatedAt(rs.getTimestamp(5));
+            	category.setUpdatedAt(rs.getTimestamp(6));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return category;
     }
+
 
 
 
@@ -180,4 +189,5 @@ public class CategoryDAOImpl implements CategoryDAO {
 
         return categories;
     }
+
 }

@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 public class EditStaffServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+        	// Thiết lập encoding cho request và response
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+        	
             // Đọc dữ liệu từ form
             int id = Integer.parseInt(request.getParameter("id"));
             String name = request.getParameter("name");
