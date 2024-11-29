@@ -184,8 +184,8 @@ public class CategoryDAOImpl implements CategoryDAO {
             e.printStackTrace();
         }
 
-        // Loại bỏ trùng lặp nếu cần (trong trường hợp lỗi logic phía DB)
-        categories = categories.stream().distinct().toList();
+        /*// Loại bỏ trùng lặp nếu cần (trong trường hợp lỗi logic phía DB)
+        categories = categories.stream().distinct().toList();*/
 
         return categories;
     }
