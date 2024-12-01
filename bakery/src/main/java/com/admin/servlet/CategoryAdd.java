@@ -33,17 +33,11 @@ public class CategoryAdd extends HttpServlet {
             String description = req.getParameter("description");
             Part part = req.getPart("thumbnail");
             String fileName = part.getSubmittedFileName();
+            
 
-            // Đường dẫn lưu ảnh
-            String uploadPath = getServletContext().getRealPath("") + "uploads" + File.separator + "category";
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-
-            // Lưu ảnh
-            part.write(uploadPath + File.separator + fileName);
-
+            
+            
+           
             // Lưu vào cơ sở dữ liệu
             CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
             Category category = new Category(id, name, description, fileName, null, null);
@@ -51,6 +45,13 @@ public class CategoryAdd extends HttpServlet {
 
             HttpSession session = req.getSession();
             if (isAdded) {
+            	// Đường dẫn lưu ảnh
+                String uploadPath = getServletContext().getRealPath("")+"category";
+                File file=new File(uploadPath);
+                
+                part.write(uploadPath+File.separator+fileName);
+                //System.out.println(uploadPath);
+
                 session.setAttribute("succMsg", "Thêm danh mục thành công!");
                 resp.sendRedirect("admin/all_category.jsp");
             } else {

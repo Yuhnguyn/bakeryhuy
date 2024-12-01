@@ -97,7 +97,6 @@ h2 {
 				</tr>
 				</thead>
 				<tbody>
-				<tr>
 				      <%
 			UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
 			List<User> list = dao.getAllUsers();

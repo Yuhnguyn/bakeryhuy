@@ -9,6 +9,7 @@ public class Category {
 	private String thumbnail;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
+	
 	public String getId() {
 		return id;
 	}

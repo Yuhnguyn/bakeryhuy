@@ -131,7 +131,7 @@
             <td>${category.name}</td>
             <td>
                 <c:if test="${not empty category.thumbnail}">
-                    <img src="${pageContext.request.contextPath}/uploads/category/${category.thumbnail}" alt="${category.name}" style="width: 50px; height: 50px;">
+                    <img src="${pageContext.request.contextPath}/category/${category.thumbnail}" alt="${category.name}" style="width: 50px; height: 50px;">
                 </c:if>
             </td>
             <td>${category.description}</td>
