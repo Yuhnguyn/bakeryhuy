@@ -1,10 +1,12 @@
 
+<%@page import="com.entity.Product"%>
+<%@page import="com.DAO.ProductDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="com.entity.User"%>
+
 <%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
-<%@page import="com.DAO.UserDAOImpl"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,16 +80,15 @@ h2 {
 
 /* Căn giữa và thêm khoảng cách cho nút "Thêm sản phẩm" */
 tfoot td {
-    text-align: center;
-    padding: 20px 0; /* Thêm khoảng đệm trên và dưới */
+	text-align: center;
+	padding: 20px 0; /* Thêm khoảng đệm trên và dưới */
 }
 
 tfoot .button {
-    display: inline-block; /* Hiển thị dạng nút */
-    margin-top: 10px; /* Khoảng cách giữa nút và nội dung khác */
-    padding: 12px 24px; /* Tăng kích thước nút */
+	display: inline-block; /* Hiển thị dạng nút */
+	margin-top: 10px; /* Khoảng cách giữa nút và nội dung khác */
+	padding: 12px 24px; /* Tăng kích thước nút */
 }
-
 </style>
 </head>
 <body>
@@ -122,38 +123,55 @@ tfoot .button {
 			<thead>
 				<tr>
 
-					<th>Mã sản phẩm</th>
-					<th>Danh mục</th>
-					<th>Tên sản phẩm</th>
-					<th>Giá sản phẩm</th>
-					<th>Mức giảm giá</th>
-					<th>Hình ảnh</th>
+					
+					<th>Mã DM</th>
+					<th>Tên DM</th>
+					<th>Mã SP</th>
+					<th>Tên SP</th>
+					<th>Giá</th>
+					<th>Giảm giá</th>
 					<th>Mô tả</th>
 					<th>Thời gian tạo</th>
 					<th>Thời gian cập nhật</th>
-					<th>Trạng thái</th>
+					<th>Hình ảnh</th>
 					<th>Thao tác</th>
+
 				</tr>
 			</thead>
 			<tbody>
+
+				<%
+					ProductDAOImpl dao = new ProductDAOImpl(DBConnect.getConn());
+					List<Product> list = dao.getAllProducts();
+					for (Product product : list) {
+				%>
 				<tr>
-					<td>SP1</td>
-					<td>Bánh</td>
-					<td>Bánh quy</td>
-					<td>100,000 VND</td>
-					<td>0</td>
-					<td>Hình ảnh</td>
-					<td>Mô tả</td>
-					<td>Thời gian tạo</td>
-					<td>Thời gian cập nhật</td>
-					<td>Đang đăng bán</td>
-					<td><a href="" class="button btn-approve">Chỉnh sửa</a> <a
+					
+					<td><%=product.getCategoryId()%></td>
+					<td><%=product.getCategory()%></td>
+					<td><%=product.getId()%></td>
+					<td><%=product.getName()%></td>
+					<td><%=product.getPrice()%></td>
+					<td><%=product.getDiscount()%></td>
+					<td><%=product.getDescription()%></td>
+					<td><%=product.getCreatedAt()%></td>
+					<td><%=product.getUpdatedAt()%></td>
+					
+					<td>
+            <c:if test="${not empty product.thumbnail}">
+                <img src="${pageContext.request.contextPath}/product/${product.thumbnail}" alt="${product.thumbnail}" style="width: 50px; height: 50px;">
+            </c:if>
+        </td>
+
+					<td><a href="update_product.jsp?id=<%=product.getId() %>" class="button btn-approve">Chỉnh sửa</a> <a
 						href="javascript:void(0);" class="button btn-reject"<%-- onclick="confirmDelete('deleteUser.jsp?id=<%= user.getId() %>') --%>">Xóa</a>
 					</td>
 
 
 				</tr>
-
+				<%
+					}
+				%>
 
 			</tbody>
 			<tfoot>

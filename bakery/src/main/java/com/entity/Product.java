@@ -3,55 +3,67 @@ package com.entity;
 import java.sql.Timestamp;
 
 
-public class Product {
-	private int id;
-	private int CategoryId;
-	private String title;
-	private int price;
-	private double discount;
-	private String thumbnail;
+public class Product{
+	private String id;
+	private String categoryId;
+	private String category;
+	private String name;
+	private String price;
+	private String discount;
 	private String description;
 	private Timestamp createdAt;
-	private Timestamp updateAt;
-	private String status;
+	private Timestamp updatedAt;
+	private String thumbnail;
 	
-	
-	
-	public int getId() {
+	public Product(String id, String categoryId, String category, String name, String price, String discount,
+			String description, Timestamp createdAt, Timestamp updatedAt, String thumbnail) {
+		super();
+		this.id = id;
+		this.categoryId = categoryId;
+		this.category = category;
+		this.name = name;
+		this.price = price;
+		this.discount = discount;
+		this.description = description;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.thumbnail = thumbnail;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	public int getCategoryId() {
-		return CategoryId;
+	public String getCategoryId() {
+		return categoryId;
 	}
-	public void setCategoryId(int categoryId) {
-		CategoryId = categoryId;
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public int getPrice() {
+	public String getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
-	public double getDiscount() {
+	public String getDiscount() {
 		return discount;
 	}
-	public void setDiscount(double discount) {
+	public void setDiscount(String discount) {
 		this.discount = discount;
-	}
-	public String getThumbnail() {
-		return thumbnail;
-	}
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
 	}
 	public String getDescription() {
 		return description;
@@ -65,19 +77,25 @@ public class Product {
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
-	public Timestamp getUpdateAt() {
-		return updateAt;
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdate_At(Timestamp updateAt) {
-		this.updateAt = updateAt;
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
 	}
-	public String getStatus() {
-		return status;
+	public String getThumbnail() {
+		return thumbnail;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+	public Product() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	
 	
 	
 }
+
+

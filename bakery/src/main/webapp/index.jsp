@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="com.DB.DBConnect"%>
+<%@page import="com.entity.Category"%>
+<%@page import="com.DAO.CategoryDAOImpl"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,12 +67,6 @@
             <li><a href="#about">Chúng tôi</a></li>
             <li><a href="#customers">Khách hàng</a></li>
         </ul>
-        <!-- Profile -->
-<!--         <div class="profile">
-            <img src="img/profile.jpg" alt="">
-            <span>Minh Phươngg</span>
-            <i class='bx bx-caret-down'></i>
-        </div> -->
         <!-- Profile -->
     <div class="profile" >
         <ul class="navbar profile">
@@ -172,55 +170,39 @@
     </section>
      
     <!-- Categories Danh mục -->
-    
-    <section class="categories" id="categories">
-        <div class="heading">
-            <h1>Menu <br><span>Danh sách các loại sản phẩm</span></h1>
-            <a href="product.jsp" class="btn" target="_blank">Xem thêm<i class='bx bx-right-arrow-alt'></i></a>
-        </div>
-        <div class="categories-container">
-            <div class="box box1">
-                <img src="img/catechristmas.png" alt="">
-                <h2 class="christmas">Christmas</h2>
-                <span class="christmas">12 Items</span>
-                <a href="product.jsp#christmas-cake">
-                    <i class='bx bx-right-arrow-alt'></i>
-                </a>
-            </div>
-            <div class="box box2">
-                <img src="img/catebread.png" alt="">
-                <h2>Bánh mì</h2>
-                <span>5 Items</span>
-                <a href="product.jsp#bread">
-                    <i class='bx bx-right-arrow-alt'></i>
-                </a>
-            </div>
-            <div class="box box3">
-                <img src="img/catepastry.png" alt="">
-                <h2>Bánh ngọt</h2>
-                <span>12 Items</span>
-                <a href="product.jsp#pastry">
-                    <i class='bx bx-right-arrow-alt'></i>
-                </a>
-            </div>
-            <div class="box box4">
-                <img src="img/catebingsu.png" alt="">
-                <h2>Bingsu</h2>
-                <span>5 Items</span>
-                <a href="product.jsp#bingsu">
-                    <i class='bx bx-right-arrow-alt'></i>
-                </a>
-            </div>
-            <div class="box box5">
-                <img src="img/catecake.png" alt="">
-                <h2>Bánh sinh nhật</h2>
-                <span>10 Items</span>
-                <a href="product.jsp#birthdaycake">
-                    <i class='bx bx-right-arrow-alt'></i>
-                </a>
-            </div>
-        </div>
-    </section>
+
+	<section class="categories" id="categories">
+		<div class="heading">
+			<h1>
+				Menu <br> <span>Danh sách các loại sản phẩm</span>
+			</h1>
+			<a href="product.jsp" class="btn" target="_blank">Xem thêm<i
+				class='bx bx-right-arrow-alt'></i></a>
+		</div>
+		<div class="categories-container">
+			<%
+				CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
+				List<Category> list = dao.getAllCategories();
+				 int i = 0;
+				for (Category category : list) {
+					String boxClass = "box" + ((i % 5) + 1);
+			%>
+
+			<div class="box <%=boxClass%>">
+				<img src="category/<%=category.getThumbnail()%>" alt="">
+				<h2 class="christmas" style="color:black;"><%=category.getName()%></h2>
+				<span class="christmas" style="color:black;">12 Items</span> <a
+					href="product.jsp#christmas-cake"> <i
+					class='bx bx-right-arrow-alt'></i>
+				</a>
+			</div>
+
+			<%
+			 i++;
+				}
+			%>
+		</div>
+</section>
     <!-- Products -->
     <section class="products" id="products">
         <div class="heading">

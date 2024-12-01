@@ -1,3 +1,5 @@
+<%@page import="com.entity.Product"%>
+<%@page import="com.DAO.ProductDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
@@ -100,7 +102,7 @@ button:hover {
 
 
 	<div class="form-container">
-		<h2>Thêm sản phẩm mới</h2>
+		<h2>Chỉnh sửa sản phẩm</h2>
 		
 		<!-- Hiển thị thông báo -->
         <c:if test="${not empty succMsg}">
@@ -112,12 +114,19 @@ button:hover {
             <c:remove var="failMsg" scope="session" />
         </c:if>
         
-		<form action="../add_product" method="POST"
+        <%
+        String id=request.getParameter("id");
+        ProductDAOImpl dao2=new ProductDAOImpl(DBConnect.getConn());
+       	Product product= dao2.getProductById(id);
+        
+        %>
+        
+		<form action="../update_product" method="POST"
 			enctype="multipart/form-data">
 
 			<div>
 				<label for="id">Mã sản phẩm:</label> <input type="text" id="id"
-					name="id" required>
+					name="id" value="<%=product.getId() %>">
 			</div>
 
 			<div>
@@ -128,9 +137,13 @@ button:hover {
 				CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
 				List<Category> list = dao.getAllCategories();
 				for (Category category : list) {
+					String selected = "";
+	                if (category.getId().equals(product.getCategoryId())) {
+	                    selected = "selected";  // Chọn danh mục hiện tại của sản phẩm
+	                }
 					%>
 
-					<option value="<%=category.getId()%>"><%=category.getName() %></option>
+					<option value="<%=category.getId() %>" <%= selected %>><%=category.getName() %></option>
 					<%
 						}
 					%>
@@ -138,26 +151,26 @@ button:hover {
 			</div>
 			<div>
 				<label for="name">Tên sản phẩm:</label> <input type="text" id="name"
-					name="name" required>
+					name="name" value="<%=product.getName() %>">
 			</div>
 			<div>
 				<label for="price">Giá sản phẩm:</label> <input type="number"
-					id="price" name="price" required>
+					id="price" name="price" value="<%=product.getPrice() %>">
 			</div>
 			<div>
 				<label for="discount">Mức giảm giá:</label> <input type="number"
-					id="discount" name="discount" value="0">
+					id="discount" name="discount" value="<%=product.getDiscount() %>">
 			</div>
 			
 			<div>
 				<label for="description">Mô tả:</label>
-				<textarea id="description" name="description" rows="4"></textarea>
+				<textarea id="description" name="description" rows="4" ><%=product.getDescription() %></textarea>
 			</div>
 			<div>
 				<label for="image">Hình ảnh:</label> <input type="file" id="thumbnail"
 					name="thumbnail" accept="image/*" required>
 			</div>
-			<button type="submit">Thêm sản phẩm</button>
+			<button type="submit">Xác nhận</button>
 		</form>
 	</div>
 </body>

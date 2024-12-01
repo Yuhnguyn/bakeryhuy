@@ -153,14 +153,14 @@ a {
 
 				</ul>
 				<div class="logout-container">
-					<a href="logout" class="logout-button">Đăng xuất</a>
+					<a href="../logout" class="logout-button">Đăng xuất</a>
 					<!-- Nút Đăng xuất -->
 				</div>
 			</c:if>
 			<c:if test="${empty userobj}">
 				<ul class="navbar profile">
-					<li><a href="login.jsp">Đăng nhập</a></li>
-					<li><a href="register.jsp">Đăng ký</a></li>
+					<li><a href="../login.jsp">Đăng nhập</a></li>
+					<li><a href="../register.jsp">Đăng ký</a></li>
 				</ul>
 			</c:if>
 		</div>

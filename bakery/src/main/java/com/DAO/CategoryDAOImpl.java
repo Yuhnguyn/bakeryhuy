@@ -29,9 +29,8 @@ public class CategoryDAOImpl implements CategoryDAO {
 			int rows = ps.executeUpdate();
 			isAdded = rows > 0;
 
-			System.out.println("Category added successfully, Rows inserted: " + rows);
 		} catch (Exception e) {
-			System.err.println("Error adding category: " + e.getMessage());
+			e.printStackTrace();
 		}
 		return isAdded;
 	}
@@ -46,7 +45,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 				exists = rs.next();
 			}
 		} catch (Exception e) {
-			System.err.println("Error checking if category exists: " + e.getMessage());
+			e.printStackTrace();
 		}
 		return exists;
 	}
@@ -136,10 +135,8 @@ public class CategoryDAOImpl implements CategoryDAO {
                 category.setUpdatedAt(rs.getTimestamp("updated_at"));
                 categories.add(category);
             }
-
-            System.out.println("Retrieved " + categories.size() + " categories.");
         } catch (Exception e) {
-            System.err.println("Error retrieving all categories: " + e.getMessage());
+            e.printStackTrace();
         }
         return categories;
     }
@@ -184,8 +181,6 @@ public class CategoryDAOImpl implements CategoryDAO {
             e.printStackTrace();
         }
 
-        /*// Loại bỏ trùng lặp nếu cần (trong trường hợp lỗi logic phía DB)
-        categories = categories.stream().distinct().toList();*/
 
         return categories;
     }
