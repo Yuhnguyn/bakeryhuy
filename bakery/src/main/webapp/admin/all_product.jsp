@@ -89,6 +89,19 @@ tfoot .button {
 	margin-top: 10px; /* Khoảng cách giữa nút và nội dung khác */
 	padding: 12px 24px; /* Tăng kích thước nút */
 }
+
+.message {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .message.success {
+            color: green;
+        }
+        .message.error {
+            color: red;
+        }
 </style>
 </head>
 <body>
@@ -119,6 +132,15 @@ tfoot .button {
 				kiếm</button>
 		</form>
 
+		 <!-- Hiển thị thông báo -->
+        <c:if test="${not empty succMsg}">
+            <div class="message success">${succMsg}</div>
+            <c:remove var="succMsg" scope="session" />
+        </c:if>
+        <c:if test="${not empty failMsg}">
+            <div class="message error">${failMsg}</div>
+            <c:remove var="failMsg" scope="session" />
+        </c:if>
 		<table>
 			<thead>
 				<tr>
@@ -158,13 +180,12 @@ tfoot .button {
 					<td><%=product.getUpdatedAt()%></td>
 					
 					<td>
-            <c:if test="${not empty product.thumbnail}">
-                <img src="${pageContext.request.contextPath}/product/${product.thumbnail}" alt="${product.thumbnail}" style="width: 50px; height: 50px;">
-            </c:if>
+                <img src="../product/<%=product.getThumbnail() %>" alt="<%=product.getThumbnail() %>" style="width: 50px; height: 50px;">
+
         </td>
 
 					<td><a href="update_product.jsp?id=<%=product.getId() %>" class="button btn-approve">Chỉnh sửa</a> <a
-						href="javascript:void(0);" class="button btn-reject"<%-- onclick="confirmDelete('deleteUser.jsp?id=<%= user.getId() %>') --%>">Xóa</a>
+						href="javascript:void(0);" class="button btn-reject" onclick="confirmDelete('../deleteProduct?id=<%=product.getId() %>')">Xóa</a>
 					</td>
 
 
@@ -190,7 +211,7 @@ tfoot .button {
 			style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);">
 			<div
 				style="background: white; padding: 20px; border-radius: 5px; width: 300px; margin: 15% auto; text-align: center;">
-				<p>Bạn có chắc chắn muốn xóa người dùng này?</p>
+				<p>Bạn có chắc chắn muốn xóa sản phẩm này?</p>
 				<div>
 					<button id="confirm-btn"
 						style="margin-right: 10px; background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Xác
