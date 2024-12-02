@@ -3,6 +3,7 @@ package com.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +44,45 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public boolean updateProduct(Product product) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean f=false;
+		try {
+			String sql="update product set category_id=?, name=?, price=?, discount=?, description=?,updated_at = CURRENT_TIMESTAMP where id=? ";
+			PreparedStatement ps=conn.prepareStatement(sql);
+
+			ps.setString(1,product.getCategoryId());
+			ps.setString(2,product.getName());
+			ps.setString(3,product.getPrice());
+			ps.setString(4,product.getDiscount());
+			ps.setString(5,product.getDescription());
+			ps.setString(6,product.getId());
+			
+			int i=ps.executeUpdate();
+			if (i==1) {
+				f=true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return f;
 	}
 
 	@Override
 	public boolean deleteProduct(String id) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean isDeleted = false;
+		
+		try {
+			String sql = "DELETE FROM product WHERE id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			int i=ps.executeUpdate();
+			if (i==1) {
+				isDeleted=true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isDeleted;
 	}
 
 	@Override
@@ -71,6 +103,7 @@ public class ProductDAOImpl implements ProductDAO {
 				product.setDescription(rs.getString(6));
 				product.setCreatedAt(rs.getTimestamp(7));
 				product.setUpdatedAt(rs.getTimestamp(8));
+				product.setThumbnail(rs.getString(9));
 
 			}
 			

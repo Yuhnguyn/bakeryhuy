@@ -121,17 +121,16 @@ button:hover {
         
         %>
         
-		<form action="../update_product" method="POST"
-			enctype="multipart/form-data">
+		<form action="../update_product" method="POST">
 
 			<div>
 				<label for="id">Mã sản phẩm:</label> <input type="text" id="id"
-					name="id" value="<%=product.getId() %>">
+					name="id" value="<%=product.getId() %>" readonly>
 			</div>
 
 			<div>
 				<label for="category">Danh mục:</label> <select id="category"
-					name="category" required>
+					name="category" >
 										<option value="">Chọn danh mục</option>
 					<%
 				CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
@@ -166,10 +165,15 @@ button:hover {
 				<label for="description">Mô tả:</label>
 				<textarea id="description" name="description" rows="4" ><%=product.getDescription() %></textarea>
 			</div>
-			<div>
-				<label for="image">Hình ảnh:</label> <input type="file" id="thumbnail"
-					name="thumbnail" accept="image/*" required>
-			</div>
+			<%-- <div>
+			
+				<label for="image">Hình ảnh:</label> 
+				<img src="../product/<%=product.getThumbnail() %>" alt="<%=product.getThumbnail() %>" style="width: 50px; height: 50px;">
+				<label for="image">Chọn hình ảnh mới:</label> 
+				<input type="file" id="thumbnail"
+					name="thumbnail" accept="image/*" >
+					
+			</div> --%>
 			<button type="submit">Xác nhận</button>
 		</form>
 	</div>

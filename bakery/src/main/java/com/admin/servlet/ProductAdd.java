@@ -59,7 +59,7 @@ public class ProductAdd extends HttpServlet {
                     //System.out.println(uploadPath);
 
                     session.setAttribute("succMsg", "Thêm sản phẩm thành công!");
-                    resp.sendRedirect("admin/add_product.jsp");
+                    resp.sendRedirect("admin/all_product.jsp");
                 } else {
                     session.setAttribute("failMsg", "Thêm sản phẩm thất bại!");
                     resp.sendRedirect("admin/add_product.jsp");
