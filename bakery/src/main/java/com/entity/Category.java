@@ -7,9 +7,20 @@ public class Category {
 	private String name;
 	private String description;
 	private String thumbnail;
+	private int productCount;
+	
+
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	
+	
+	
+	public int getProductCount() {
+		return productCount;
+	}
+	public void setProductCount(int productCount) {
+		this.productCount = productCount;
+	}
 	public String getId() {
 		return id;
 	}
@@ -46,6 +57,21 @@ public class Category {
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+
+	public Category(String id, String name, String description, String thumbnail, int productCount, Timestamp createdAt,
+			Timestamp updatedAt) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.thumbnail = thumbnail;
+		this.productCount = productCount;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+	
+	
 	public Category(String id, String name, String description, String thumbnail, Timestamp createdAt,
 			Timestamp updatedAt) {
 		super();
@@ -56,7 +82,6 @@ public class Category {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
-
 	public Category() {
 	}
 

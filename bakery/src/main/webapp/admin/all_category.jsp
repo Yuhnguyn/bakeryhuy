@@ -117,6 +117,7 @@
             <tr>
                 <th>Mã danh mục</th>
                 <th>Tên danh mục</th>
+                <th>Số lượng sản phẩm</th>
                 <th>Hình ảnh</th>
                 <th>Mô tả</th>
                 <th>Thời gian tạo</th>
@@ -129,6 +130,7 @@
         <tr>
             <td>${category.id}</td>
             <td>${category.name}</td>
+             <td>${category.productCount}</td>
             <td>
                 <c:if test="${not empty category.thumbnail}">
                     <img src="${pageContext.request.contextPath}/category/${category.thumbnail}" alt="${category.name}" style="width: 50px; height: 50px;">

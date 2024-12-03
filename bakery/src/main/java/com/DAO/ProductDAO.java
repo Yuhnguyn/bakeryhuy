@@ -11,5 +11,6 @@ public interface ProductDAO {
 	boolean deleteProduct(String id);
 	Product getProductById(String id);
 	List<Product> getAllProducts();
+	List<Product> getProductsByCategoryId(String categoryId);
 	
 }

@@ -1,5 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page import="com.entity.Product"%>
+<%@page import="com.DAO.ProductDAOImpl"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.DB.DBConnect" %>
+<%@ page import="com.DAO.CategoryDAOImpl" %>
+<%@ page import="com.entity.Category" %>
 <%@page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,8 +33,48 @@
 	<%@include file="all_component/header.jsp"%>
 	<!-- Product-->
 	<section id="products">
-		<h2>Tất cả sản phẩm</h2>
+		<h2 style="margin-top:100px";>Tất cả sản phẩm</h2>
+		<!-- Lặp qua các danh mục và hiển thị tên danh mục -->
+        <%
+            // Giả sử bạn đã có một phương thức trong DAO để lấy danh sách các danh mục từ CSDL
+            CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
+        	ProductDAOImpl productDAO= new ProductDAOImpl(DBConnect.getConn());
+            List<Category> categories = dao.getAllCategories();
+            for (Category category : categories) {
+            	List<Product> productsInCategory = productDAO.getProductsByCategoryId(category.getId());
+        %>
+
+        <div class="product-category">
+            <!-- Hiển thị tên danh mục -->
+            <h3 id="<%= category.getName().toLowerCase().replace(" ", "-") %>">
+                <%= category.getName() %>
+            </h3>
+            <div class="products-container">
+                <div class="product-grid">
+                <%
+                    for (Product product : productsInCategory) {
+                %>
+                <div class="product-card">
+						<img img src="product/<%= product.getThumbnail() %>" alt="<%= product.getName() %>">
+						<h3><%= product.getName() %></h3>
+						<h4 class="price"><%= product.getPrice() %> VNĐ</h4>
+						<a href="product-detail.jsp"> <i
+							class='bx bx-cart-alt cart-icon'></i>
+						</a> <i class='bx bx-heart heart-icon'></i>
+					</div>
+                    <!-- Sản phẩm sẽ được thêm vào đây sau -->
+                </div>
+            </div>
+        </div>
+
+        <%
+            }
+        %>
+        <% } %>
 		<div class="product-category">
+		
+		
+			
 			<h3 id="christmas-cake">Bánh giáng sinh</h3>
 			<div class="products-container">
 				<div class="product-grid">

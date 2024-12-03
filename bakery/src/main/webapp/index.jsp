@@ -191,7 +191,8 @@
 			<div class="box <%=boxClass%>">
 				<img src="category/<%=category.getThumbnail()%>" alt="">
 				<h2 class="christmas" style="color:black;"><%=category.getName()%></h2>
-				<span class="christmas" style="color:black;">12 Items</span> <a
+				<span class="christmas" style="color:black;"><%= category.getProductCount() %> Sản phẩm</span>
+ <a
 					href="product.jsp#christmas-cake"> <i
 					class='bx bx-right-arrow-alt'></i>
 				</a>
