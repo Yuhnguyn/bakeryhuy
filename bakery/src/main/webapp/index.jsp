@@ -193,7 +193,7 @@
 				<h2 class="christmas" style="color:black;"><%=category.getName()%></h2>
 				<span class="christmas" style="color:black;"><%= category.getProductCount() %> Sản phẩm</span>
  <a
-					href="product.jsp#christmas-cake"> <i
+					href="product.jsp#<%= category.getName()%>"> <i
 					class='bx bx-right-arrow-alt'></i>
 				</a>
 			</div>

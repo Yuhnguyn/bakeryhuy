@@ -46,7 +46,7 @@
 
         <div class="product-category">
             <!-- Hiển thị tên danh mục -->
-            <h3 id="<%= category.getName().toLowerCase().replace(" ", "-") %>">
+            <h3 id="<%= category.getName()%>">
                 <%= category.getName() %>
             </h3>
             <div class="products-container">
@@ -55,311 +55,27 @@
                     for (Product product : productsInCategory) {
                 %>
                 <div class="product-card">
+                
 						<img img src="product/<%= product.getThumbnail() %>" alt="<%= product.getName() %>">
 						<h3><%= product.getName() %></h3>
 						<h4 class="price"><%= product.getPrice() %> VNĐ</h4>
 						<a href="product-detail.jsp"> <i
 							class='bx bx-cart-alt cart-icon'></i>
 						</a> <i class='bx bx-heart heart-icon'></i>
-					</div>
-                    <!-- Sản phẩm sẽ được thêm vào đây sau -->
-                </div>
-            </div>
-        </div>
 
+					</div>
+											
         <%
             }
         %>
+                </div>
+                
+            </div>
+            
         <% } %>
-		<div class="product-category">
-		
-		
-			
-			<h3 id="christmas-cake">Bánh giáng sinh</h3>
-			<div class="products-container">
-				<div class="product-grid">
-					<div class="product-card">
-						<img src="img/product-xmas-cake1.webp" alt="">
-						<h3>Bánh Quả thông Noel</h3>
-						<h4 class="price">230.000VNĐ</h4>
-						<a href="product-detail.jsp"> <i
-							class='bx bx-cart-alt cart-icon'></i>
-						</a> <i class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-xmas-cake2.jpg" alt="">
-						<h3>
-							Cookie <br> Noel
-						</h3>
-						<h4 class="price">
-							200.000VNĐ <span>/ 6 bánh</span>
-						</h4>
-						<a href="product-detail.jsp"> <i
-							class='bx bx-cart-alt cart-icon'></i>
-						</a> <i class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-xmas-cake3.jpg" alt="">
-						<h3>
-							Bánh tuần lộc <br> Caramel
-						</h3>
-						<h4 class="price">280.000VNĐ</h4>
-						<a href="product-detail.jsp"> <i
-							class='bx bx-cart-alt cart-icon'></i>
-						</a> <i class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-xmas-cake4.jpg" alt="">
-						<h3>
-							Ngôi nhà Gừng <br> Xmas
-						</h3>
-						<h4 class="price">500.000VNĐ</h4>
-						<a href="product-detail.jsp"> <i
-							class='bx bx-cart-alt cart-icon'></i>
-						</a> <i class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-xmas-cake5.jpg" alt="">
-						<h3>
-							CupCake <br> Xmas
-						</h3>
-						<h4 class="price">
-							30.000VNĐ <span>/ 1 cupcake</span>
-						</h4>
-						<a href="product-detail.jsp"> <i
-							class='bx bx-cart-alt cart-icon'></i>
-						</a> <i class='bx bx-heart heart-icon'></i>
-					</div>
+        </div>
 
-					<div class="product-card">
-						<img src="img/product-xmas-cake6.webp" alt="">
-						<h3>
-							Bánh sinh nhật <br> Noel
-						</h3>
-						<h4 class="price">300.000VNĐ</h4>
-						<a href="product-detail.jsp"> <i
-							class='bx bx-cart-alt cart-icon'></i>
-						</a> <i class='bx bx-heart heart-icon'></i>
-					</div>
-
-					<div class="product-card">
-						<img src="img/product-xmas-cake7.jpg" alt="">
-						<h3>Bánh Giáng sinh Tiny Party</h3>
-						<h4 class="price">
-							250.000VNĐ <span>/ box</span>
-						</h4>
-						<a href="product-detail.jsp"> <i
-							class='bx bx-cart-alt cart-icon'></i>
-						</a> <i class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-xmas-cake8.jpg" alt="Cookies">
-						<h3>Cookie Hạnh nhân Mistletoe</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ 4 cookies</span>
-						</h4>
-						<a href="product-detail.jsp"> <i
-							class='bx bx-cart-alt cart-icon'></i>
-						</a> <i class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-xmas-cake9.jpg" alt="Bánh xoài Tiny">
-						<h3>Bánh bông lan Gỗ Giáng sinh</h3>
-						<h4 class="price">130.000VNĐ</h4>
-						<a href="product-detail.jsp"> <i
-							class='bx bx-cart-alt cart-icon'></i>
-						</a> <i class='bx bx-heart heart-icon'></i>
-					</div>
-
-				</div>
-
-			</div>
-		</div>
-		</div>
-		</div>
-
-		<div class="product-category">
-			<h3 id="bread">Bánh mỳ</h3>
-			<div class="products-container">
-				<div class="product-grid">
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="product-category">
-			<h3 id="pastry">Bánh ngọt</h3>
-			<div class="products-container">
-				<div class="product-grid">
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="product-category">
-			<h3 id="Bingsu">Bingsu</h3>
-			<div class="products-container">
-				<div class="product-grid">
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="product-category">
-			<h3 id="birthdaycake">Bánh sinh nhật</h3>
-			<div class="products-container">
-				<div class="product-grid">
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-					<div class="product-card">
-						<img src="img/product-cake3.webp" alt="">
-						<h3>Bánh xoài Tiny</h3>
-						<h4 class="price">
-							130.000VNĐ <span>/ mini size</span>
-						</h4>
-						<i class='bx bx-cart-alt cart-icon'></i> <i
-							class='bx bx-heart heart-icon'></i>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="product-category">
-			<h3>Bánh sinh nhật</h3>
-			<div class="product-grid">
-				<div class="product-card">
-					<img src="img/product1.avif" alt="Bánh kem McDonald's">
-					<h3>Bánh kem Fondant chúc mừng Mc Donald's 1 thập kỷ</h3>
-					<p>Liên hệ</p>
-				</div>
-				<div class="product-card">
-					<img src="https://via.placeholder.com/200"
-						alt="Bánh kem hình heo hồng">
-					<h3>Bánh kem sinh nhật Fondant cho bé tạo hình heo hồng</h3>
-					<p>900,000đ</p>
-				</div>
-				<div class="product-card">
-					<img src="img/product1.avif" alt="Bánh kem McDonald's">
-					<h3>Bánh kem Fondant chúc mừng Mc Donald's 1 thập kỷ</h3>
-					<p>Liên hệ</p>
-				</div>
-				<div class="product-card">
-					<img src="img/product1.avif" alt="Bánh kem McDonald's">
-					<h3>Bánh kem Fondant chúc mừng Mc Donald's 1 thập kỷ</h3>
-					<p>Liên hệ</p>
-				</div>
-				<div class="product-card">
-					<img src="img/product1.avif" alt="Bánh kem McDonald's">
-					<h3>Bánh kem Fondant chúc mừng Mc Donald's 1 thập kỷ</h3>
-					<p>Liên hệ</p>
-				</div>
-				<div class="product-card">
-					<img src="img/product1.avif" alt="Bánh kem McDonald's">
-					<h3>Bánh kem Fondant chúc mừng Mc Donald's 1 thập kỷ</h3>
-					<p>Liên hệ</p>
-				</div>
-				<div class="product-card">
-					<img src="img/product1.avif" alt="Bánh kem McDonald's">
-					<h3>Bánh kem Fondant chúc mừng Mc Donald's 1 thập kỷ</h3>
-					<p>Liên hệ</p>
-				</div>
-			</div>
-		</div>
-		</div>
+	
 	</section>
 
 	<footer>
