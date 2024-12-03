@@ -288,221 +288,221 @@
 			<%
 				CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
 				List<Category> list = dao.getAllCategories();
-				 int i = 0;
+				int i = 0;
 				for (Category category : list) {
 					String boxClass = "box" + ((i % 5) + 1);
 			%>
 
 			<div class="box <%=boxClass%>">
 				<img src="category/<%=category.getThumbnail()%>" alt="">
-				<h2 class="christmas"><%=category.getName()%></h2>
-				<span class="christmas">12 Items</span> <a
-					href="product.jsp#christmas-cake"> <i
+				<h2 class="christmas" style="color: black;"><%=category.getName()%></h2>
+				<span class="christmas" style="color: black;"><%=category.getProductCount()%>
+					Sản phẩm</span> <a href="product.jsp#<%=category.getName()%>"> <i
 					class='bx bx-right-arrow-alt'></i>
 				</a>
 			</div>
 
 			<%
-			 i++;
+				i++;
 				}
 			%>
 		</div>
-</section>
+	</section>
 
-		<!-- Products -->
-		<section class="products" id="products">
-			<div class="heading">
-				<h1>
-					Most popular products<br> <span>Những sản phẩm được yêu
-						thích nhất</span>
-				</h1>
-				<a href="#" class="btn">Xem thêm<i class='bx bx-right-arrow-alt'></i></a>
-			</div>
-			<!-- Product Content -->
-			<div class="products-container">
-				<!-- Box 1 -->
-				<div class="box">
-					<img src="img/product-cafe-cake.avif" alt=""> <span>Cake
-						Items</span>
-					<h2>Bánh sinh nhật Socola</h2>
-					<h3 class="price">
-						300.000VNĐ <span>/ size 16</span>
-					</h3>
-					<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
-				</div>
-				<!-- Box 2 -->
-				<div class="box">
-					<img src="img/product-daisy.avif" alt=""> <span>Cake
-						Items</span>
-					<h2>Bánh sinh nhật Daisy</h2>
-					<h3 class="price">
-						500.000VNĐ <span>/ size 18</span>
-					</h3>
-					<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
-				</div>
-				<!-- Box 3 -->
-				<div class="box">
-					<img src="img/product-minicake.webp" alt=""> <span>Cake
-						Items</span>
-					<h2>Bánh dâu Tiny</h2>
-					<h3 class="price">
-						100.000VNĐ <span>/ mini size</span>
-					</h3>
-					<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
-				</div>
-				<!-- Box 4 -->
-				<div class="box">
-					<img src="img/product-crossaint.png"> <span>Pastry
-						Items</span>
-					<h2>Crossaint Hạnh nhân</h2>
-					<h3 class="price">
-						30.00VNĐ <span>/ 1 chiếc</span>
-					</h3>
-					<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
-
-				</div>
-				<!-- Box 5 -->
-				<div class="box">
-					<img src="img/product-cake2.webp" alt=""> <span>Cake
-						Items</span>
-					<h2>Bánh sinh nhật Xoài</h2>
-					<h3 class="price">
-						300.000VNĐ <span>/ size 16</span>
-					</h3>
-					<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
-				</div>
-				<!-- Box 5 -->
-				<div class="box">
-					<img src="img/product-cake3.webp" alt=""> <span>Cake
-						Items</span>
-					<h2>Bánh xoài Tiny</h2>
-					<h3 class="price">
-						130.000VNĐ <span>/ mini size</span>
-					</h3>
-					<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
-				</div>
-			</div>
-		</section>
-
-
-		<!-- About -->
-		<section class="about" id="about">
-			<img src="img/about.png" alt="">
-			<div class="about-text">
-				<span>Về Snow Pastry</span>
-				<p>Snow Pastry cam kết mang đến những chiếc bánh chất lượng cao,
-					mềm mịn, ẩm mượt và tốt cho sức khỏe.</p>
-				<p>Chúng tôi cung cấp đa dạng các loại bánh ngọt và kem, được
-					chế biến để mang lại niềm vui trong từng miếng bánh.</p>
-				<a href="#" class="btn">Tìm hiểu thêm<i
-					class='bx bx-right-arrow-alt'></i></a>
-			</div>
-		</section>
-		<!-- Customers -->
-		<section class="customers" id="customers">
-			<h2>Tại sao khách hàng yêu Snow Pastry?</h2>
-			<!-- Customers Content -->
-			<div class="customer-container">
-				<!-- Review 1 -->
-				<div class="box">
-					<div class="review-profile">
-						<img src="img/c1.jpg" alt="">
-						<h3>Vũ Long Thành</h3>
-					</div>
-					<br> <i class='bx bxs-quote-alt-left'></i>
-					<div class="stars">
-						<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-							class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-							class='bx bxs-star-half'></i>
-					</div>
-					<p>Bánh sinh nhật ở Snow Pastry thật sự ngon và trang trí rất
-						đẹp, khiến buổi tiệc của gia đình tôi trở nên hoàn hảo hơn!</p>
-
-				</div>
-				<!-- Review 2 -->
-				<div class="box">
-					<div class="review-profile">
-						<img src="img/c2.jpg" alt="">
-						<h3>Nguyễn Lê Minh</h3>
-					</div>
-					<i class='bx bxs-quote-alt-left'></i>
-					<div class="stars">
-						<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-							class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-							class='bx bxs-star-half'></i>
-					</div>
-					<p>Bingsu ở Snow Pastry là món yêu thích của tôi vào những ngày
-						hè nóng bức, vừa mát lạnh vừa ngọt ngào, đúng là tuyệt vời!</p>
-
-				</div>
-				<!-- Review 3 -->
-				<div class="box">
-					<div class="review-profile">
-						<img src="img/c3.jpg" alt="">
-						<h3>Lê Huy Phúc</h3>
-					</div>
-					<i class='bx bxs-quote-alt-left'></i>
-					<div class="stars">
-						<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-							class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-							class='bx bxs-star-half'></i>
-					</div>
-					<p>Bánh mì và bánh ngọt ở đây luôn tươi mới và thơm phức, tôi
-						ghé mua mỗi tuần và chưa bao giờ thất vọng.</p>
-
-				</div>
-			</div>
-		</section>
-		<footer>
-			<!-- Footer -->
-			<section class="footer" id="footer">
-				<div class="footer-box">
-					<a href="#" class="logo"><i class='bx bxs-basket'></i>Snow
-						Pastry</a>
-					<p>
-						24, Phố Hai Bà Trưng, Tràng Tiền <br>Hoàn Kiếm, Hà Nội
-					</p>
-					<div class="social">
-						<a href="#"><i class='bx bxl-facebook'></i></a> <a href="#"><i
-							class='bx bxl-twitter'></i></a> <a href="#"><i
-							class='bx bxl-instagram'></i></a> <a href="#"><i
-							class='bx bxl-youtube'></i></a>
-					</div>
-				</div>
-				<div class="footer-box">
-					<h2>Danh mục</h2>
-					<a href="#">Bread</a> <a href="#">Pastry & Pie</a> <a href="#">Bingsu</a>
-					<a href="#">Cake</a>
-				</div>
-				<div class="footer-box">
-					<h2>Thông tin liên hệ</h2>
-					<a href="#">Hotline tư vấn: 1900 779 907</a> <a href="#">Hotline
-						khiếu nại: 0948225982</a> <a href="#">Liên hệ hợp tác: 0921004598</a>
-					<a href="#">Email: support@snow.vn</a>
-				</div>
-				<div class="footer-box">
-					<h2>Newsletter</h2>
-					<p>
-						Get 10% Discount with <br>Email Newsletter
-					</p>
-					<form action="">
-						<i class='bx bxs-envelope'></i> <input type="email" name="" id=""
-							placeholder="Nhập Email của bạn"> <i
-							class='bx bx-arrow-back bx-rotate-180'></i>
-					</form>
-				</div>
-			</section>
-		</footer>
-		<!-- Copyright -->
-		<div class="copy-right">
-			<p>&#169; CarpoolVenom All Rights Reserved. Công ty TNHH Snow
-				Việt Nam.</p>
+	<!-- Products -->
+	<section class="products" id="products">
+		<div class="heading">
+			<h1>
+				Most popular products<br> <span>Những sản phẩm được yêu
+					thích nhất</span>
+			</h1>
+			<a href="#" class="btn">Xem thêm<i class='bx bx-right-arrow-alt'></i></a>
 		</div>
-		<!-- Swiper JS -->
-		<script
-			src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-		<!-- Link To JS -->
-		<script>
+		<!-- Product Content -->
+		<div class="products-container">
+			<!-- Box 1 -->
+			<div class="box">
+				<img src="img/product-cafe-cake.avif" alt=""> <span>Cake
+					Items</span>
+				<h2>Bánh sinh nhật Socola</h2>
+				<h3 class="price">
+					300.000VNĐ <span>/ size 16</span>
+				</h3>
+				<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
+			</div>
+			<!-- Box 2 -->
+			<div class="box">
+				<img src="img/product-daisy.avif" alt=""> <span>Cake
+					Items</span>
+				<h2>Bánh sinh nhật Daisy</h2>
+				<h3 class="price">
+					500.000VNĐ <span>/ size 18</span>
+				</h3>
+				<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
+			</div>
+			<!-- Box 3 -->
+			<div class="box">
+				<img src="img/product-minicake.webp" alt=""> <span>Cake
+					Items</span>
+				<h2>Bánh dâu Tiny</h2>
+				<h3 class="price">
+					100.000VNĐ <span>/ mini size</span>
+				</h3>
+				<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
+			</div>
+			<!-- Box 4 -->
+			<div class="box">
+				<img src="img/product-crossaint.png"> <span>Pastry
+					Items</span>
+				<h2>Crossaint Hạnh nhân</h2>
+				<h3 class="price">
+					30.00VNĐ <span>/ 1 chiếc</span>
+				</h3>
+				<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
+
+			</div>
+			<!-- Box 5 -->
+			<div class="box">
+				<img src="img/product-cake2.webp" alt=""> <span>Cake
+					Items</span>
+				<h2>Bánh sinh nhật Xoài</h2>
+				<h3 class="price">
+					300.000VNĐ <span>/ size 16</span>
+				</h3>
+				<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
+			</div>
+			<!-- Box 5 -->
+			<div class="box">
+				<img src="img/product-cake3.webp" alt=""> <span>Cake
+					Items</span>
+				<h2>Bánh xoài Tiny</h2>
+				<h3 class="price">
+					130.000VNĐ <span>/ mini size</span>
+				</h3>
+				<i class='bx bx-cart-alt'></i> <i class='bx bx-heart'></i>
+			</div>
+		</div>
+	</section>
+
+
+	<!-- About -->
+	<section class="about" id="about">
+		<img src="img/about.png" alt="">
+		<div class="about-text">
+			<span>Về Snow Pastry</span>
+			<p>Snow Pastry cam kết mang đến những chiếc bánh chất lượng cao,
+				mềm mịn, ẩm mượt và tốt cho sức khỏe.</p>
+			<p>Chúng tôi cung cấp đa dạng các loại bánh ngọt và kem, được chế
+				biến để mang lại niềm vui trong từng miếng bánh.</p>
+			<a href="#" class="btn">Tìm hiểu thêm<i
+				class='bx bx-right-arrow-alt'></i></a>
+		</div>
+	</section>
+	<!-- Customers -->
+	<section class="customers" id="customers">
+		<h2>Tại sao khách hàng yêu Snow Pastry?</h2>
+		<!-- Customers Content -->
+		<div class="customer-container">
+			<!-- Review 1 -->
+			<div class="box">
+				<div class="review-profile">
+					<img src="img/c1.jpg" alt="">
+					<h3>Vũ Long Thành</h3>
+				</div>
+				<br> <i class='bx bxs-quote-alt-left'></i>
+				<div class="stars">
+					<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
+						class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
+						class='bx bxs-star-half'></i>
+				</div>
+				<p>Bánh sinh nhật ở Snow Pastry thật sự ngon và trang trí rất
+					đẹp, khiến buổi tiệc của gia đình tôi trở nên hoàn hảo hơn!</p>
+
+			</div>
+			<!-- Review 2 -->
+			<div class="box">
+				<div class="review-profile">
+					<img src="img/c2.jpg" alt="">
+					<h3>Nguyễn Lê Minh</h3>
+				</div>
+				<i class='bx bxs-quote-alt-left'></i>
+				<div class="stars">
+					<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
+						class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
+						class='bx bxs-star-half'></i>
+				</div>
+				<p>Bingsu ở Snow Pastry là món yêu thích của tôi vào những ngày
+					hè nóng bức, vừa mát lạnh vừa ngọt ngào, đúng là tuyệt vời!</p>
+
+			</div>
+			<!-- Review 3 -->
+			<div class="box">
+				<div class="review-profile">
+					<img src="img/c3.jpg" alt="">
+					<h3>Lê Huy Phúc</h3>
+				</div>
+				<i class='bx bxs-quote-alt-left'></i>
+				<div class="stars">
+					<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
+						class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
+						class='bx bxs-star-half'></i>
+				</div>
+				<p>Bánh mì và bánh ngọt ở đây luôn tươi mới và thơm phức, tôi
+					ghé mua mỗi tuần và chưa bao giờ thất vọng.</p>
+
+			</div>
+		</div>
+	</section>
+	<footer>
+		<!-- Footer -->
+		<section class="footer" id="footer">
+			<div class="footer-box">
+				<a href="#" class="logo"><i class='bx bxs-basket'></i>Snow
+					Pastry</a>
+				<p>
+					24, Phố Hai Bà Trưng, Tràng Tiền <br>Hoàn Kiếm, Hà Nội
+				</p>
+				<div class="social">
+					<a href="#"><i class='bx bxl-facebook'></i></a> <a href="#"><i
+						class='bx bxl-twitter'></i></a> <a href="#"><i
+						class='bx bxl-instagram'></i></a> <a href="#"><i
+						class='bx bxl-youtube'></i></a>
+				</div>
+			</div>
+			<div class="footer-box">
+				<h2>Danh mục</h2>
+				<a href="#">Bread</a> <a href="#">Pastry & Pie</a> <a href="#">Bingsu</a>
+				<a href="#">Cake</a>
+			</div>
+			<div class="footer-box">
+				<h2>Thông tin liên hệ</h2>
+				<a href="#">Hotline tư vấn: 1900 779 907</a> <a href="#">Hotline
+					khiếu nại: 0948225982</a> <a href="#">Liên hệ hợp tác: 0921004598</a> <a
+					href="#">Email: support@snow.vn</a>
+			</div>
+			<div class="footer-box">
+				<h2>Newsletter</h2>
+				<p>
+					Get 10% Discount with <br>Email Newsletter
+				</p>
+				<form action="">
+					<i class='bx bxs-envelope'></i> <input type="email" name="" id=""
+						placeholder="Nhập Email của bạn"> <i
+						class='bx bx-arrow-back bx-rotate-180'></i>
+				</form>
+			</div>
+		</section>
+	</footer>
+	<!-- Copyright -->
+	<div class="copy-right">
+		<p>&#169; CarpoolVenom All Rights Reserved. Công ty TNHH Snow Việt
+			Nam.</p>
+	</div>
+	<!-- Swiper JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+	<!-- Link To JS -->
+	<script>
     document.addEventListener('DOMContentLoaded', () => {
         let menuIcon = document.querySelector('#menu-icon');
         let navbar = document.querySelector('.navbar');
