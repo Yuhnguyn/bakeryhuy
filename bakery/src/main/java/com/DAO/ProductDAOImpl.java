@@ -147,6 +147,43 @@ public class ProductDAOImpl implements ProductDAO {
 	    }
 	    return products;
 	}
+	
+	@Override
+	public List<Product> getProductsByCategoryId(String categoryId) {
+	    List<Product> products = new ArrayList<>();
+	    try {
+	        String sql = "SELECT p.id, p.category_id, p.name, p.price, p.discount, p.description, " +
+	                     "p.created_at, p.updated_at, p.thumbnail, c.name AS category " +
+	                     "FROM product p " +
+	                     "JOIN category c ON p.category_id = c.id " +
+	                     "WHERE p.category_id = ?";  // Lọc sản phẩm theo category_id
+	        
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ps.setString(1, categoryId);  // Gán categoryId vào câu truy vấn
+	        ResultSet rs = ps.executeQuery();
+	        
+	        while (rs.next()) {
+	            Product product = new Product();
+	            product.setId(rs.getString("id"));
+	            product.setCategoryId(rs.getString("category_id"));
+	            product.setCategory(rs.getString("category"));
+	            product.setName(rs.getString("name"));
+	            product.setPrice(rs.getString("price"));
+	            product.setDiscount(rs.getString("discount"));
+	            product.setDescription(rs.getString("description"));
+	            product.setCreatedAt(rs.getTimestamp("created_at"));
+	            product.setUpdatedAt(rs.getTimestamp("updated_at"));
+	            product.setThumbnail(rs.getString("thumbnail"));
+	            
+	            products.add(product);
+	        }
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return products;
+	}
+
 
 	
 	
