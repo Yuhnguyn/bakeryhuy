@@ -145,8 +145,15 @@ public class CategoryDAOImpl implements CategoryDAO {
     @Override
     public List<Category> searchCategories(String keyword, String sort) {
         List<Category> categories = new ArrayList<>();
-        String sql = "SELECT DISTINCT id, name, thumbnail, description, created_at, updated_at " +
-                     "FROM category WHERE name LIKE ? OR id LIKE ?";
+        String sql;
+
+        // Nếu không có từ khóa tìm kiếm, lấy tất cả danh mục
+        if (keyword == null || keyword.isEmpty()) {
+            sql = "SELECT DISTINCT id, name, thumbnail, description, created_at, updated_at FROM category";
+        } else {
+            sql = "SELECT DISTINCT id, name, thumbnail, description, created_at, updated_at " +
+                  "FROM category WHERE name LIKE ? OR id LIKE ?";
+        }
 
         // Thêm điều kiện sắp xếp
         if ("name_asc".equals(sort)) {
@@ -157,12 +164,16 @@ public class CategoryDAOImpl implements CategoryDAO {
             sql += " ORDER BY created_at DESC";
         } else if ("date_oldest".equals(sort)) {
             sql += " ORDER BY created_at ASC";
+        } else {
+            sql += " ORDER BY created_at DESC"; // Mặc định sắp xếp theo thời gian tạo
         }
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            // Gán giá trị cho tham số tìm kiếm
-            ps.setString(1, "%" + keyword + "%"); // Tìm kiếm theo tên
-            ps.setString(2, "%" + keyword + "%"); // Tìm kiếm theo ID
+            // Nếu có từ khóa tìm kiếm, gán tham số tìm kiếm
+            if (keyword != null && !keyword.isEmpty()) {
+                ps.setString(1, "%" + keyword + "%");
+                ps.setString(2, "%" + keyword + "%");
+            }
 
             ResultSet rs = ps.executeQuery();
 
@@ -181,8 +192,6 @@ public class CategoryDAOImpl implements CategoryDAO {
             e.printStackTrace();
         }
 
-
         return categories;
     }
-
 }
