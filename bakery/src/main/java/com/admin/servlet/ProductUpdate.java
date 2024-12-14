@@ -24,7 +24,7 @@ public class ProductUpdate extends HttpServlet {
             String id = req.getParameter("id");
             String categoryId = req.getParameter("category");
             String name = req.getParameter("name");
-            String price=req.getParameter("price");	
+            double price = Double.parseDouble(req.getParameter("price"));
             String discount=req.getParameter("discount");
             String description = req.getParameter("description");
             

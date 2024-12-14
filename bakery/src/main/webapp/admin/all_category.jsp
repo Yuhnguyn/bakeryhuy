@@ -8,10 +8,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Đảm bảo rằng jQuery đã được tải -->
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script> <!-- Tải DataTables JS -->
+    <script>
+        $(document).ready(function() {
+            $('#category').DataTable();  // Khởi tạo DataTable cho bảng có id "category"
+        });
+    </script>
+
     <meta charset="UTF-8">
     <title>Danh mục sản phẩm</title>
-    <style>
-        body {
+</head>
+<style>
+ body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
         }
@@ -68,8 +78,7 @@
         .message.error {
             color: red;
         }
-    </style>
-</head>
+</style> 
 <body>
     <%@ include file="header.jsp" %>
 
@@ -84,35 +93,41 @@
         <div class="message error">${failMsg}</div>
         <c:remove var="failMsg" scope="session"/>
     </c:if>
-	<form action="CategorySearchServlet" method="get" style="display: flex; align-items: center; margin-bottom: 20px;">
-	<form action="${pageContext.request.contextPath}/admin/CategorySearchServlet" method="get">
 
-	
-    <!-- Ô tìm kiếm -->
-    <label for="keyword" style="margin-right: 10px;">Tìm kiếm:</label>
-    <input type="text" id="keyword" name="keyword" placeholder="Nhập mã danh mục hoặc tên danh mục"
-           value="${keyword}" style="padding: 8px; width: 250px; margin-right: 15px;">
+<%--     <!-- Form tìm kiếm -->
+    <form action="${pageContext.request.contextPath}/admin/CategorySearchServlet" method="get" style="display: flex; align-items: center; margin-bottom: 20px;">
+        <label for="keyword" style="margin-right: 10px;">Tìm kiếm:</label>
+        <input type="text" id="keyword" name="keyword" placeholder="Nhập mã danh mục hoặc tên danh mục"
+            value="${keyword}" style="padding: 8px; width: 250px; margin-right: 15px;">
+        <label for="sort">Sắp xếp theo:</label>
+        <select id="sort" name="sort" style="padding: 8px; margin-left: 10px; margin-right: 15px;">
+            <option value="all" ${sort == 'all' ? 'selected' : ''}>Tất cả</option>
+            <option value="name_asc" ${sort == 'name_asc' ? 'selected' : ''}>Tên (A-Z)</option>
+            <option value="name_desc" ${sort == 'name_desc' ? 'selected' : ''}>Tên (Z-A)</option>
+            <option value="date_newest" ${sort == 'date_newest' ? 'selected' : ''}>Mới nhất</option>
+            <option value="date_oldest" ${sort == 'date_oldest' ? 'selected' : ''}>Cũ nhất</option>
+        </select>
+        <button type="submit" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Tìm kiếm
+        </button>
+    </form> --%>
 
-    <!-- Dropdown sắp xếp -->
-    <label for="sort">Sắp xếp theo:</label>
-    <select id="sort" name="sort" style="padding: 8px; margin-left: 10px; margin-right: 15px;">
-        <option value="all" ${sort == 'all' ? 'selected' : ''}>Tất cả</option>
-        <option value="name_asc" ${sort == 'name_asc' ? 'selected' : ''}>Tên (A-Z)</option>
-        <option value="name_desc" ${sort == 'name_desc' ? 'selected' : ''}>Tên (Z-A)</option>
-        <option value="date_newest" ${sort == 'date_newest' ? 'selected' : ''}>Mới nhất</option>
-        <option value="date_oldest" ${sort == 'date_oldest' ? 'selected' : ''}>Cũ nhất</option>
-    </select>
+    <!-- Tạo đối tượng DAO và lấy dữ liệu từ database -->
+    <%
+        String keyword = request.getParameter("keyword");
+        String sort = request.getParameter("sort");
+        if (sort == null) {
+            sort = "all"; // Mặc định là "all"
+        }
 
-    <!-- Nút tìm kiếm -->
-    <button type="submit" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
-        Tìm kiếm
-    </button>
-</form>
+        // Tạo đối tượng CategoryDAOImpl và gọi phương thức searchCategories
+        CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
+        List<Category> categories = dao.searchCategories(keyword != null ? keyword : "", sort);
+        request.setAttribute("categories", categories); // Đưa dữ liệu vào request scope
+    %> 
 
-
-	
     <!-- Hiển thị bảng danh mục -->
-    <table>
+    <table id="category" class="display">
         <thead>
             <tr>
                 <th>Mã danh mục</th>
@@ -125,34 +140,33 @@
                 <th>Thao tác</th>
             </tr>
         </thead>
-       <tbody>
-    <c:forEach var="category" items="${categories}">
-        <tr>
-            <td>${category.id}</td>
-            <td>${category.name}</td>
-             <td>${category.productCount}</td>
-            <td>
-                <c:if test="${not empty category.thumbnail}">
-                    <img src="${pageContext.request.contextPath}/category/${category.thumbnail}" alt="${category.name}" style="width: 50px; height: 50px;">
-                </c:if>
-            </td>
-            <td>${category.description}</td>
-            <td>${category.createdAt}</td>
-            <td>${category.updatedAt}</td>
-            <td>
-                <a href="update_category.jsp?id=${category.id}" class="button btn-approve">Sửa</a>
-                <a href="../delete?id=${category.id}" class="button btn-reject">Xóa</a>
-            </td>
-        </tr>
-    </c:forEach>
-</tbody>
-
-
+        <tbody>
+        <c:forEach var="category" items="${categories}">
+            <tr>
+                <td>${category.id}</td>
+                <td>${category.name}</td>
+                <td>${category.productCount}</td>
+                <td>
+                    <c:if test="${not empty category.thumbnail}">
+                        <img src="${pageContext.request.contextPath}/category/${category.thumbnail}" alt="${category.name}" style="width: 50px; height: 50px;"/>
+                    </c:if>
+                </td>
+                <td>${category.description}</td>
+                <td>${category.createdAt}</td>
+                <td>${category.updatedAt}</td>
+                <td>
+                    <a href="update_category.jsp?id=${category.id}" class="button btn-approve">Sửa</a>
+                    <a href="../delete?id=${category.id}" class="button btn-reject">Xóa</a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
     </table>
 
     <!-- Nút thêm danh mục -->
     <div style="text-align: center; margin-top: 20px;">
         <a href="add_category.jsp" class="button btn-approve" style="font-size: 16px; padding: 10px 20px;">Thêm danh mục</a>
     </div>
+
 </body>
 </html>
