@@ -33,7 +33,7 @@
 	<%@include file="all_component/header.jsp"%>
 	<!-- Product-->
 	<section id="products">
-		<h2 style="margin-top:100px";>Tất cả sản phẩm</h2>
+		<h2 style="margin-top:50px";>Tất cả sản phẩm</h2>
 		<!-- Lặp qua các danh mục và hiển thị tên danh mục -->
         <%
             // Giả sử bạn đã có một phương thức trong DAO để lấy danh sách các danh mục từ CSDL
@@ -56,10 +56,10 @@
                 %>
                 <div class="product-card">
                 
-						<img img src="product/<%= product.getThumbnail() %>" alt="<%= product.getName() %>">
+						<img src="product/<%= product.getThumbnail() %>" alt="<%= product.getName() %>">
 						<h3><%= product.getName() %></h3>
-						<h4 class="price"><%= product.getPrice() %> VNĐ</h4>
-						<a href="product-detail.jsp"> <i
+						<h4 class="price"><%= product.getFormattedBalance() %> VNĐ</h4>
+						<a href="product-detail.jsp?id=<%=product.getId() %>"> <i
 							class='bx bx-cart-alt cart-icon'></i>
 						</a> <i class='bx bx-heart heart-icon'></i>
 

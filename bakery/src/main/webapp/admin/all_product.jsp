@@ -10,8 +10,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Đảm bảo rằng jQuery đã được tải -->
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script> <!-- Tải DataTables JS -->
+    <script>
+        $(document).ready(function() {
+            $('#product').DataTable();  
+        });
+    </script>
+
+    <meta charset="UTF-8">
+	<title>Danh Sách Sản Phẩm</title>
+</head>
+
 
 
 <style>
@@ -89,28 +100,15 @@ tfoot .button {
 	margin-top: 10px; /* Khoảng cách giữa nút và nội dung khác */
 	padding: 12px 24px; /* Tăng kích thước nút */
 }
-
-.message {
-            text-align: center;
-            margin: 20px 0;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .message.success {
-            color: green;
-        }
-        .message.error {
-            color: red;
-        }
 </style>
-</head>
+
 <body>
 	<%@include file="header.jsp"%>
 
 	<div class="history-table">
 		<h2>Danh sách sản phẩm</h2>
 
-		<!-- Form tìm kiếm -->
+		<!-- <!-- Form tìm kiếm 
 		<form action="ProductSearchServlet" method="GET"
 			style="margin-bottom: 20px;">
 			<label for="searchKey">Tìm kiếm:</label> <input type="text"
@@ -130,18 +128,9 @@ tfoot .button {
 			<button type="submit"
 				style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">Tìm
 				kiếm</button>
-		</form>
+		</form> -->
 
-		 <!-- Hiển thị thông báo -->
-        <c:if test="${not empty succMsg}">
-            <div class="message success">${succMsg}</div>
-            <c:remove var="succMsg" scope="session" />
-        </c:if>
-        <c:if test="${not empty failMsg}">
-            <div class="message error">${failMsg}</div>
-            <c:remove var="failMsg" scope="session" />
-        </c:if>
-		<table>
+		<table id="product" class="display">
 			<thead>
 				<tr>
 
@@ -180,12 +169,13 @@ tfoot .button {
 					<td><%=product.getUpdatedAt()%></td>
 					
 					<td>
-                <img src="../product/<%=product.getThumbnail() %>" alt="<%=product.getThumbnail() %>" style="width: 50px; height: 50px;">
-
+            <c:if test="${not empty product.thumbnail}">
+                <img src="${pageContext.request.contextPath}/product/${product.thumbnail}" alt="${product.thumbnail}" style="width: 50px; height: 50px;">
+            </c:if>
         </td>
 
 					<td><a href="update_product.jsp?id=<%=product.getId() %>" class="button btn-approve">Chỉnh sửa</a> <a
-						href="javascript:void(0);" class="button btn-reject" onclick="confirmDelete('../deleteProduct?id=<%=product.getId() %>')">Xóa</a>
+						href="javascript:void(0);" class="button btn-reject"<%-- onclick="confirmDelete('deleteUser.jsp?id=<%= user.getId() %>') --%>">Xóa</a>
 					</td>
 
 
@@ -211,7 +201,7 @@ tfoot .button {
 			style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);">
 			<div
 				style="background: white; padding: 20px; border-radius: 5px; width: 300px; margin: 15% auto; text-align: center;">
-				<p>Bạn có chắc chắn muốn xóa sản phẩm này?</p>
+				<p>Bạn có chắc chắn muốn xóa người dùng này?</p>
 				<div>
 					<button id="confirm-btn"
 						style="margin-right: 10px; background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Xác

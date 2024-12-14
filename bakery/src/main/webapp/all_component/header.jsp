@@ -141,7 +141,7 @@
 					   <li class="dropdown">
                 <a href="#" class="username">${userobj.name}</a>
                 <div class="dropdown-menu">
-                    <a href="profile.jsp">Thông tin cá nhân</a>
+                    <a href="infor_user.jsp">Thông tin cá nhân</a>
                     <a href="change-password.jsp">Đổi mật khẩu</a>
                     <a href="orders.jsp">Đơn hàng của tôi</a>
                 </div>
@@ -164,7 +164,25 @@
 
 
 	</header>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const dropdown = document.querySelector('.dropdown');
+    const username = document.querySelector('.username');
 
+    username.addEventListener('click', function (e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định
+        dropdown.classList.toggle('active');
+    });
+
+    // Ẩn menu khi click ra ngoài
+    document.addEventListener('click', function (e) {
+        if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+});
+
+</script>
 
 
 </body>

@@ -1,13 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="com.DAO.StaffDAOImpl" %>
 <%@ page import="com.entity.Staff" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.DB.DBConnect" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Đảm bảo rằng jQuery đã được tải -->
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script> <!-- Tải DataTables JS -->
+    <script>
+        $(document).ready(function() {
+            $('#staff').DataTable();  
+        });
+    </script>
     <meta charset="UTF-8">
     <title>Danh Sách Nhân Viên</title>
-    <style>
+</head>
+
+  <!--   <style>
         h2 {
             padding: 20px;
             font-size:20px;
@@ -74,8 +86,7 @@
     background-color: #45a049;
 }
         }
-    </style>
-</head>
+    </style> -->
 <body>
 <%@ include file="header.jsp" %>
 
@@ -94,23 +105,23 @@
 <form action="staff_list.jsp" method="get" 
       style="display: flex; align-items: center; justify-content: flex-start; gap: 10px; padding: 10px; max-width: 100%; margin: 20px 0;">
 
-    <!-- Ô nhập tìm kiếm -->
+   <%--  <!-- Ô nhập tìm kiếm -->
     <input type="text" name="searchKey" placeholder="Nhập từ khóa tìm kiếm"
            value="<%= request.getParameter("searchKey") != null ? request.getParameter("searchKey") : "" %>"
            style="flex: 3; padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; background-color: #f9f9f9; outline: none;">
-
-    <!-- Bộ lọc -->
+ --%>
+   <%--  <!-- Bộ lọc -->
     <select name="filter" 
             style="flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; background-color: #f9f9f9; outline: none;">
         <option value="id" <%= "id".equals(request.getParameter("filter")) ? "selected" : "" %>>ID</option>
         <option value="timecreate" <%= "timecreate".equals(request.getParameter("filter")) ? "selected" : "" %>>Thời gian tạo</option>
     </select>
-
-    <!-- Nút tìm kiếm -->
+ --%>
+    <!-- <!-- Nút tìm kiếm 
     <button type="submit" 
             style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #4CAF50; color: white; font-size: 14px; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">
         Tìm kiếm
-    </button>
+    </button> -->
 </form>
 
 
@@ -129,7 +140,7 @@
         }
     %>
 
-    <table>
+    <table id="staff" class="display">
         <thead>
             <tr>
                 <th>ID</th>

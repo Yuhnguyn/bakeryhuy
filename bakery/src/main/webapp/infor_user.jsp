@@ -98,11 +98,11 @@
 			<table class="info-table">
 				<tr>
 					<td>Họ và tên:</td>
-					<td>{userobj.name}</td>
+					<td>${userobj.name}</td>
 				</tr>
 				<tr>
 					<td>Tên đăng nhập:</td>
-					<td  style="text-transform: none;">{userobj.userName}</td>
+					<td  style="text-transform: none;">${userobj.userName}</td>
 				</tr>
 				<tr>
 					<td>Số dư:</td>

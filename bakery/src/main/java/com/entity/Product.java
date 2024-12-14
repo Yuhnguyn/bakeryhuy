@@ -1,6 +1,7 @@
 package com.entity;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 
 
 public class Product{
@@ -8,14 +9,16 @@ public class Product{
 	private String categoryId;
 	private String category;
 	private String name;
-	private String price;
+	private double price;
 	private String discount;
 	private String description;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	private String thumbnail;
 	
-	public Product(String id, String categoryId, String category, String name, String price, String discount,
+	
+	
+	public Product(String id, String categoryId, String category, String name, double price, String discount,
 			String description, Timestamp createdAt, Timestamp updatedAt, String thumbnail) {
 		super();
 		this.id = id;
@@ -28,6 +31,19 @@ public class Product{
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.thumbnail = thumbnail;
+	}
+	
+	public String getFormattedBalance() {
+        DecimalFormat df = new DecimalFormat("#,###"); // Định dạng số với dấu phẩy
+        return df.format(price); // Trả về số dư đã định dạng
+    }
+	
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 	public String getCategory() {
 		return category;
@@ -52,12 +68,6 @@ public class Product{
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getPrice() {
-		return price;
-	}
-	public void setPrice(String price) {
-		this.price = price;
 	}
 	public String getDiscount() {
 		return discount;

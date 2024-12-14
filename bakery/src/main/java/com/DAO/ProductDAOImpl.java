@@ -27,7 +27,7 @@ public class ProductDAOImpl implements ProductDAO {
 			ps.setString(2,product.getId());
 			ps.setString(3,product.getCategoryId());
 			ps.setString(4,product.getName());
-			ps.setString(5,product.getPrice());
+			ps.setDouble(5, product.getPrice());
 			ps.setString(6,product.getDiscount());
 			ps.setString(7,product.getDescription());
 			
@@ -51,7 +51,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 			ps.setString(1,product.getCategoryId());
 			ps.setString(2,product.getName());
-			ps.setString(3,product.getPrice());
+			ps.setDouble(3,product.getPrice());
 			ps.setString(4,product.getDiscount());
 			ps.setString(5,product.getDescription());
 			ps.setString(6,product.getId());
@@ -98,7 +98,7 @@ public class ProductDAOImpl implements ProductDAO {
 				product.setId(rs.getString(1));
 				product.setCategoryId(rs.getString(2));
 				product.setName(rs.getString(3));
-				product.setPrice(rs.getString(4));
+				product.setPrice(rs.getDouble(4));
 				product.setDiscount(rs.getString(5));
 				product.setDescription(rs.getString(6));
 				product.setCreatedAt(rs.getTimestamp(7));
@@ -131,7 +131,7 @@ public class ProductDAOImpl implements ProductDAO {
 	            product.setCategoryId(rs.getString("category_id"));
 	            product.setCategory(rs.getString("category"));
 	            product.setName(rs.getString("name"));
-	            product.setPrice(rs.getString("price"));
+	            product.setPrice(rs.getDouble("price"));
 	            product.setDiscount(rs.getString("discount"));
 	            product.setDescription(rs.getString("description"));
 	            product.setCreatedAt(rs.getTimestamp("created_at"));
@@ -168,7 +168,7 @@ public class ProductDAOImpl implements ProductDAO {
 	            product.setCategoryId(rs.getString("category_id"));
 	            product.setCategory(rs.getString("category"));
 	            product.setName(rs.getString("name"));
-	            product.setPrice(rs.getString("price"));
+	            product.setPrice(rs.getDouble("price"));
 	            product.setDiscount(rs.getString("discount"));
 	            product.setDescription(rs.getString("description"));
 	            product.setCreatedAt(rs.getTimestamp("created_at"));
