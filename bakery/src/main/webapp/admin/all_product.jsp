@@ -3,30 +3,33 @@
 <%@page import="com.DAO.ProductDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Đảm bảo rằng jQuery đã được tải -->
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script> <!-- Tải DataTables JS -->
-    <script>
-        $(document).ready(function() {
-            $('#product').DataTable();  
-        });
-    </script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Đảm bảo rằng jQuery đã được tải -->
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+<!-- Tải DataTables JS -->
+<script>
+	$(document).ready(function() {
+		$('#product').DataTable();
+	});
+</script>
 
-    <meta charset="UTF-8">
-	<title>Danh Sách Sản Phẩm</title>
+<meta charset="UTF-8">
+<title>Danh Sách Sản Phẩm</title>
 </head>
 
 
 
 <style>
 h2 {
+	margin-top:100px;
 	padding: 20px;
 	font-size: 20px;
 }
@@ -89,6 +92,20 @@ h2 {
 	background-color: #d32f2f;
 }
 
+.message {
+	text-align: center;
+	margin: 20px 0;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.message.success {
+	color: green;
+}
+
+.message.error {
+	color: red;
+}
 /* Căn giữa và thêm khoảng cách cho nút "Thêm sản phẩm" */
 tfoot td {
 	text-align: center;
@@ -105,9 +122,16 @@ tfoot .button {
 <body>
 	<%@include file="header.jsp"%>
 
-	<div class="history-table">
 		<h2>Danh sách sản phẩm</h2>
-
+ <!-- Hiển thị thông báo -->
+    <c:if test="${not empty succMsg}">
+        <div class="message success">${succMsg}</div>
+        <c:remove var="succMsg" scope="session"/>
+    </c:if>
+    <c:if test="${not empty failMsg}">
+        <div class="message error">${failMsg}</div>
+        <c:remove var="failMsg" scope="session"/>
+    </c:if>
 		<!-- <!-- Form tìm kiếm 
 		<form action="ProductSearchServlet" method="GET"
 			style="margin-bottom: 20px;">
@@ -130,11 +154,12 @@ tfoot .button {
 				kiếm</button>
 		</form> -->
 
+
 		<table id="product" class="display">
 			<thead>
 				<tr>
 
-					
+
 					<th>Mã DM</th>
 					<th>Tên DM</th>
 					<th>Mã SP</th>
@@ -152,36 +177,34 @@ tfoot .button {
 			<tbody>
 
 				<%
-					ProductDAOImpl dao = new ProductDAOImpl(DBConnect.getConn());
-					List<Product> list = dao.getAllProducts();
-					for (Product product : list) {
+				ProductDAOImpl dao = new ProductDAOImpl(DBConnect.getConn());
+				List<Product> list = dao.getAllProducts();
+				for (Product product : list) {
 				%>
 				<tr>
-					
+
 					<td><%=product.getCategoryId()%></td>
 					<td><%=product.getCategory()%></td>
 					<td><%=product.getId()%></td>
 					<td><%=product.getName()%></td>
-					<td><%=product.getPrice()%></td>
+					<td><%=product.getFormattedBalance()%> </td>
 					<td><%=product.getDiscount()%></td>
 					<td><%=product.getDescription()%></td>
 					<td><%=product.getCreatedAt()%></td>
 					<td><%=product.getUpdatedAt()%></td>
-					
-					<td>
-            <c:if test="${not empty product.thumbnail}">
-                <img src="${pageContext.request.contextPath}/product/${product.thumbnail}" alt="${product.thumbnail}" style="width: 50px; height: 50px;">
-            </c:if>
-        </td>
 
-					<td><a href="update_product.jsp?id=<%=product.getId() %>" class="button btn-approve">Chỉnh sửa</a> <a
-						href="javascript:void(0);" class="button btn-reject"<%-- onclick="confirmDelete('deleteUser.jsp?id=<%= user.getId() %>') --%>">Xóa</a>
+					<td><img src="../product/<%=product.getThumbnail() %>" alt="<%=product.getThumbnail() %>" style="width: 50px; height: 50px;"></td>
+
+					<td><a href="update_product.jsp?id=<%=product.getId()%>"
+						class="button btn-approve">Chỉnh sửa</a> <a
+						href="javascript:void(0);" class="button btn-reject"
+						onclick="confirmDelete('../deleteProduct?id=<%=product.getId()%>')">Xóa</a>
 					</td>
 
 
 				</tr>
 				<%
-					}
+				}
 				%>
 
 			</tbody>
@@ -201,7 +224,7 @@ tfoot .button {
 			style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);">
 			<div
 				style="background: white; padding: 20px; border-radius: 5px; width: 300px; margin: 15% auto; text-align: center;">
-				<p>Bạn có chắc chắn muốn xóa người dùng này?</p>
+				<p>Bạn có chắc chắn muốn xóa sản phẩm này?</p>
 				<div>
 					<button id="confirm-btn"
 						style="margin-right: 10px; background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Xác
