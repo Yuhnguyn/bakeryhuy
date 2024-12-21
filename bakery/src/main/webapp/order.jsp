@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@page import="com.entity.Product"%>
-<%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
-<%@page import="com.DAO.ProductDAOImpl"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.DAO.CartDAOImpl" %>
+<%@ page import="com.entity.Cart" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -16,14 +16,25 @@
 <body>
 
 
-	<%
-                // Lấy productId từ tham số URL
-                String id = request.getParameter("id");
 
-                // Tạo đối tượng DAO để truy xuất dữ liệu
-                ProductDAOImpl productDAO = new ProductDAOImpl(DBConnect.getConn());
-                Product product = productDAO.getProductById(id); // Lấy sản phẩm theo id
-            %>
+    <%
+        // Lấy user_id từ session
+        Integer userId = (Integer) session.getAttribute("user_id");
+
+        // Kiểm tra xem user đã đăng nhập chưa
+        if (userId == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        // Lấy danh sách giỏ hàng từ database
+        CartDAOImpl cartDAO = new CartDAOImpl(DBConnect.getConn());
+        List<Cart> cartList = cartDAO.getCartByUserId(userId);
+
+        // Định dạng tiền tệ
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new java.util.Locale("vi", "VN"));
+        double totalPrice = 0;
+    %>
 	<%@include file="all_component/header.jsp"%>
     <div class="container1">
         <!-- Form section -->
@@ -87,15 +98,30 @@
 
         <div class="order-summary">
             <h2>Đơn hàng của bạn</h2>
+  <%
+                if (cartList != null && !cartList.isEmpty()) {
+                    for (Cart cartItem : cartList) {
+                        double itemPrice = cartItem.getPrice() * cartItem.getQuantity();
+                        totalPrice += itemPrice;
+            %>
             <div class="product-item">
-                <img src="product/<%= product.getThumbnail() %>" alt="<%= product.getName() %>">
-                <span><%=product.getName() %></span>
-                <span><%=product.getFormattedBalance()%>
-					VND
-				</span>
+                <img src="product/<%= cartItem.getThumbnail() %>" alt="<%= cartItem.getProductName() %>">
+                <span><%= cartItem.getProductName() %></span>
+                <span>Số lượng: <%= cartItem.getQuantity() %></span>
+                <span>Thành tiền: <%= currencyFormat.format(itemPrice) %></span>
             </div>
+            <%
+                    }
+                } else {
+            %>
+            <p>Giỏ hàng của bạn hiện đang trống. <a href="product-list.jsp">Quay lại mua sắm</a>.</p>
+            <%
+                }
+            %>
             <hr>
-            <div class="total">Tổng cộng: 2,000,000đ</div>
+            <div class="total">Tổng cộng: <%= currencyFormat.format(totalPrice) %></div>
+
+
             <button class="btn-submit">Hoàn tất đơn hàng</button>
         </div>
     </div>

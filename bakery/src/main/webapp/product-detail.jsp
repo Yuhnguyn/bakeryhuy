@@ -68,23 +68,24 @@
 			</div>
 
 			<div class="order-section">
+			 <form action="AddCartServlet" method="post">
 				<div class="order-controls">
 					<button class="quantity-btn">-</button>
-					<input type="number" value="1" min="1" class="quantity-input">
+					<input type="number" value="1" min="1" name="quantity" class="quantity-input">
 					<button class="quantity-btn">+</button>
 				</div>
 				<div class="order-buttons">
-    <form action="CartServlet" method="post">
+   
         <input type="hidden" name="action" value="add">
         <input type="hidden" name="productId" value="<%= product.getId() %>">
         <input type="hidden" name="productName" value="<%= product.getName() %>">
         <input type="hidden" name="price" value="<%= product.getPrice() %>">
         <input type="hidden" name="thumbnail" value="<%= product.getThumbnail() %>">
         <button type="submit" class="btn add-to-cart">THÊM VÀO GIỎ</button>
-    </form>
+  
 					<button class="btn buy-now" onclick="window.location.href='order.jsp?id=<%=product.getId() %>'">MUA NGAY</button>
 				</div>
-
+  </form>
 				<div class="product-description">
 					<h3>Mô tả</h3>
 					<p>
@@ -179,13 +180,13 @@
     
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Lấy các phần tử cần thiết
         const quantityInput = document.querySelector('.quantity-input');
         const quantityMinus = document.querySelector('.quantity-btn:first-child');
         const quantityPlus = document.querySelector('.quantity-btn:last-child');
 
         // Xử lý sự kiện click cho nút giảm số lượng
-        quantityMinus.addEventListener('click', () => {
+        quantityMinus.addEventListener('click', (event) => {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của nút
             let currentQuantity = parseInt(quantityInput.value);
             if (currentQuantity > 1) { // Đảm bảo số lượng không giảm xuống dưới 1
                 quantityInput.value = currentQuantity - 1;
@@ -193,11 +194,13 @@
         });
 
         // Xử lý sự kiện click cho nút tăng số lượng
-        quantityPlus.addEventListener('click', () => {
+        quantityPlus.addEventListener('click', (event) => {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của nút
             let currentQuantity = parseInt(quantityInput.value);
             quantityInput.value = currentQuantity + 1;
         });
     });
+
 
 
     

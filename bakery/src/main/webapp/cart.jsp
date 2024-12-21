@@ -1,5 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page import="com.DAO.CartDAOImpl" %>
+<%@ page import="com.entity.Cart" %>
+<%@ page import="com.DB.DBConnect" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,35 +16,69 @@
 </head>
 <body>
     <!-- Navbar -->
-	<%@include file="all_component/header.jsp"%>
-    <main class="cart-container">
-        <h1>Giỏ hàng</h1>
-        <p>Bạn đang có <strong>1 sản phẩm</strong> trong giỏ hàng</p>
-        
-        <div class="cart-item">
-            <img src="/img/catebread.png" alt="">
-            <div class="item-details">
-                <h2>Bánh kem sinh nhật</h2>
-                <p class="price">100,000₫</p>
-                <div class="item-controls">
-                    <button class="btn-quantity">-</button>
-                    <input type="number" value="1" min="1">
-                    <button class="btn-quantity">+</button>
-                    <i class='bx bx-trash'></i>
-                </div>
-            </div>
-        </div>
+    <%@include file="all_component/header.jsp"%>
 
-        <textarea placeholder="Ghi chú đơn hàng"></textarea>
-        
-        <aside class="order-summary">
-            <h3>Thông tin đơn hàng</h3>
-            <p><span>Tổng tiền:</span> <strong>900,000₫</strong></p>
-            <button class="checkout-btn">Thanh toán</button>
-            <a href="#" class="continue-shopping">Tiếp tục mua hàng →</a>
-        </aside>
-    </main>
-    <!-- Footer -->
+
+<%
+    CartDAOImpl dao = new CartDAOImpl(DBConnect.getConn());
+    int userId = (int) session.getAttribute("user_id");
+    List<Cart> cartList = dao.getCartByUserId(userId);
+
+    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new java.util.Locale("vi", "VN"));
+    double totalPrice = 0;
+%>
+
+<main class="cart-container">
+    <h1>Giỏ hàng</h1>
+    <%
+        if (cartList != null && !cartList.isEmpty()) {
+    %>
+    <p>Bạn đang có <strong><%= cartList.size() %></strong> sản phẩm trong giỏ hàng</p>
+    <%
+            for (Cart cartItem : cartList) {
+                double itemPrice = cartItem.getPrice() * cartItem.getQuantity();
+                totalPrice += itemPrice;
+    %>
+<div class="cart-item">
+    <img src="product/<%= cartItem.getThumbnail() %>" alt="<%= cartItem.getProductName() %>" class="main-image">
+    <div class="item-details">
+        <h2><%= cartItem.getProductName() %></h2>
+        <p class="price">Giá: <%= currencyFormat.format(cartItem.getPrice()) %></p>
+        <p class="quantity">Số lượng: <%= cartItem.getQuantity() %></p>
+        <p class="total-item-price">Thành tiền: <%= currencyFormat.format(itemPrice) %></p>
+        <div class="item-controls">
+            <form action="UpdateCartServlet" method="post">
+                <input type="hidden" name="productId" value="<%= cartItem.getProductId() %>">
+                <button type="submit" name="action" value="decrease" class="btn-quantity">-</button>
+                <input type="number" name="quantity" value="<%= cartItem.getQuantity() %>" min="1">
+                <button type="submit" name="action" value="increase" class="btn-quantity">+</button>
+            </form>
+            <form action="DeleteCartServlet" method="post">
+                <input type="hidden" name="productId" value="<%= cartItem.getProductId() %>">
+                <button type="submit" class="btn-delete"><i class='bx bx-trash'></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <%
+            }
+        } else {
+    %>
+    <p>Giỏ hàng của bạn hiện đang trống.</p>
+    <%
+        }
+    %>
+
+    <aside class="order-summary">
+        <h3>Thông tin đơn hàng</h3>
+        <p><span>Tổng tiền:</span> <strong><%= currencyFormat.format(totalPrice) %></strong></p>
+        <a href="OrderServlet" class="checkout-btn">Thanh toán</a>
+
+        <a href="product-list.jsp" class="continue-shopping">Tiếp tục mua hàng →</a>
+    </aside>
+</main>
+<!-- Footer -->
     <section class="footer" id="footer">
         <div class="footer-box">
             <a href="#" class="logo"><i class='bx bxs-basket'></i>Snow Pastry</a>
@@ -80,7 +118,5 @@
      <div class="copy-right">
         <p>&#169; CarpoolVenom All Rights Reserved. Công ty TNHH Snow Việt Nam.</p>
     </div>
-    <!-- Link To JS -->
-    <script src="/main.js"></script>
 </body>
 </html>
