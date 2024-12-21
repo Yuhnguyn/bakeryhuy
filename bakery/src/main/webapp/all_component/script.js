@@ -1,5 +1,4 @@
 // SIDEBAR TOGGLE
-
 let sidebarOpen = false;
 const sidebar = document.getElementById('sidebar');
 
@@ -17,104 +16,74 @@ function closeSidebar() {
   }
 }
 
-// ---------- CHARTS ----------
+// Lấy dữ liệu từ API `/chart-data`
+// Fetch data from the backend API
+fetch('/bakery/chart-data')
+  .then((response) => response.json())
+  .then((data) => {
+    // Process Top 5 Products Data
+    const topProducts = data.topProducts || {};
+    const productNames = Object.keys(topProducts);
+    const productQuantities = Object.values(topProducts);
 
-// BAR CHART
-const barChartOptions = {
-  series: [
-    {
-      data: [10, 8, 6, 4, 2],
-    },
-  ],
-  chart: {
-    type: 'bar',
-    height: 350,
-    toolbar: {
-      show: false,
-    },
-  },
-  colors: ['#246dec', '#cc3c43', '#367952', '#f5b74f', '#4f35a1'],
-  plotOptions: {
-    bar: {
-      distributed: true,
-      borderRadius: 4,
-      horizontal: false,
-      columnWidth: '40%',
-    },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  legend: {
-    show: false,
-  },
-  xaxis: {
-    categories: ['Laptop', 'Phone', 'Monitor', 'Headphones', 'Camera'],
-  },
-  yaxis: {
-    title: {
-      text: 'Count',
-    },
-  },
-};
-
-const barChart = new ApexCharts(
-  document.querySelector('#bar-chart'),
-  barChartOptions
-);
-barChart.render();
-
-// AREA CHART
-const areaChartOptions = {
-  series: [
-    {
-      name: 'Purchase Orders',
-      data: [31, 40, 28, 51, 42, 109, 100],
-    },
-    {
-      name: 'Sales Orders',
-      data: [11, 32, 45, 32, 34, 52, 41],
-    },
-  ],
-  chart: {
-    height: 350,
-    type: 'area',
-    toolbar: {
-      show: false,
-    },
-  },
-  colors: ['#4f35a1', '#246dec'],
-  dataLabels: {
-    enabled: false,
-  },
-  stroke: {
-    curve: 'smooth',
-  },
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-  markers: {
-    size: 0,
-  },
-  yaxis: [
-    {
-      title: {
-        text: 'Purchase Orders',
+    // Render Bar Chart for Top 5 Products
+    Highcharts.chart('bar-chart', {
+      chart: {
+        type: 'column',
       },
-    },
-    {
-      opposite: true,
-      title: {
-        text: 'Sales Orders',
+     
+      xAxis: {
+        categories: productNames,
+        title: {
+          text: 'Products',
+        },
       },
-    },
-  ],
-  tooltip: {
-    shared: true,
-    intersect: false,
-  },
-};
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Quantity Sold',
+        },
+      },
+      series: [
+        {
+          name: 'Quantity',
+          data: productQuantities,
+          colorByPoint: true,
+        },
+      ],
+    });
 
-const areaChart = new ApexCharts(
-  document.querySelector('#area-chart'),
-  areaChartOptions
-);
-areaChart.render();
+    // Process Sales Orders Data
+    const salesOrders = data.salesOrders || {};
+    const months = Object.keys(salesOrders).map((month) => `Month ${month}`);
+    const salesCounts = Object.values(salesOrders);
+
+    // Render Area Chart for Sales Orders
+    Highcharts.chart('area-chart', {
+      chart: {
+        type: 'line',
+      },
+     
+      xAxis: {
+        categories: months,
+        title: {
+          text: 'Month',
+        },
+      },
+      yAxis: {
+        title: {
+          text: 'Number of Orders',
+        },
+      },
+      series: [
+        {
+          name: 'Sales Orders',
+          data: salesCounts,
+          color: '#246dec',
+        },
+      ],
+    });
+  })
+  .catch((error) => console.error('Error fetching data:', error));
+
+

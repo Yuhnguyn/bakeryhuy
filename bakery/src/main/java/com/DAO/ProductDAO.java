@@ -2,6 +2,7 @@ package com.DAO;
 
 
 import java.util.List;
+import java.util.Map;
 
 import com.entity.Product;
 
@@ -12,5 +13,6 @@ public interface ProductDAO {
 	Product getProductById(String id);
 	List<Product> getAllProducts();
 	List<Product> getProductsByCategoryId(String categoryId);
+	public Map<String, Object> getTop5Products();
 	
 }

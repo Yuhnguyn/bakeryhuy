@@ -126,15 +126,17 @@
 
         <div class="charts">
 
-          <div class="charts-card">
-            <p class="chart-title">Top 5 Products</p>
-            <div id="bar-chart"></div>
-          </div>
+         <div class="charts-card">
+  <p class="chart-title"></p>
+  <div id="bar-chart" style="width: 100%; height: 350px;"></div>
+</div>
 
-          <div class="charts-card">
-            <p class="chart-title">Purchase and Sales Orders</p>
-            <div id="area-chart"></div>
-          </div>
+<div class="charts-card">
+  <p class="chart-title"></p>
+  <div id="area-chart" style="width: 100%; height: 350px;"></div>
+</div>
+
+
 
         </div>
       </main>
@@ -143,8 +145,11 @@
     </div>
 
     <!-- Scripts -->
-    <!-- ApexCharts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
+   <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+   
     <!-- Custom JS -->
     <script src="../all_component/script.js"></script>
   </body>

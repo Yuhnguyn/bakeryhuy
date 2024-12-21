@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.DB.DBConnect;
 import com.entity.Product;
 
 
@@ -183,7 +186,30 @@ public class ProductDAOImpl implements ProductDAO {
 	    }
 	    return products;
 	}
+	@Override
+	public Map<String, Object> getTop5Products() {
+        Map<String, Object> topProducts = new LinkedHashMap<>();
 
+        String sql = "SELECT product.name, SUM(order_details.num) AS total_quantity " +
+                     "FROM order_details " +
+                     "JOIN product ON order_details.product_id = product.id " +
+                     "GROUP BY product.name " +
+                     "ORDER BY total_quantity DESC " +
+                     "LIMIT 5";
+
+        try (Connection conn = DBConnect.getConn();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                topProducts.put(rs.getString("name"), rs.getInt("total_quantity"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return topProducts;
+    }
 
 	
 	
