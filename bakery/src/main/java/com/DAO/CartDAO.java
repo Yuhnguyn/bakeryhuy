@@ -1,12 +1,14 @@
-// CartDAO.java
 package com.DAO;
 
 import com.entity.Cart;
 import java.util.List;
 
 public interface CartDAO {
-    boolean addToCart(int userId, String productId, int quantity);
-    boolean updateCart(int cartId, int quantity);
-    boolean deleteFromCart(int cartId);
-    List<Cart> getCartByUserId(int userId);
+    boolean addCartItem(Cart cartItem); // Thêm sản phẩm mới vào giỏ hàng
+    boolean updateCartItem(int userId, String productId, int quantity); // Cập nhật số lượng sản phẩm trong giỏ
+
+    List<Cart> getCartByUserId(int userId); // Lấy danh sách giỏ hàng của người dùng
+    void clearCartByUserId(int userId); // Xóa toàn bộ giỏ hàng của người dùng
+	boolean deleteCartItem(int userId, String productId);
+	boolean setCartItemQuantity(int userId, String productId, int quantity);
 }

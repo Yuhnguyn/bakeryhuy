@@ -243,61 +243,18 @@ User u=(User)session.getAttribute("userobj");
 		<div class="profile">
 			<c:if test="${not empty userobj}">
 				<ul class="navbar profile">
-					<!-- Cart Dropdown -->
-
-					<li class="dropdown"><a href="#" id="cart-icon"><i
-							class="fas fa-shopping-cart"></i></a>
-						<div class="dropdown-menu cart-menu">
-							<div class="cart-item" data-price="300000">
-								<img src="img/product-cake2.webp" alt="Bánh Xoài"
-									class="cart-img">
-								<div class="cart-details">
-									<h4>Bánh sinh nhật Xoài</h4>
-									<div class="quantity-control">
-										<button class="decrease-btn">-</button>
-										<span class="quantity">1</span>
-										<button class="increase-btn">+</button>
-									</div>
-									<p>
-										Giá: <span class="item-price">300.000VNĐ</span>
-									</p>
-									<button class="remove-btn">Xóa</button>
-								</div>
-							</div>
-							<div class="cart-item" data-price="200000">
-								<img src="img/product-minicake.webp" alt="Bánh Tiny"
-									class="cart-img">
-								<div class="cart-details">
-									<h4>Bánh dâu Tiny</h4>
-									<div class="quantity-control">
-										<button class="decrease-btn">-</button>
-										<span class="quantity">2</span>
-										<button class="increase-btn">+</button>
-									</div>
-									<p>
-										Giá: <span class="item-price">400.000VNĐ</span>
-									</p>
-									<button class="remove-btn">Xóa</button>
-								</div>
-							</div>
-							<div class="cart-summary">
-								<p>
-									Tổng cộng: <span id="total-price">700.000VNĐ</span>
-								</p>
-								<a href="checkout.jsp" class="btn">Thanh toán</a>
-							</div>
-						</div></li>
+					<li><a href="cart.jsp"><i class="fas fa-shopping-cart"></i></a></li>
 					<!-- Icon Giỏ hàng -->
 					<li><a href="messages.jsp"><i class="fas fa-solid fa-bell"></i></a></li>
 					<!-- Icon Hộp thư -->
-					<li class="dropdown"><a href="#" class="username">${userobj.name}</a>
-						<div class="dropdown-menu">
-							<a href="infor_user.jsp">Thông tin cá nhân</a> <a
-
-								href="change-password.jsp">Giỏ hàng của tôi</a> <a
-								href="orders.jsp">Đơn hàng của tôi</a>
-
-						</div></li>
+					   <li class="dropdown">
+                <a href="#" class="username">${userobj.name}</a>
+                <div class="dropdown-menu">
+                    <a href="infor_user.jsp">Thông tin cá nhân</a>
+                    <a href="cart.jsp">Giỏ hàng của tôi</a>
+                    <a href="orders.jsp">Đơn hàng của tôi</a>
+                </div>
+            </li>
 
 
 				</ul>
@@ -718,73 +675,6 @@ User u=(User)session.getAttribute("userobj");
     });
     
     
-// làm giỏ hàng
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const cartIcon = document.getElementById('cart-icon');
-    const cartMenu = document.querySelector('.cart-menu');
-
-    function updateTotalPrice() {
-        let total = 0;
-        document.querySelectorAll('.cart-item').forEach(item => {
-            const price = parseInt(item.getAttribute('data-price'));
-            const quantity = parseInt(item.querySelector('.quantity').textContent);
-            total += price * quantity;
-
-            // Update item price display
-            const itemPrice = item.querySelector('.item-price');
-            itemPrice.textContent = (price * quantity).toLocaleString('vi-VN') + 'VNĐ';
-        });
-        document.getElementById('total-price').textContent = total.toLocaleString('vi-VN') + 'VNĐ';
-    }
-
-    cartIcon.addEventListener('click', function(event) {
-        event.preventDefault();
-        cartMenu.classList.toggle('show');
-    });
-
-    // Close the dropdown if clicking outside
-    document.addEventListener('click', function(event) {
-        if (!cartIcon.contains(event.target) && !cartMenu.contains(event.target)) {
-            cartMenu.classList.remove('show');
-        }
-    });
-
-    // Handle quantity increase/decrease
-    document.querySelectorAll('.increase-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const quantityElement = this.previousElementSibling;
-            let quantity = parseInt(quantityElement.textContent);
-            quantityElement.textContent = quantity + 1;
-            updateTotalPrice();
-        });
-    });
-
-    document.querySelectorAll('.decrease-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const quantityElement = this.nextElementSibling;
-            let quantity = parseInt(quantityElement.textContent);
-            if (quantity > 1) {
-                quantityElement.textContent = quantity - 1;
-                updateTotalPrice();
-            }
-        });
-    });
-
-    // Handle remove item
-    document.querySelectorAll('.remove-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const cartItem = this.closest('.cart-item');
-            cartItem.remove();
-            updateTotalPrice();
-        });
-    });
-
-    // Initial total price calculation
-    updateTotalPrice();
-});
     </script>
 </body>
 </html>

@@ -8,27 +8,28 @@ public class Cart {
 	    private String productId;
 	    private String productName;
 	    private String thumbnail;
-	    private double price;
-	    public double getPrice() {
-			return price;
-		}
-		public void setPrice(double price) {
-			this.price = price;
-		}
-		public String getThumbnail() {
-			return thumbnail;
-		}
-		public void setThumbnail(String thumbnail) {
-			this.thumbnail = thumbnail;
-		}
-		public String getProductName() {
-			return productName;
-		}
-		private int quantity;
+	    private int quantity;
 	    private Timestamp createdAt;
 	    private Timestamp updatedAt;
-	    
-	    
+	    public int getQuantity() {
+			return quantity;
+		}
+		public Timestamp getCreatedAt() {
+			return createdAt;
+		}
+		public void setCreatedAt(Timestamp createdAt) {
+			this.createdAt = createdAt;
+		}
+		public Timestamp getUpdatedAt() {
+			return updatedAt;
+		}
+		public void setUpdatedAt(Timestamp updatedAt) {
+			this.updatedAt = updatedAt;
+		}
+		public void setQuantity(int quantity) {
+			this.quantity = quantity;
+		}
+		private double price;
 		public int getId() {
 			return id;
 		}
@@ -47,29 +48,24 @@ public class Cart {
 		public void setProductId(String productId) {
 			this.productId = productId;
 		}
-		public int getQuantity() {
-			return quantity;
-		}
-		public void setQuantity(int quantity) {
-			this.quantity = quantity;
-		}
-		public Timestamp getCreatedAt() {
-			return createdAt;
-		}
-		public void setCreatedAt(Timestamp createdAt) {
-			this.createdAt = createdAt;
-		}
-		public Timestamp getUpdatedAt() {
-			return updatedAt;
-		}
-		public void setUpdatedAt(Timestamp updatedAt) {
-			this.updatedAt = updatedAt;
+		public String getProductName() {
+			return productName;
 		}
 		public void setProductName(String productName) {
-			// TODO Auto-generated method stub
-			
+			this.productName = productName;
 		}
-
+		public String getThumbnail() {
+			return thumbnail;
+		}
+		public void setThumbnail(String thumbnail) {
+			this.thumbnail = thumbnail;
+		}
+		public double getPrice() {
+			return price;
+		}
+		public void setPrice(double price) {
+			this.price = price;
+		}
 	    
-
+	    
 }

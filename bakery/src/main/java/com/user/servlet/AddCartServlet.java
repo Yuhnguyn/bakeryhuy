@@ -1,8 +1,8 @@
 package com.user.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.DAO.CartDAOImpl;
+import com.DB.DBConnect;
+import com.entity.Cart;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,57 +10,55 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.List;
 
-import com.entity.Cart;
-@WebServlet("/CartServlet")
+@WebServlet("/AddCartServlet") // Định nghĩa URL của Servlet
 public class AddCartServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-	    private static final long serialVersionUID = 1L;
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
 
-	    @Override
-	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	        String action = request.getParameter("action");
-	        HttpSession session = request.getSession();
+        // Kiểm tra người dùng đăng nhập
+        Object userObj = session.getAttribute("userobj");
+        if (userObj == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
-	        // Lấy danh sách giỏ hàng từ session
-	        List<Cart> cartList = (List<Cart>) session.getAttribute("cart");
-	        if (cartList == null) {
-	            cartList = new ArrayList<>();
-	        }
+        // Lấy userId từ session
+        int userId = (int) session.getAttribute("user_id");
 
-	        if ("add".equals(action)) {
-	            // Lấy thông tin sản phẩm từ form
-	            String productId = request.getParameter("productId");
-	            String productName = request.getParameter("productName");
-	            double price = Double.parseDouble(request.getParameter("price"));
-	            String thumbnail = request.getParameter("thumbnail");
-	            int quantity = Integer.parseInt(request.getParameter("quantity"));
+        // Lấy dữ liệu từ request
+        String productId = request.getParameter("productId");
+        String quantityStr = request.getParameter("quantity");
+        
 
-	            // Kiểm tra xem sản phẩm đã có trong giỏ chưa
-	            boolean exists = false;
-	            for (Cart item : cartList) {
-	                if (item.getProductId().equals(productId)) {
-	                    item.setQuantity(item.getQuantity() + quantity);
-	                    exists = true;
-	                    break;
-	                }
-	            }
+        if (productId == null || quantityStr == null) {
+            response.sendRedirect("error.jsp");
+            return;
+        }
 
-	            // Nếu chưa có, thêm mới
-	            if (!exists) {
-	                Cart cartItem = new Cart();
-	                cartItem.setProductId(productId);
-	                cartItem.setProductName(productName);
-	                cartItem.setPrice(price);
-	                cartItem.setThumbnail(thumbnail);
-	                cartItem.setQuantity(quantity);
-	                cartList.add(cartItem);
-	            }
+        int quantity = Integer.parseInt(quantityStr);
 
-	            // Lưu lại giỏ hàng vào session
-	            session.setAttribute("cart", cartList);
-	            response.sendRedirect("cart.jsp");
-	        }
-	    }
-	}
+        // Tạo đối tượng Cart
+        Cart cartItem = new Cart();
+        cartItem.setUserId(userId);
+        cartItem.setProductId(productId);
+        cartItem.setQuantity(quantity);
 
+        // Gọi DAO để thêm hoặc cập nhật sản phẩm
+        CartDAOImpl cartDAO = new CartDAOImpl(DBConnect.getConn());
+        boolean success = cartDAO.addCartItem(cartItem);
+
+        if (success) {
+            response.sendRedirect("cart.jsp");
+        } else {
+            response.sendRedirect("error.jsp");
+        }
+    }
+
+
+}
