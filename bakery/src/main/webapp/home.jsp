@@ -239,8 +239,7 @@
 			<c:if test="${not empty userobj}">
 				<ul class="navbar profile">
 					<!-- Cart Dropdown -->
-					<!-- Cart Dropdown -->
-					<!-- Cart Dropdown -->
+
 					<li class="dropdown"><a href="#" id="cart-icon"><i
 							class="fas fa-shopping-cart"></i></a>
 						<div class="dropdown-menu cart-menu">
@@ -712,7 +711,12 @@
             }
         });
     });
-//
+    
+    
+// làm giỏ hàng
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const cartIcon = document.getElementById('cart-icon');
     const cartMenu = document.querySelector('.cart-menu');
