@@ -74,7 +74,14 @@
 					<button class="quantity-btn">+</button>
 				</div>
 				<div class="order-buttons">
-					<button class="btn add-to-cart">THÊM VÀO GIỎ</button>
+    <form action="CartServlet" method="post">
+        <input type="hidden" name="action" value="add">
+        <input type="hidden" name="productId" value="<%= product.getId() %>">
+        <input type="hidden" name="productName" value="<%= product.getName() %>">
+        <input type="hidden" name="price" value="<%= product.getPrice() %>">
+        <input type="hidden" name="thumbnail" value="<%= product.getThumbnail() %>">
+        <button type="submit" class="btn add-to-cart">THÊM VÀO GIỎ</button>
+    </form>
 					<button class="btn buy-now" onclick="window.location.href='order.jsp?id=<%=product.getId() %>'">MUA NGAY</button>
 				</div>
 

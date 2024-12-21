@@ -1,5 +1,7 @@
 package com.DAO;
 
-public interface OrdersDAO {
+import com.entity.Orders;
 
+public interface OrdersDAO {
+	public boolean addOrder(Orders order);
 }
