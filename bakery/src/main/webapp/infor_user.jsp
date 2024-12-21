@@ -123,8 +123,8 @@
 			</table>
 		</c:if>
 		<div class="action-buttons">
-			<button class="edit-btn">Đổi thông tin cá nhân</button>
-			<button class="password-btn">Đổi mật khẩu</button>
+			<button class="edit-btn" onclick="window.location.href='change_info.jsp'">Đổi thông tin cá nhân</button>
+			<button class="password-btn" onclick="window.location.href='change_password.jsp'">Đổi mật khẩu</button>
 			<button class="delete-btn">Xoá tài khoản</button>
 		</div>
 	</div> 
