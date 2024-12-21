@@ -142,7 +142,7 @@
                 <a href="#" class="username">${userobj.name}</a>
                 <div class="dropdown-menu">
                     <a href="infor_user.jsp">Thông tin cá nhân</a>
-                    <a href="change-password.jsp">Đổi mật khẩu</a>
+                    <a href="cart.jsp">Giỏ hàng của tôi</a>
                     <a href="orders.jsp">Đơn hàng của tôi</a>
                 </div>
             </li>
