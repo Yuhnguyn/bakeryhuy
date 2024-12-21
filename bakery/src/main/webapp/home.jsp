@@ -113,6 +113,107 @@
 .dropdown.active .dropdown-menu {
 	display: block;
 }
+
+/* Dropdown Cart Styles */
+.cart-menu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: 0;
+	background: #ffffff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	width: 300px;
+	z-index: 1000;
+	padding: 10px;
+}
+
+.cart-menu .cart-item {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.cart-menu .cart-item .cart-img {
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+	border-radius: 5px;
+	object-fit: cover;
+}
+
+.cart-menu .cart-item .cart-details {
+	flex-grow: 1;
+}
+
+.cart-menu .cart-item .cart-details h4 {
+	font-size: 1rem;
+	margin: 0 0 5px;
+	color: #333;
+}
+
+.cart-menu .cart-item .cart-details .quantity-control {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	margin-bottom: 5px;
+}
+
+.cart-menu .cart-item .cart-details .quantity-control button {
+	background-color: #ddd;
+	border: none;
+	padding: 5px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.cart-menu .cart-item .cart-details .quantity-control button:hover {
+	background-color: #bbb;
+}
+
+.cart-menu .cart-item .cart-details .quantity {
+	font-size: 0.9rem;
+	font-weight: bold;
+}
+
+.cart-menu .cart-item .cart-details .remove-btn {
+	background-color: #ff4d4d;
+	border: none;
+	color: white;
+	padding: 5px 10px;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 0.8rem;
+}
+
+.cart-menu .cart-item .cart-details .remove-btn:hover {
+	background-color: #e60000;
+}
+
+.cart-menu .cart-summary {
+	text-align: center;
+	border-top: 1px solid #ddd;
+	padding-top: 10px;
+}
+
+.cart-menu .cart-summary p {
+	font-size: 1rem;
+	margin: 5px 0;
+	font-weight: bold;
+}
+
+.cart-menu .cart-summary .btn {
+	display: inline-block;
+	background-color: var(--green-color);
+	color: white;
+	padding: 5px 15px;
+	border-radius: 5px;
+	text-decoration: none;
+}
+
+.dropdown:hover .cart-menu {
+	display: block;
+}
 </style>
 </head>
 <body>
@@ -137,15 +238,61 @@
 		<div class="profile">
 			<c:if test="${not empty userobj}">
 				<ul class="navbar profile">
-					<li><a href="cart.jsp"><i class="fas fa-shopping-cart"></i></a></li>
+					<!-- Cart Dropdown -->
+					<!-- Cart Dropdown -->
+					<!-- Cart Dropdown -->
+					<li class="dropdown"><a href="#" id="cart-icon"><i
+							class="fas fa-shopping-cart"></i></a>
+						<div class="dropdown-menu cart-menu">
+							<div class="cart-item" data-price="300000">
+								<img src="img/product-cake2.webp" alt="Bánh Xoài"
+									class="cart-img">
+								<div class="cart-details">
+									<h4>Bánh sinh nhật Xoài</h4>
+									<div class="quantity-control">
+										<button class="decrease-btn">-</button>
+										<span class="quantity">1</span>
+										<button class="increase-btn">+</button>
+									</div>
+									<p>
+										Giá: <span class="item-price">300.000VNĐ</span>
+									</p>
+									<button class="remove-btn">Xóa</button>
+								</div>
+							</div>
+							<div class="cart-item" data-price="200000">
+								<img src="img/product-minicake.webp" alt="Bánh Tiny"
+									class="cart-img">
+								<div class="cart-details">
+									<h4>Bánh dâu Tiny</h4>
+									<div class="quantity-control">
+										<button class="decrease-btn">-</button>
+										<span class="quantity">2</span>
+										<button class="increase-btn">+</button>
+									</div>
+									<p>
+										Giá: <span class="item-price">400.000VNĐ</span>
+									</p>
+									<button class="remove-btn">Xóa</button>
+								</div>
+							</div>
+							<div class="cart-summary">
+								<p>
+									Tổng cộng: <span id="total-price">700.000VNĐ</span>
+								</p>
+								<a href="checkout.jsp" class="btn">Thanh toán</a>
+							</div>
+						</div></li>
 					<!-- Icon Giỏ hàng -->
 					<li><a href="messages.jsp"><i class="fas fa-solid fa-bell"></i></a></li>
 					<!-- Icon Hộp thư -->
 					<li class="dropdown"><a href="#" class="username">${userobj.name}</a>
 						<div class="dropdown-menu">
 							<a href="infor_user.jsp">Thông tin cá nhân</a> <a
-								href="change_password.jsp">Đổi mật khẩu</a> <a href="orders.jsp">Đơn
-								hàng của tôi</a>
+
+								href="change-password.jsp">Giỏ hàng của tôi</a> <a
+								href="orders.jsp">Đơn hàng của tôi</a>
+
 						</div></li>
 
 
@@ -286,11 +433,11 @@
 		</div>
 		<div class="categories-container">
 			<%
-				CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
-				List<Category> list = dao.getAllCategories();
-				int i = 0;
-				for (Category category : list) {
-					String boxClass = "box" + ((i % 5) + 1);
+			CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
+			List<Category> list = dao.getAllCategories();
+			int i = 0;
+			for (Category category : list) {
+				String boxClass = "box" + ((i % 5) + 1);
 			%>
 
 			<div class="box <%=boxClass%>">
@@ -303,8 +450,8 @@
 			</div>
 
 			<%
-				i++;
-				}
+			i++;
+			}
 			%>
 		</div>
 	</section>
@@ -565,8 +712,70 @@
             }
         });
     });
+//
+document.addEventListener('DOMContentLoaded', function() {
+    const cartIcon = document.getElementById('cart-icon');
+    const cartMenu = document.querySelector('.cart-menu');
 
-    
+    function updateTotalPrice() {
+        let total = 0;
+        document.querySelectorAll('.cart-item').forEach(item => {
+            const price = parseInt(item.getAttribute('data-price'));
+            const quantity = parseInt(item.querySelector('.quantity').textContent);
+            total += price * quantity;
+
+            // Update item price display
+            const itemPrice = item.querySelector('.item-price');
+            itemPrice.textContent = (price * quantity).toLocaleString('vi-VN') + 'VNĐ';
+        });
+        document.getElementById('total-price').textContent = total.toLocaleString('vi-VN') + 'VNĐ';
+    }
+
+    cartIcon.addEventListener('click', function(event) {
+        event.preventDefault();
+        cartMenu.classList.toggle('show');
+    });
+
+    // Close the dropdown if clicking outside
+    document.addEventListener('click', function(event) {
+        if (!cartIcon.contains(event.target) && !cartMenu.contains(event.target)) {
+            cartMenu.classList.remove('show');
+        }
+    });
+
+    // Handle quantity increase/decrease
+    document.querySelectorAll('.increase-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const quantityElement = this.previousElementSibling;
+            let quantity = parseInt(quantityElement.textContent);
+            quantityElement.textContent = quantity + 1;
+            updateTotalPrice();
+        });
+    });
+
+    document.querySelectorAll('.decrease-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const quantityElement = this.nextElementSibling;
+            let quantity = parseInt(quantityElement.textContent);
+            if (quantity > 1) {
+                quantityElement.textContent = quantity - 1;
+                updateTotalPrice();
+            }
+        });
+    });
+
+    // Handle remove item
+    document.querySelectorAll('.remove-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const cartItem = this.closest('.cart-item');
+            cartItem.remove();
+            updateTotalPrice();
+        });
+    });
+
+    // Initial total price calculation
+    updateTotalPrice();
+});
     </script>
 </body>
 </html>

@@ -75,7 +75,7 @@
 				</div>
 				<div class="order-buttons">
 					<button class="btn add-to-cart">THÊM VÀO GIỎ</button>
-					<button class="btn buy-now">MUA NGAY</button>
+					<button class="btn buy-now" onclick="window.location.href='order.jsp?id=<%=product.getId() %>'">MUA NGAY</button>
 				</div>
 
 				<div class="product-description">
@@ -169,6 +169,31 @@
         });
     });
 
+    
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Lấy các phần tử cần thiết
+        const quantityInput = document.querySelector('.quantity-input');
+        const quantityMinus = document.querySelector('.quantity-btn:first-child');
+        const quantityPlus = document.querySelector('.quantity-btn:last-child');
+
+        // Xử lý sự kiện click cho nút giảm số lượng
+        quantityMinus.addEventListener('click', () => {
+            let currentQuantity = parseInt(quantityInput.value);
+            if (currentQuantity > 1) { // Đảm bảo số lượng không giảm xuống dưới 1
+                quantityInput.value = currentQuantity - 1;
+            }
+        });
+
+        // Xử lý sự kiện click cho nút tăng số lượng
+        quantityPlus.addEventListener('click', () => {
+            let currentQuantity = parseInt(quantityInput.value);
+            quantityInput.value = currentQuantity + 1;
+        });
+    });
+
+
+    
     </script>
 </body>
 </html>
