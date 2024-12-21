@@ -3,8 +3,6 @@ package com.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.entity.User;
 
@@ -60,28 +58,68 @@ public class UserDAOImpl implements UserDAO {
         }
         return us;
     }
-    
-    public List<User> getAllUsers(){
-    	List<User> userList= new ArrayList<>();
-    	try {
-    		String sql="SELECT * FROM user";
-    		PreparedStatement ps=conn.prepareStatement(sql);
-    		ResultSet rs=ps.executeQuery();
-    		while(rs.next()) {
-    			User user=new User();
-    			user.setId(rs.getInt("id"));
-    			user.setName(rs.getString("name"));
-    			user.setUserName(rs.getString("username"));
-    			user.setPhone(rs.getString("phone"));
-    			user.setPassword(rs.getString("password"));
-    			user.setCreatedAt(rs.getTimestamp("created_at"));
-    			userList.add(user);
-    		}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    	return userList;
+
+    @Override
+    public boolean updateUserInfo(User us) {
+        boolean isUpdated = false;
+        try {
+            String sql = "UPDATE user SET name = ?, phone = ? WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, us.getName());
+            ps.setString(2, us.getPhone());
+            ps.setInt(3, us.getId());
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                isUpdated = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isUpdated;
     }
+
+    @Override
+    public boolean deleteUser(int userId) {
+        boolean isDeleted = false;
+        try {
+            String sql = "DELETE FROM user WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                isDeleted = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isDeleted;
+    }
+    
+    @Override
+    public boolean updatePassword(int userId, String newPassword) {
+        boolean isUpdated = false;
+        try {
+            String sql = "UPDATE user SET password = ? WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, newPassword);
+            ps.setInt(2, userId);
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                isUpdated = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isUpdated;
+    }
+
+    
+    
+    
+    
+    
     
 }
