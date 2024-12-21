@@ -1,3 +1,4 @@
+<%@page import="com.entity.User"%>
 <%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
 <%@page import="com.entity.Category"%>
@@ -233,6 +234,10 @@
 			<li><a href="#about">Chúng tôi</a></li>
 			<li><a href="#customers">Khách hàng</a></li>
 		</ul>
+
+<%
+User u=(User)session.getAttribute("userobj");
+%>
 
 		<%-- Kiểm tra nếu người dùng đã đăng nhập --%>
 		<div class="profile">
