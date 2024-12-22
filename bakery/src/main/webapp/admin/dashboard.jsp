@@ -126,15 +126,12 @@
 
         <div class="charts">
 
-         <div class="charts-card">
-  <p class="chart-title"></p>
-  <div id="bar-chart" style="width: 100%; height: 350px;"></div>
-</div>
+        <div id="bar-chart" style="width: 100%; height: 350px;"></div>
+<div id="area-chart" style="width: 100%; height: 350px;"></div>
+<div id="top-revenue-products-chart" style="width: 100%; height: 350px;">
 
-<div class="charts-card">
-  <p class="chart-title"></p>
-  <div id="area-chart" style="width: 100%; height: 350px;"></div>
 </div>
+<div id="monthly-revenue-chart" style="width: 100%; height: 350px;"></div>
 
 
 
