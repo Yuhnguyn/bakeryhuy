@@ -3,6 +3,7 @@ package com.user.servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -13,7 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.DB.DBConnect;
+import com.DAO.CartDAOImpl;
+import com.DAO.OrderDetailsDAOImpl;
 import com.DAO.OrdersDAOImpl;
+import com.entity.Cart;
+import com.entity.OrderDetails;
 import com.entity.Orders;
 @WebServlet("/SaveOrderServlet")
 public class SaveOrderServlet extends HttpServlet {
@@ -36,39 +41,58 @@ public class SaveOrderServlet extends HttpServlet {
         String name = request.getParameter("name");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
+        String paymentMethod = request.getParameter("payment");
         double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
-        System.out.println("Total Price: " + request.getParameter("totalPrice"));
 
-
+        String orderId = "OD-"+UUID.randomUUID().toString().substring(0, 8);
         // Tạo đối tượng Order
         Orders order = new Orders();
-        order.setId("OD-"+UUID.randomUUID().toString().substring(0, 8));
+        order.setId(orderId);
         order.setUserId(userId);
         order.setName(name);
         order.setPhone(phone);
         order.setAddress(address);
+        order.setPaymentMethod(paymentMethod);
         order.setStatus("Pending");
         order.setTotalMoney(totalPrice);
 
-        // Lưu order vào database
-        try (Connection conn = DBConnect.getConn()) {
-            OrdersDAOImpl orderDAO = new OrdersDAOImpl(conn);
-            boolean isSaved = orderDAO.saveOrder(order);
+        OrdersDAOImpl orderDAO = new OrdersDAOImpl(DBConnect.getConn());
+        boolean orderSaved = orderDAO.saveOrder(order);
 
-            if (isSaved) {
-                // Xóa giỏ hàng sau khi đặt hàng thành công
-                String deleteCartSql = "DELETE FROM cart WHERE user_id = ?";
-                PreparedStatement pstmt = conn.prepareStatement(deleteCartSql);
-                pstmt.setInt(1, userId);
-                pstmt.executeUpdate();
+        if (orderSaved) {
+            // Fetch Cart Data from DB
+            CartDAOImpl cartDAO = new CartDAOImpl(DBConnect.getConn());
+            List<Cart> cartList = cartDAO.getCartByUserId(userId);
 
-                // Chuyển hướng người dùng đến trang xác nhận
-                response.sendRedirect("order_success.jsp");
-            } else {
-                response.sendRedirect("error.jsp");
+            if (cartList != null && !cartList.isEmpty()) {
+                // Save Order Details
+                OrderDetailsDAOImpl orderDetailDAO = new OrderDetailsDAOImpl(DBConnect.getConn());
+                for (Cart cartItem : cartList) {
+                    OrderDetails orderDetail = new OrderDetails();
+                    orderDetail.setOrderId(orderId);
+                    orderDetail.setProductId(cartItem.getProductId());
+                    orderDetail.setPrice(cartItem.getPrice());
+                    orderDetail.setNum(cartItem.getQuantity());
+                    orderDetailDAO.saveOrderDetail(orderDetail);
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            // Clear Cart for the User
+            cartDAO.clearCartByUserId(userId);
+            // Truyền thông tin sang trang order_success.jsp
+            request.setAttribute("name", name);
+            request.setAttribute("phone", phone);
+            request.setAttribute("address", address);
+            request.setAttribute("payment", paymentMethod);
+            request.setAttribute("totalPrice", totalPrice);
+            request.setAttribute("cartList", cartList);
+            request.setAttribute("orderId", orderId);
+
+            // Chuyển hướng đến order_success.jsp
+            request.getRequestDispatcher("order_success.jsp").forward(request, response);
+        } else {
+            session.setAttribute("errorMsg", "Không thể lưu đơn hàng. Vui lòng thử lại.");
+            response.sendRedirect("order.jsp");
         }
     }
 }

@@ -2,7 +2,12 @@ package com.DAO;
 
 import java.util.Map;
 
+import com.entity.OrderDetails;
+
 public interface OrderDetailsDAO {
+	
+	public boolean saveOrderDetail(OrderDetails orderDetail);
+	
     // Phương thức lấy Top 5 sản phẩm có doanh thu cao nhất
     public Map<String, Object> getTop5RevenueProducts();
 
