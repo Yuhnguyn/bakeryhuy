@@ -1,6 +1,8 @@
 package com.entity;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.util.UUID;
 
 public class Orders {
 	private String id;               
@@ -12,6 +14,21 @@ public class Orders {
     private Timestamp approvedAt; 
     private String status;           
     private double totalMoney;
+    
+    
+    public Orders() {
+    	this.id=generateId();
+    	this.status = "pending";
+	}
+	public String getFormattedTotalMoney() {
+        DecimalFormat df = new DecimalFormat("#,###"); 
+        return df.format(totalMoney); 
+    }
+    private String generateId() {
+        return "ORDER-" + UUID.randomUUID().toString().substring(0, 8);
+    }
+	
+    
 	public String getId() {
 		return id;
 	}

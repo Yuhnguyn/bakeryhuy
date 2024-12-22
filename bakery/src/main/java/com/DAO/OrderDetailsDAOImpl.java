@@ -1,11 +1,17 @@
 package com.DAO;
 
+
+
+
+
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class OrderDetailsDAOImpl {
     
@@ -94,6 +100,7 @@ public class OrderDetailsDAOImpl {
                        "GROUP BY YEAR(o.created_at), MONTH(o.created_at) " +
                        "ORDER BY year, month";  // Sắp xếp theo năm và tháng
 
+
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -106,3 +113,4 @@ public class OrderDetailsDAOImpl {
         return result;
     }
 }
+
