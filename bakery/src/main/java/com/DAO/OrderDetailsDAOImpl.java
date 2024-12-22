@@ -9,8 +9,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.entity.OrderDetails;
 
 
 public class OrderDetailsDAOImpl {
@@ -22,8 +26,10 @@ public class OrderDetailsDAOImpl {
         this.conn = conn;
     }
 
+
     // Phương thức hỗ trợ lấy top sản phẩm có doanh thu cao nhất theo tuần, tháng, năm
     private Map<String, Double> getTop5RevenueProducts(String timePeriod, String timeUnit) {
+
         Map<String, Double> result = new HashMap<>();
         String query = "SELECT p.name, SUM(od.price * od.num) AS total_revenue " +
                        "FROM order_details od " +
