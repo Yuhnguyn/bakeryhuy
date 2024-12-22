@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<html lang="vi">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -125,17 +126,27 @@
         </div>
 
         <div class="charts">
+  <!-- 3 Biểu đồ đầu tiên -->
+  <div class="chart-row">
+    <div id="bar-chart" class="chart-card"></div>
+    <div id="area-chart" class="chart-card"></div>
+    <div id="monthly-revenue-chart" class="chart-card"></div>
+  </div>
 
-        <div id="bar-chart" style="width: 100%; height: 350px;"></div>
-<div id="area-chart" style="width: 100%; height: 350px;"></div>
-<div id="top-revenue-products-chart" style="width: 100%; height: 350px;">
+  <!-- Dropdown chọn khoảng thời gian -->
+  <div class="chart-header">
+    <label for="time-period" class="select-label">Chon khoang thoi gian:</label>
+    <select id="time-period" class="select-time">
+      <option value="week">Tuan</option>
+      <option value="month" selected>Thang</option>
+      <option value="year">Nam</option>
+    </select>
+  </div>
 
+  <!-- Biểu đồ Top Revenue Products -->
+  <div id="top-revenue-products-chart" class="chart-card"></div>
 </div>
-<div id="monthly-revenue-chart" style="width: 100%; height: 350px;"></div>
 
-
-
-        </div>
       </main>
       <!-- End Main -->
 

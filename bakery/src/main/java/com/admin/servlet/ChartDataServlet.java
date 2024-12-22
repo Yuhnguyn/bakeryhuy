@@ -31,31 +31,45 @@ public class ChartDataServlet extends HttpServlet {
         OrdersDAOImpl orderDAO = new OrdersDAOImpl(conn);
         OrderDetailsDAOImpl orderDetailsDAO = new OrderDetailsDAOImpl(conn);
 
-        // Lấy dữ liệu từ DAO
-        Map<String, Object> topProducts = productDAO.getTop5Products(); // Sản phẩm bán chạy
-        Map<String, Object> salesOrders = orderDAO.getSalesOrdersByMonth(); // Doanh thu theo tháng
-       
-        Map<String, Double> revenueByMonth = orderDetailsDAO.getRevenueByMonth(); // Doanh thu theo tháng
-        
-        // Lấy dữ liệu Top 5 sản phẩm theo tuần, tháng, năm
-        Map<String, Double> topRevenueProductsByWeek = orderDetailsDAO.getTop5RevenueProductsByWeek(); // Doanh thu theo tuần
-        Map<String, Double> topRevenueProductsByMonth = orderDetailsDAO.getTop5RevenueProductsByMonth(); // Doanh thu theo tháng
-        Map<String, Double> topRevenueProductsByYear = orderDetailsDAO.getTop5RevenueProductsByYear(); // Doanh thu theo năm
+        // Khai báo các Map để chứa dữ liệu
+        Map<String, Object> topProducts = new HashMap<>();
+        Map<String, Object> salesOrders = new HashMap<>();
+        Map<String, Double> revenueByMonth = new HashMap<>();
+        Map<String, Double> topRevenueProductsByWeek = new HashMap<>();
+        Map<String, Double> topRevenueProductsByMonth = new HashMap<>();
+        Map<String, Double> topRevenueProductsByYear = new HashMap<>();
 
-        // Kiểm tra dữ liệu lấy được
-        System.out.println("Top Products: " + topProducts);
-        System.out.println("Sales Orders: " + salesOrders);
-     
-        System.out.println("Revenue by Month: " + revenueByMonth);
-        System.out.println("Top Revenue Products by Week: " + topRevenueProductsByWeek);
-        System.out.println("Top Revenue Products by Month: " + topRevenueProductsByMonth);
-        System.out.println("Top Revenue Products by Year: " + topRevenueProductsByYear);
+        // Lấy dữ liệu từ DAO
+        try {
+            topProducts = productDAO.getTop5Products(); // Sản phẩm bán chạy
+            salesOrders = orderDAO.getSalesOrdersByMonth(); // Doanh thu theo tháng
+            revenueByMonth = orderDetailsDAO.getRevenueByMonth(); // Doanh thu theo tháng
+            topRevenueProductsByWeek = orderDetailsDAO.getTop5RevenueProductsByWeek(); // Doanh thu theo tuần
+            topRevenueProductsByMonth = orderDetailsDAO.getTop5RevenueProductsByMonth(); // Doanh thu theo tháng
+            topRevenueProductsByYear = orderDetailsDAO.getTop5RevenueProductsByYear(); // Doanh thu theo năm
+        } catch (Exception e) {
+            System.err.println("Error while fetching data: " + e.getMessage());
+            // Set mặc định dữ liệu lỗi
+            topProducts = new HashMap<>();
+            salesOrders = new HashMap<>();
+            revenueByMonth = new HashMap<>();
+            topRevenueProductsByWeek = new HashMap<>();
+            topRevenueProductsByMonth = new HashMap<>();
+            topRevenueProductsByYear = new HashMap<>();
+        }
+
+        // Kiểm tra dữ liệu lấy được và log ra console
+        System.out.println("Top Products: " + (topProducts.isEmpty() ? "No data" : topProducts));
+        System.out.println("Sales Orders: " + (salesOrders.isEmpty() ? "No data" : salesOrders));
+        System.out.println("Revenue by Month: " + (revenueByMonth.isEmpty() ? "No data" : revenueByMonth));
+        System.out.println("Top Revenue Products by Week: " + (topRevenueProductsByWeek.isEmpty() ? "No data" : topRevenueProductsByWeek));
+        System.out.println("Top Revenue Products by Month: " + (topRevenueProductsByMonth.isEmpty() ? "No data" : topRevenueProductsByMonth));
+        System.out.println("Top Revenue Products by Year: " + (topRevenueProductsByYear.isEmpty() ? "No data" : topRevenueProductsByYear));
 
         // Chuẩn bị dữ liệu trả về
         Map<String, Object> chartData = new HashMap<>();
         chartData.put("topProducts", topProducts); // Top sản phẩm
         chartData.put("salesOrders", salesOrders); // Doanh thu theo tháng
-       
         chartData.put("revenueByMonth", revenueByMonth); // Doanh thu theo tháng
         chartData.put("topRevenueProductsByWeek", topRevenueProductsByWeek); // Top sản phẩm theo tuần
         chartData.put("topRevenueProductsByMonth", topRevenueProductsByMonth); // Top sản phẩm theo tháng
@@ -66,3 +80,4 @@ public class ChartDataServlet extends HttpServlet {
         response.getWriter().write(gson.toJson(chartData));
     }
 }
+

@@ -1,3 +1,4 @@
+
 // SIDEBAR TOGGLE
 let sidebarOpen = false;
 const sidebar = document.getElementById('sidebar');
@@ -32,6 +33,9 @@ fetch('/bakery/chart-data')
       chart: {
         type: 'column',
       },
+	  title: {
+	  	    text: 'Top 5 san pham ban nhieu nhat',
+	  	  },
       xAxis: {
         categories: productNames,
         title: {
@@ -63,6 +67,9 @@ fetch('/bakery/chart-data')
       chart: {
         type: 'line',
       },
+	  title: {
+	  	    text: 'So luong don hang theo thang',
+	  	  },
       xAxis: {
         categories: months,
         title: {
@@ -82,37 +89,89 @@ fetch('/bakery/chart-data')
         },
       ],
     });
+	
+	
+///top 5 doanh thu san pham 
+document.getElementById('time-period').addEventListener('change', function () {
+  const selectedPeriod = this.value;  // Lấy giá trị của khoảng thời gian (week, month, year)
 
-	// Biểu đồ Top 5 sản phẩm có doanh thu cao nhất
-	const topRevenueProducts = data.topRevenueProducts || {};
-	const revenueProductNames = Object.keys(topRevenueProducts);
-	const productRevenues = Object.values(topRevenueProducts);
+  // Gửi yêu cầu tới API với tham số 'period'
+  fetch(`/bakery/chart-data?period=${selectedPeriod}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error fetching chart data. Status: ' + response.status);
+      }
+      return response.json();  // Chuyển đổi dữ liệu trả về thành JSON
+    })
+    .then((data) => {
+      // Kiểm tra xem dữ liệu có đúng hay không
+      console.log('Dữ liệu nhận được:', data);
 
-	// Biểu đồ Top 5 sản phẩm có doanh thu cao nhất
-	Highcharts.chart('top-revenue-products-chart', {
-	  chart: {
-	    type: 'column',
-	  },
-	  xAxis: {
-	    categories: revenueProductNames,
-	    title: {
-	      text: 'Products',
-	    },
-	  },
-	  yAxis: {
-	    min: 0,
-	    title: {
-	      text: 'Revenue (in USD)',
-	    },
-	  },
-	  series: [
-	    {
-	      name: 'Revenue',
-	      data: productRevenues,
-	      colorByPoint: true,
-	    },
-	  ],
-	});
+      let topRevenueProducts = {};
+
+      // Kiểm tra khoảng thời gian đã chọn và lấy dữ liệu tương ứng
+      if (selectedPeriod === 'week') {
+        topRevenueProducts = data.topRevenueProductsByWeek || {};
+      } else if (selectedPeriod === 'month') {
+        topRevenueProducts = data.topRevenueProductsByMonth || {};
+      } else if (selectedPeriod === 'year') {
+        topRevenueProducts = data.topRevenueProductsByYear || {};
+      }
+
+      const revenueProductNames = Object.keys(topRevenueProducts);  // Danh sách tên sản phẩm
+      const productRevenues = Object.values(topRevenueProducts);  // Danh sách doanh thu sản phẩm
+
+      // Log lại kết quả kiểm tra dữ liệu
+      console.log('Danh sách sản phẩm:', revenueProductNames);
+      console.log('Doanh thu sản phẩm:', productRevenues);
+
+      // Kiểm tra nếu không có sản phẩm hoặc doanh thu, hiển thị thông báo lỗi
+      if (revenueProductNames.length === 0) {
+        alert('Khong co du lieu cho khoang thoi gian nay');
+        return;
+      }
+
+      // Cập nhật biểu đồ nếu có dữ liệu
+      Highcharts.chart('top-revenue-products-chart', {
+        chart: {
+          type: 'column',  // Chọn loại biểu đồ cột
+        },
+        title: {
+          text: `Top 5 san pham co doanh thu cao nhat theo  (${selectedPeriod === 'week' ? 'Tuan' : selectedPeriod === 'month' ? 'Thang' : 'Nam'})`, // Cập nhật tiêu đề dựa trên khoảng thời gian
+        },
+        xAxis: {
+          categories: revenueProductNames,  // Đặt danh sách sản phẩm làm trục X
+          title: {
+            text: 'San pham',  // Tiêu đề trục X
+          },
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Doanh thu (USD)',  // Tiêu đề trục Y
+          },
+        },
+        series: [
+          {
+            name: 'Doanh thu',
+            data: productRevenues,  // Đặt dữ liệu doanh thu cho biểu đồ
+            colorByPoint: true,  // Mỗi cột sẽ có màu sắc riêng
+          },
+        ],
+      });
+    })
+    .catch((error) => {
+      // Nếu có lỗi khi gọi API, log lỗi và hiển thị thông báo
+      console.error('Error fetching chart data:', error);
+      alert('Da xay ra loi khi tai du lieu: ' + error.message);  // Hiển thị thông báo lỗi chi tiết hơn
+    });
+});
+
+// Khi trang được tải, mặc định chọn 'month' và vẽ biểu đồ theo tháng
+window.addEventListener('load', () => {
+  document.getElementById('time-period').value = 'month';  // Chọn mặc định là tháng
+  document.getElementById('time-period').dispatchEvent(new Event('change'));  // Gửi sự kiện thay đổi để cập nhật biểu đồ
+});
 
 	// Biểu đồ Dòng doanh thu theo tháng cho tất cả sản phẩm
 	const revenueByMonth = data.revenueByMonth || {};
@@ -155,7 +214,7 @@ fetch('/bakery/chart-data')
 	    type: 'line',
 	  },
 	  title: {
-	    text: 'Monthly Revenue for All Products',
+	    text: 'Doanh thu theo thang cua cua hang  ',
 	  },
 	  xAxis: {
 	    categories: sortedMonths, // Tháng đã sắp xếp
@@ -193,7 +252,7 @@ fetch('/bakery/chart-data')
 	    type: 'line',
 	  },
 	  title: {
-	    text: 'Monthly Revenue for All Products',
+	    text: 'Doanh thu cua hang theo thang',
 	  },
 	  xAxis: {
 	    categories: sortedMonths, // Sử dụng danh sách các tháng đã sắp xếp
