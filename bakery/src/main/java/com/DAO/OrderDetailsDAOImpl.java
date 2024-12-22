@@ -26,7 +26,49 @@ public class OrderDetailsDAOImpl {
         this.conn = conn;
     }
 
+    public boolean saveOrderDetail(OrderDetails orderDetail) {
+        boolean result = false;
+        try {
+            String query = "INSERT INTO order_details (order_id, product_id, price, num) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, orderDetail.getOrderId());
+            ps.setString(2, orderDetail.getProductId());
+            ps.setDouble(3, orderDetail.getPrice());
+            ps.setInt(4, orderDetail.getNum());
+            result = ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    public List<OrderDetails> getOrderDetailsByOrderId(String orderId) {
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        try {
+            String query = "SELECT od.*, p.name AS product_name, p.thumbnail AS product_thumbnail " +
+                           "FROM order_details od " +
+                           "JOIN product p ON od.product_id = p.id " +
+                           "WHERE od.order_id = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, orderId);
+            ResultSet rs = ps.executeQuery();
 
+            while (rs.next()) {
+                OrderDetails orderDetail = new OrderDetails();
+                orderDetail.setId(rs.getInt("id"));
+                orderDetail.setOrderId(rs.getString("order_id"));
+                orderDetail.setProductId(rs.getString("product_id"));
+                orderDetail.setPrice(rs.getInt("price"));
+                orderDetail.setNum(rs.getInt("num"));
+                orderDetail.setProductName(rs.getString("product_name"));
+                orderDetail.setThumbnail(rs.getString("product_thumbnail"));
+                orderDetails.add(orderDetail);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orderDetails;
+    }
     // Phương thức hỗ trợ lấy top sản phẩm có doanh thu cao nhất theo tuần, tháng, năm
     private Map<String, Double> getTop5RevenueProducts(String timePeriod, String timeUnit) {
 

@@ -38,7 +38,7 @@
       <aside id="sidebar">
         <div class="sidebar-title">
           <div class="sidebar-brand">
-            <span class="material-icons-outlined">inventory</span> Bob's Inventory
+            <span class="material-icons-outlined">inventory</span> Bakery Dashboard
           </div>
           <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
         </div>
@@ -46,37 +46,24 @@
         <ul class="sidebar-list">
           <li class="sidebar-list-item">
             <a href="#" target="_blank">
-              <span class="material-icons-outlined">dashboard</span> Dashboard
+              <span class="material-icons-outlined">dashboard</span> Biểu đồ
             </a>
           </li>
           <li class="sidebar-list-item">
             <a href="#" target="_blank">
-              <span class="material-icons-outlined">inventory_2</span> Products
+              <span class="material-icons-outlined">inventory_2</span> Sản phẩm
+            </a>
+          </li>
+
+
+          <li class="sidebar-list-item">
+            <a href="#" target="_blank">
+              <span class="material-icons-outlined">shopping_cart</span> Đơn hàng
             </a>
           </li>
           <li class="sidebar-list-item">
             <a href="#" target="_blank">
-              <span class="material-icons-outlined">fact_check</span> Inventory
-            </a>
-          </li>
-          <li class="sidebar-list-item">
-            <a href="#" target="_blank">
-              <span class="material-icons-outlined">add_shopping_cart</span> Purchase Orders
-            </a>
-          </li>
-          <li class="sidebar-list-item">
-            <a href="#" target="_blank">
-              <span class="material-icons-outlined">shopping_cart</span> Sales Orders
-            </a>
-          </li>
-          <li class="sidebar-list-item">
-            <a href="#" target="_blank">
-              <span class="material-icons-outlined">poll</span> Reports
-            </a>
-          </li>
-          <li class="sidebar-list-item">
-            <a href="#" target="_blank">
-              <span class="material-icons-outlined">settings</span> Settings
+              <span class="material-icons-outlined">settings</span> Cài đặt
             </a>
           </li>
         </ul>
@@ -86,30 +73,23 @@
       <!-- Main -->
       <main class="main-container">
         <div class="main-title">
-          <p class="font-weight-bold">DASHBOARD</p>
+          <p class="font-weight-bold">Báo cáo và thống kê</p>
         </div>
 
         <div class="main-cards">
 
           <div class="card">
             <div class="card-inner">
-              <p class="text-primary">PRODUCTS</p>
+              <p class="text-primary">Sản phẩm</p>
               <span class="material-icons-outlined text-blue">inventory_2</span>
             </div>
             <span class="text-primary font-weight-bold">249</span>
           </div>
 
-          <div class="card">
-            <div class="card-inner">
-              <p class="text-primary">PURCHASE ORDERS</p>
-              <span class="material-icons-outlined text-orange">add_shopping_cart</span>
-            </div>
-            <span class="text-primary font-weight-bold">83</span>
-          </div>
 
           <div class="card">
             <div class="card-inner">
-              <p class="text-primary">SALES ORDERS</p>
+              <p class="text-primary">Đơn hàng</p>
               <span class="material-icons-outlined text-green">shopping_cart</span>
             </div>
             <span class="text-primary font-weight-bold">79</span>
@@ -117,7 +97,7 @@
 
           <div class="card">
             <div class="card-inner">
-              <p class="text-primary">INVENTORY ALERTS</p>
+              <p class="text-primary">Khách hàng</p>
               <span class="material-icons-outlined text-red">notification_important</span>
             </div>
             <span class="text-primary font-weight-bold">56</span>
@@ -135,11 +115,11 @@
 
   <!-- Dropdown chọn khoảng thời gian -->
   <div class="chart-header">
-    <label for="time-period" class="select-label">Chon khoang thoi gian:</label>
+    <label for="time-period" class="select-label">Chọn khoảng thời gian:</label>
     <select id="time-period" class="select-time">
-      <option value="week">Tuan</option>
-      <option value="month" selected>Thang</option>
-      <option value="year">Nam</option>
+      <option value="week">Tuần</option>
+      <option value="month" selected>Tháng</option>
+      <option value="year">Năm</option>
     </select>
   </div>
 

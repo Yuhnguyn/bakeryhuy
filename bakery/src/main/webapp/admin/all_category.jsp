@@ -113,18 +113,7 @@
     </form> --%>
 
     <!-- Tạo đối tượng DAO và lấy dữ liệu từ database -->
-    <%
-        String keyword = request.getParameter("keyword");
-        String sort = request.getParameter("sort");
-        if (sort == null) {
-            sort = "all"; // Mặc định là "all"
-        }
 
-        // Tạo đối tượng CategoryDAOImpl và gọi phương thức searchCategories
-        CategoryDAOImpl dao = new CategoryDAOImpl(DBConnect.getConn());
-        List<Category> categories = dao.searchCategories(keyword != null ? keyword : "", sort);
-        request.setAttribute("categories", categories); // Đưa dữ liệu vào request scope
-    %> 
 
     <!-- Hiển thị bảng danh mục -->
     <table id="category" class="display">

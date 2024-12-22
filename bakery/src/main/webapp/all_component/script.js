@@ -34,7 +34,7 @@ fetch('/bakery/chart-data')
         type: 'column',
       },
 	  title: {
-	  	    text: 'Top 5 san pham ban nhieu nhat',
+	  	    text: 'Top 5 sản phẩm bán nhiều nhất',
 	  	  },
       xAxis: {
         categories: productNames,
@@ -45,7 +45,7 @@ fetch('/bakery/chart-data')
       yAxis: {
         min: 0,
         title: {
-          text: 'Quantity Sold',
+          text: 'Số lượng',
         },
       },
       series: [
@@ -68,22 +68,22 @@ fetch('/bakery/chart-data')
         type: 'line',
       },
 	  title: {
-	  	    text: 'So luong don hang theo thang',
+	  	    text: 'Số lượng đơn hàng theo tháng',
 	  	  },
       xAxis: {
         categories: months,
         title: {
-          text: 'Month',
+          text: 'Tháng',
         },
       },
       yAxis: {
         title: {
-          text: 'Number of Orders',
+          text: 'Đơn hàng',
         },
       },
       series: [
         {
-          name: 'Sales Orders',
+          name: 'Đơn hàng',
           data: salesCounts,
           color: '#246dec',
         },
@@ -137,18 +137,18 @@ document.getElementById('time-period').addEventListener('change', function () {
           type: 'column',  // Chọn loại biểu đồ cột
         },
         title: {
-          text: `Top 5 san pham co doanh thu cao nhat theo  (${selectedPeriod === 'week' ? 'Tuan' : selectedPeriod === 'month' ? 'Thang' : 'Nam'})`, // Cập nhật tiêu đề dựa trên khoảng thời gian
+          text: `Top 5 sản phẩm có doanh thu cao nhất  (${selectedPeriod === 'week' ? 'Tuần' : selectedPeriod === 'month' ? 'Tháng' : 'Năm'})`, // Cập nhật tiêu đề dựa trên khoảng thời gian
         },
         xAxis: {
           categories: revenueProductNames,  // Đặt danh sách sản phẩm làm trục X
           title: {
-            text: 'San pham',  // Tiêu đề trục X
+            text: 'Sản phẩm',  // Tiêu đề trục X
           },
         },
         yAxis: {
           min: 0,
           title: {
-            text: 'Doanh thu (USD)',  // Tiêu đề trục Y
+            text: 'Doanh thu (VND)',  // Tiêu đề trục Y
           },
         },
         series: [
@@ -214,7 +214,7 @@ window.addEventListener('load', () => {
 	    type: 'line',
 	  },
 	  title: {
-	    text: 'Doanh thu theo thang cua cua hang  ',
+	    text: 'Doanh thu cửa hàng theo tháng  ',
 	  },
 	  xAxis: {
 	    categories: sortedMonths, // Tháng đã sắp xếp
@@ -252,12 +252,12 @@ window.addEventListener('load', () => {
 	    type: 'line',
 	  },
 	  title: {
-	    text: 'Doanh thu cua hang theo thang',
+	    text: 'Doanh thu cửa hàng theo tháng',
 	  },
 	  xAxis: {
 	    categories: sortedMonths, // Sử dụng danh sách các tháng đã sắp xếp
 	    title: {
-	      text: 'Month',
+	      text: 'Tháng',
 	    },
 	    labels: {
 	      rotation: -45, // Xoay nhãn để dễ đọc hơn
@@ -268,12 +268,12 @@ window.addEventListener('load', () => {
 	  },
 	  yAxis: {
 	    title: {
-	      text: 'Revenue (in USD)',
+	      text: 'VND',
 	    },
 	  },
 	  series: [
 	    {
-	      name: 'Revenue',
+	      name: 'Doanh thu',
 	      data: revenues, // Dữ liệu doanh thu đã sắp xếp theo thứ tự tháng
 	      color: '#246dec',
 	    },
