@@ -9,8 +9,15 @@ public class Orders {
     private int userId;           
     private String name;      
     private String phone;   
-    private String address;       
-    private Timestamp createdAt;
+    private String address;
+    private String paymentMethod;
+    public String getPaymentMethod() {
+		return paymentMethod;
+	}
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	private Timestamp createdAt;
     private Timestamp approvedAt; 
     private String status;           
     private double totalMoney;

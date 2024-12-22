@@ -4,10 +4,25 @@ public class OrderDetails {
 	private int id; 
     private String orderId; 
     private String productId; 
-    private int price; 
+    private double price; 
     private int num;
+    private String productName;
+    private String thumbnail;
     
     
+    
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 	public int getId() {
 		return id;
 	}
@@ -26,10 +41,10 @@ public class OrderDetails {
 	public void setProductId(String productId) {
 		this.productId = productId;
 	}
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	public int getNum() {
