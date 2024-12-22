@@ -11,7 +11,5 @@ public interface CategoryDAO {
 	    Category getCategoryById(String id); 
 	    List<Category> getAllCategories();
 	    boolean isCategoryExists(String id);
-	    List<Category> searchCategories(String keyword, String sort);
-
 	}
 

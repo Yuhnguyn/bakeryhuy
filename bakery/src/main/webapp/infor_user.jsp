@@ -105,20 +105,12 @@
 					<td  style="text-transform: none;">${userobj.userName}</td>
 				</tr>
 				<tr>
-					<td>Số dư:</td>
-					<td >{userobj.formattedBalance}VND</td>
-				</tr>
-				<tr>
-					<td>Email:</td>
-					<td style="text-transform: none;">{userobj.email}</td>
-				</tr>
-				<tr>
 					<td>Số điện thoại:</td>
-					<td>{userobj.phone}</td>
+					<td>${userobj.phone}</td>
 				</tr>
 				<tr>
 					<td>Ngày đăng ký:</td>
-					<td>{userobj.createdAt}</td>
+					<td>${userobj.createdAt}</td>
 				</tr>
 			</table>
 		</c:if>

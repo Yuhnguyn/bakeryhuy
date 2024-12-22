@@ -11,6 +11,7 @@ public class Cart {
 	    private int quantity;
 	    private Timestamp createdAt;
 	    private Timestamp updatedAt;
+	    
 	    public int getQuantity() {
 			return quantity;
 		}

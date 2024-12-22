@@ -3,6 +3,8 @@ package com.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.entity.User;
 
@@ -115,7 +117,33 @@ public class UserDAOImpl implements UserDAO {
         }
         return isUpdated;
     }
+    
+    public List<User> getAllUsers() {
+		List<User> userList = new ArrayList<>();
+		try {
+			String sql = "SELECT * FROM user ";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
 
+			while (rs.next()) {
+				User user = new User();
+				user.setId(rs.getInt("id"));
+				user.setName(rs.getString("name"));
+				user.setUserName(rs.getString("username"));
+
+				user.setPhone(rs.getString("phone"));
+				user.setPassword(rs.getString("password"));
+
+				user.setCreatedAt(rs.getTimestamp("created_at"));
+				userList.add(user);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userList;
+
+	}
     
     
     

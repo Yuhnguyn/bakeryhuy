@@ -1,5 +1,7 @@
 package com.DAO;
 
+import java.util.List;
+
 import com.entity.User;
 
 public interface UserDAO {
@@ -8,6 +10,7 @@ public interface UserDAO {
     public boolean updateUserInfo(User us);
     public boolean deleteUser(int userId);
     public boolean updatePassword(int userId, String newPassword);
+    public List<User> getAllUsers();
 
     
     

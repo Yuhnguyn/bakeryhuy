@@ -151,55 +151,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 
 
-	@Override
-	public List<Category> searchCategories(String keyword, String sort) {
-	    List<Category> categories = new ArrayList<>();
-	    
-	    // Câu truy vấn để tìm kiếm danh mục và đếm số lượng sản phẩm trong mỗi danh mục
-	    String sql = "SELECT c.id, c.name, c.thumbnail, c.description, c.created_at, c.updated_at, " +
-	                 "COUNT(p.id) AS product_count " +
-	                 "FROM category c " +
-	                 "LEFT JOIN product p ON c.id = p.category_id " +
-	                 "WHERE c.name LIKE ? OR c.id LIKE ? " +
-	                 "GROUP BY c.id";
-	    
-	    // Thêm điều kiện sắp xếp
-	    if ("name_asc".equals(sort)) {
-	        sql += " ORDER BY c.name ASC";
-	    } else if ("name_desc".equals(sort)) {
-	        sql += " ORDER BY c.name DESC";
-	    } else if ("date_newest".equals(sort)) {
-	        sql += " ORDER BY c.created_at DESC";
-	    } else if ("date_oldest".equals(sort)) {
-	        sql += " ORDER BY c.created_at ASC";
-	    }
 
-	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-	        // Gán giá trị cho tham số tìm kiếm
-	        ps.setString(1, "%" + keyword + "%"); // Tìm kiếm theo tên
-	        ps.setString(2, "%" + keyword + "%"); // Tìm kiếm theo ID
-
-	        ResultSet rs = ps.executeQuery();
-
-	        // Xử lý kết quả trả về
-	        while (rs.next()) {
-	            Category category = new Category();
-	            category.setId(rs.getString("id"));
-	            category.setName(rs.getString("name"));
-	            category.setThumbnail(rs.getString("thumbnail"));
-	            category.setDescription(rs.getString("description"));
-	            category.setCreatedAt(rs.getTimestamp("created_at"));
-	            category.setUpdatedAt(rs.getTimestamp("updated_at"));
-	            category.setProductCount(rs.getInt("product_count")); // Gán productCount
-
-	            categories.add(category);
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-
-	    return categories;
-	}
 
     
     
