@@ -1,5 +1,7 @@
+
 @charset "UTF-8";
 body {
+	font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -191,38 +193,98 @@ body {
   font-size: 35px;
 }
 
+/* Bo cuc chinh cho cac bieu do */
 .charts {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr; /* 4 cot */
   gap: 20px;
+  padding: 20px;
 }
 
-.charts-card {
+/* Thiet ke cho tung the chua bieu do */
+.chart-card {
   background-color: #ffffff;
-  margin-bottom: 20px;
-  padding: 25px;
+  padding: 0;
   box-sizing: border-box;
-  border: 1px solid #d2d2d3;
-  border-radius: 5px;
-  box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative; /* De co the dung absolute cho phan lua chon */
 }
 
-.chart-title {
+/* Bố cục chính cho toàn bộ các biểu đồ */
+.charts {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 600;
+  flex-direction: column; /* Sắp xếp theo chiều dọc */
+  gap: 20px; /* Khoảng cách giữa các phần */
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto; /* Canh giữa */
 }
 
-#bar-chart, #area-chart {
-  display: block;
-  width: 100%;
-  height: 350px;
-  min-height: 350px; /* Đảm bảo chiều cao luôn tồn tại */
-  position: relative;
-  z-index: 1;
+/* Hàng chứa 3 biểu đồ */
+.chart-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 cột đều nhau */
+  gap: 20px; /* Khoảng cách giữa các biểu đồ */
 }
+
+/* Phần chèn dropdown chọn khoảng thời gian */
+.chart-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.9); /* Nền sáng nhẹ */
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+}
+
+/* Label của dropdown */
+.select-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Dropdown chọn khoảng thời gian */
+.select-time {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 150px;
+  background-color: #fff;
+}
+
+.select-time:focus {
+  outline: none;
+  border-color: #6200ea;
+}
+
+/* Thẻ chứa biểu đồ */
+.chart-card {
+  background-color: #ffffff;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  height: 350px; /* Đảm bảo chiều cao đồng nhất */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chart-row {
+    grid-template-columns: 1fr; /* 1 cột trên màn hình nhỏ */
+  }
+
+  .select-time {
+    width: 100%; /* Dropdown chiếm toàn bộ chiều rộng */
+  }
+}
+
 
 /* ---------- SCROLLBARS ---------- */
 

@@ -22,14 +22,14 @@ public class OrderDetailsDAOImpl {
         this.conn = conn;
     }
 
-    // Lấy top 5 sản phẩm có doanh thu cao nhất trong tuần
-    public Map<String, Double> getTop5RevenueProductsByWeek() {
+    // Phương thức hỗ trợ lấy top sản phẩm có doanh thu cao nhất theo tuần, tháng, năm
+    private Map<String, Double> getTop5RevenueProducts(String timePeriod, String timeUnit) {
         Map<String, Double> result = new HashMap<>();
         String query = "SELECT p.name, SUM(od.price * od.num) AS total_revenue " +
                        "FROM order_details od " +
                        "JOIN product p ON od.product_id = p.id " +
                        "JOIN orders o ON od.order_id = o.id " +
-                       "WHERE WEEK(o.created_at) = WEEK(CURDATE()) " + // Lọc theo tuần hiện tại
+                       "WHERE " + timeUnit + "(o.created_at) = " + timeUnit + "(CURDATE()) " +  // Lọc theo tuần/tháng/năm
                        "GROUP BY p.name " +
                        "ORDER BY total_revenue DESC " +
                        "LIMIT 5";
@@ -40,56 +40,26 @@ public class OrderDetailsDAOImpl {
                 result.put(rs.getString("name"), rs.getDouble("total_revenue"));
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching top 5 products by revenue for the week: " + e.getMessage());
+            System.err.println("Error fetching top 5 products by revenue for " + timePeriod + ": " + e.getMessage());
         }
         return result;
+    }
+
+    // Lấy top 5 sản phẩm có doanh thu cao nhất trong tuần
+    public Map<String, Double> getTop5RevenueProductsByWeek() {
+        return getTop5RevenueProducts("week", "WEEK");
     }
 
     // Lấy top 5 sản phẩm có doanh thu cao nhất trong tháng
     public Map<String, Double> getTop5RevenueProductsByMonth() {
-        Map<String, Double> topRevenueProducts = new HashMap<>();
-        String sql = "SELECT p.name, SUM(od.price * od.num) AS revenue " +
-                     "FROM order_details od " +
-                     "JOIN product p ON od.product_id = p.id " +
-                     "JOIN orders o ON od.order_id = o.id " +
-                     "WHERE MONTH(o.created_at) = MONTH(CURDATE()) " +
-                     "GROUP BY p.name " +
-                     "ORDER BY revenue DESC " +
-                     "LIMIT 5";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                topRevenueProducts.put(rs.getString("name"), rs.getDouble("revenue"));
-            }
-        } catch (SQLException e) {
-            System.err.println("Error fetching top 5 products by revenue for the month: " + e.getMessage());
-        }
-        return topRevenueProducts;
+        return getTop5RevenueProducts("month", "MONTH");
     }
 
     // Lấy top 5 sản phẩm có doanh thu cao nhất trong năm
     public Map<String, Double> getTop5RevenueProductsByYear() {
-        Map<String, Double> result = new HashMap<>();
-        String query = "SELECT p.name, SUM(od.price * od.num) AS total_revenue " +
-                       "FROM order_details od " +
-                       "JOIN product p ON od.product_id = p.id " +
-                       "JOIN orders o ON od.order_id = o.id " +
-                       "WHERE YEAR(o.created_at) = YEAR(CURDATE()) " + // Lọc theo năm hiện tại
-                       "GROUP BY p.name " +
-                       "ORDER BY total_revenue DESC " +
-                       "LIMIT 5";
-
-        try (PreparedStatement ps = conn.prepareStatement(query)) {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.put(rs.getString("name"), rs.getDouble("total_revenue"));
-            }
-        } catch (SQLException e) {
-            System.err.println("Error fetching top 5 products by revenue for the year: " + e.getMessage());
-        }
-        return result;
+        return getTop5RevenueProducts("year", "YEAR");
     }
+
 
     // Lấy doanh thu theo tháng
     public Map<String, Double> getRevenueByMonth() {
