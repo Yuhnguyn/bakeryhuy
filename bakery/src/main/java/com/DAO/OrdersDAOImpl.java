@@ -3,6 +3,7 @@ package com.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -111,6 +112,59 @@ public class OrdersDAOImpl implements OrdersDAO {
 
 	    return salesOrders;
 	}
+
+	@Override
+	public List<Orders> getAllOrders() {
+		 List<Orders> ordersList = new ArrayList<>();
+	        String query = "SELECT * FROM orders";
+
+	        try (PreparedStatement preparedStatement = conn.prepareStatement(query);
+	             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+	            while (resultSet.next()) {
+	                Orders order = new Orders();
+	                order.setId(resultSet.getString("id"));
+	                order.setUserId(resultSet.getInt("user_id"));
+	                order.setName(resultSet.getString("name"));
+	                order.setPhone(resultSet.getString("phone"));
+	                order.setAddress(resultSet.getString("address"));
+	                order.setCreatedAt(resultSet.getTimestamp("created_at"));
+	                order.setApprovedAt(resultSet.getTimestamp("approved_at"));
+	                order.setStatus(resultSet.getString("status"));
+	                order.setTotalMoney(resultSet.getDouble("total_money"));
+	                order.setPaymentMethod(resultSet.getString("payment_method"));
+
+	                ordersList.add(order);
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        return ordersList;
+	}
+	@Override
+	public boolean updateOrderStatus(String orderId, String status, Timestamp approvedAt) {
+        boolean isUpdated = false;
+
+        try {
+            String sql = "UPDATE orders SET status = ?, approved_at = ? WHERE id = ? AND status = 'Pending'";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, status);
+            pstmt.setTimestamp(2, approvedAt);
+            pstmt.setString(3, orderId);
+
+            int updatedRows = pstmt.executeUpdate();
+            if (updatedRows > 0) {
+                isUpdated = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isUpdated;
+    }
+
+
 
 
 
