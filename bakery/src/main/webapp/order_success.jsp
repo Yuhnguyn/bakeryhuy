@@ -251,6 +251,7 @@ hr {
 			</div>
 			<div class="button-container">
 				<a href="product.jsp">Tiếp tục mua hàng</a>
+				<a href="review.jsp?orderId=<%=orderId%>">Đánh giá đơn hàng</a>
 			</div>
 			<div class="support-info">
 				<p>
