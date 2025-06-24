@@ -76,7 +76,8 @@ public class SaveOrderServlet extends HttpServlet {
                     orderDetailDAO.saveOrderDetail(orderDetail);
                 }
             }
-
+            session.setAttribute("reviewCartList", cartList);
+            session.setAttribute("reviewTotalPrice", totalPrice);
             // Clear Cart for the User
             cartDAO.clearCartByUserId(userId);
             // Truyền thông tin sang trang order_success.jsp
@@ -92,6 +93,9 @@ public class SaveOrderServlet extends HttpServlet {
             request.getRequestDispatcher("order_success.jsp").forward(request, response);
         } else {
             session.setAttribute("errorMsg", "Không thể lưu đơn hàng. Vui lòng thử lại.");
+            
+            
+
             response.sendRedirect("order.jsp");
         }
     }
