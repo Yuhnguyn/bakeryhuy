@@ -137,9 +137,9 @@ a {
 		<div class="profile">
 			<c:if test="${not empty userobj}">
 				<ul class="navbar profile">
-					<li><a href="cart.jsp"><i class="fas fa-shopping-cart"></i></a></li>
+					<!-- <li><a href="cart.jsp"><i class="fas fa-shopping-cart"></i></a></li> -->
 					<!-- Icon Giỏ hàng -->
-					<li><a href="messages.jsp"><i class="fas fa-solid fa-bell"></i></a></li>
+					<li><a href="dashboard.jsp"><i class="fas fa-solid fa-bell"></i></a></li>
 					<!-- Icon Hộp thư -->
 					   <li class="dropdown">
                 <a href="#" class="username">${userobj.name}</a>

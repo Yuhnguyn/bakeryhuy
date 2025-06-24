@@ -18,9 +18,25 @@
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
 <!-- Tải DataTables JS -->
 <script>
-	$(document).ready(function() {
-		$('#orders').DataTable();
-	});
+$(document).ready(function() {
+    var table = $('#orders').DataTable({
+        pageLength: 5, // Số mục hiển thị trên mỗi trang
+        lengthMenu: [5,10, 25, 50, 100], // Các tùy chọn số lượng mục
+    });
+
+    // Áp dụng tìm kiếm cho từng cột
+    $('#orders thead tr:eq(1) th').each(function(i) {
+        $('input', this).on('keyup change', function() {
+            if (table.column(i).search() !== this.value) {
+                table
+                    .column(i)
+                    .search(this.value)
+                    .draw();
+            }
+        });
+    });
+});
+
 </script>
 
 <meta charset="UTF-8">
@@ -119,6 +135,23 @@ h2 {
 .message.error {
 	color: red;
 }
+
+/* CSS cho trạng thái */
+.status-completed {
+    color: white;
+    background-color: #4CAF50; /* Màu xanh lá */
+    padding: 3px 7px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.status-pending {
+    color: black;
+    background-color: #FFC107; /* Màu vàng */
+    padding: 3px 7px;
+    border-radius: 5px;
+    text-align: center;
+}
 </style>
 
 <body>
@@ -137,25 +170,35 @@ h2 {
 
 
 	<table id="orders" class="display">
-		<thead>
-			<tr>
+<thead>
+    <tr>
+        <th>Mã Đơn</th>
+        <th class="user-id-column">ID</th>
+        <th>Họ Tên</th>
+        <th>SĐT</th>
+        <th>Địa chỉ</th>
+        <th>Ngày đặt</th>
+        <th>Tổng tiền</th>
+        <th>Thanh toán</th>
+        <th>Trạng thái</th>
+        <th>Ngày giao</th>
+        <th>Thao tác</th>
+    </tr>
+<!--     <tr>
+        <th><input type="text" placeholder="Tìm mã đơn" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm ID" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm họ tên" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm SĐT" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm địa chỉ" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm ngày đặt" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm tổng tiền" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm thanh toán" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm trạng thái" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm ngày giao" class="column-search"></th>
+        <th></th>
+    </tr> -->
+</thead>
 
-
-				<th>Mã Đơn</th>
-				<th class="user-id-column">UserID</th>
-				<th>Họ Tên</th>
-				<th>Số điện thoại</th>
-				<th>Địa chỉ</th>
-				<th>Ngày đặt</th>
-				<th>Tổng tiền</th>
-				<th>Thanh toán</th>
-				<th>Trạng thái</th>
-				<th>Ngày giao</th>
-				<th>Thao tác</th>
-
-
-			</tr>
-		</thead>
 		<tbody>
 
 			<%
@@ -170,9 +213,24 @@ h2 {
 				<td><%=order.getPhone()%></td>
 				<td><%=order.getAddress()%></td>
 				<td><%=order.getCreatedAt()%></td>
-				<td><%=order.getTotalMoney()%></td>
+				<td><%=order.getFormattedTotalMoney() %></td>
 				<td><%=order.getPaymentMethod()%></td>
-				<td><%=order.getStatus()%></td>
+				<td>
+            <% 
+                String status = order.getStatus();
+                if ("Compeleted".equals(status)) { 
+            %>
+                <span class="status-completed">Đã giao</span>
+            <% 
+                } else if ("Pending".equals(status)) { 
+            %>
+                <span class="status-pending">Đang giao</span>
+            <% 
+                } else { 
+            %>
+                <span><%=status%></span>
+            <% } %>
+        </td>
 				<td><%=order.getApprovedAt()%></td> 
 				<td><a href="../UpdateOrderStatus?id=<%=order.getId()%>""
 					class="button btn-approve"> <i class="fas fa-check-circle"></i> </a> 

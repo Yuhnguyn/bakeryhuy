@@ -50,23 +50,29 @@
             </a>
           </li>
           <li class="sidebar-list-item">
-            <a href="#" target="_blank">
+            <a href="all_product.jsp" target="_blank">
               <span class="material-icons-outlined">inventory_2</span> Sản phẩm
             </a>
           </li>
 
 
           <li class="sidebar-list-item">
-            <a href="#" target="_blank">
+            <a href="orders.jsp" target="_blank">
               <span class="material-icons-outlined">shopping_cart</span> Đơn hàng
             </a>
           </li>
           <li class="sidebar-list-item">
-            <a href="#" target="_blank">
-              <span class="material-icons-outlined">settings</span> Cài đặt
+            <a href="user_list.jsp" target="_blank">
+              <span class="material-icons-outlined">person</span> Khách hàng
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="staff_list.jsp" target="_blank">
+              <span class="material-icons-outlined">group</span> Nhân viên
             </a>
           </li>
         </ul>
+        
       </aside>
       <!-- End Sidebar -->
 
@@ -98,11 +104,18 @@
           <div class="card">
             <div class="card-inner">
               <p class="text-primary">Khách hàng</p>
-              <span class="material-icons-outlined text-red">notification_important</span>
+              <span class="material-icons-outlined text-blue">person</span>
             </div>
             <span class="text-primary font-weight-bold">56</span>
           </div>
-
+		
+		<div class="card">
+            <div class="card-inner">
+              <p class="text-primary">Nhân viên</p>
+              <span class="material-icons-outlined text-red">group</span>
+            </div>
+            <span class="text-primary font-weight-bold">56</span>
+          </div>
         </div>
 
         <div class="charts">

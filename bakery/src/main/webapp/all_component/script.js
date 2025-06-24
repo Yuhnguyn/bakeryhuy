@@ -39,7 +39,7 @@ fetch('/bakery/chart-data')
       xAxis: {
         categories: productNames,
         title: {
-          text: 'Products',
+          text: 'Sản phẩm',
         },
       },
       yAxis: {
@@ -50,7 +50,7 @@ fetch('/bakery/chart-data')
       },
       series: [
         {
-          name: 'Quantity Sold',
+          name: 'Số lượng',
           data: productQuantities,
           colorByPoint: true,
         },
@@ -59,7 +59,7 @@ fetch('/bakery/chart-data')
 
     // Biểu đồ Dòng doanh thu theo tháng
     const salesOrders = data.salesOrders || {};
-    const months = Object.keys(salesOrders).map((month) => `Month ${month}`);
+    const months = Object.keys(salesOrders).map((month) => `Tháng ${month}`);
     const salesCounts = Object.values(salesOrders);
 
     // Biểu đồ Dòng doanh thu theo tháng
@@ -186,7 +186,7 @@ window.addEventListener('load', () => {
 	let monthsForRevenue = Object.keys(revenueByMonth).map((month) => {
 	  const [year, monthNumber] = month.split('-'); // Đảm bảo dữ liệu tháng có định dạng 'Year-Month'
 	  return {
-	    label: `Month ${monthNumber} - ${year}`, // Định dạng lại tháng theo 'Month Number - Year'
+	    label: `Tháng ${monthNumber} - ${year}`, // Định dạng lại tháng theo 'Month Number - Year'
 	    value: month // Lưu trữ giá trị 'Year-Month' gốc để sắp xếp
 	  };
 	});

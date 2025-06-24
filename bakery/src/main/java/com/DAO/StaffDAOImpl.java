@@ -46,6 +46,8 @@ public class StaffDAOImpl implements StaffDAO {
                 staff.setId(rs.getInt("id"));
                 staff.setName(rs.getString("name"));
                 staff.setPhone(rs.getString("phone"));
+                staff.setUsername(rs.getString("username"));
+                staff.setPassword(rs.getString("password"));
                 staff.setRole(rs.getString("role"));
                 staff.setCreatedAt(rs.getTimestamp("created_at"));
 

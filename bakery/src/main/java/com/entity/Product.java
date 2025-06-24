@@ -2,6 +2,7 @@ package com.entity;
 
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 
 public class Product{
@@ -37,7 +38,17 @@ public class Product{
         DecimalFormat df = new DecimalFormat("#,###"); // Định dạng số với dấu phẩy
         return df.format(price); // Trả về số dư đã định dạng
     }
-	
+	// định dạng ngày tháng năm
+	public String getFormattedCreatedAt() {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+        return createdAt != null ? formatter.format(createdAt) : "";
+    }
+
+    public String getFormattedUpdatedAt() {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+        return updatedAt != null ? formatter.format(updatedAt) : "";
+    }
+    
 	public double getPrice() {
 		return price;
 	}

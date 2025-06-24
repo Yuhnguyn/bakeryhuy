@@ -75,7 +75,7 @@
         <p><span>Tổng tiền:</span> <strong><%= currencyFormat.format(totalPrice) %></strong></p>
         <a href="OrderServlet" class="checkout-btn">Thanh toán</a>
 
-        <a href="product-list.jsp" class="continue-shopping">Tiếp tục mua hàng →</a>
+        <a href="product.jsp" class="continue-shopping">Tiếp tục mua hàng →</a>
     </aside>
 </main>
 <!-- Footer -->

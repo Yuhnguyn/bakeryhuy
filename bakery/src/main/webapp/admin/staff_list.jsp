@@ -19,12 +19,13 @@
     <title>Danh Sách Nhân Viên</title>
 </head>
 
-  <!--   <style>
+  <style>
         h2 {
             padding: 20px;
             font-size:20px;
         }
-
+        
+	
         .history-table {
             margin-top: 100px;
             margin-left: 50px;
@@ -54,7 +55,7 @@
             width: 200px; /* Điều chỉnh chiều rộng theo ý muốn */
         }
 
-        /*button  */
+
         .button{
             font-size: 14px;
             font-weight: bold;
@@ -86,7 +87,7 @@
     background-color: #45a049;
 }
         }
-    </style> -->
+    </style>
 <body>
 <%@ include file="header.jsp" %>
 
@@ -101,31 +102,8 @@
 <% } %>
 
 <div class="history-table">
-    <h2>Danh sách nhân viên</h2>
-<form action="staff_list.jsp" method="get" 
-      style="display: flex; align-items: center; justify-content: flex-start; gap: 10px; padding: 10px; max-width: 100%; margin: 20px 0;">
+    
 
-   <%--  <!-- Ô nhập tìm kiếm -->
-    <input type="text" name="searchKey" placeholder="Nhập từ khóa tìm kiếm"
-           value="<%= request.getParameter("searchKey") != null ? request.getParameter("searchKey") : "" %>"
-           style="flex: 3; padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; background-color: #f9f9f9; outline: none;">
- --%>
-   <%--  <!-- Bộ lọc -->
-    <select name="filter" 
-            style="flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; background-color: #f9f9f9; outline: none;">
-        <option value="id" <%= "id".equals(request.getParameter("filter")) ? "selected" : "" %>>ID</option>
-        <option value="timecreate" <%= "timecreate".equals(request.getParameter("filter")) ? "selected" : "" %>>Thời gian tạo</option>
-    </select>
- --%>
-    <!-- <!-- Nút tìm kiếm 
-    <button type="submit" 
-            style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #4CAF50; color: white; font-size: 14px; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">
-        Tìm kiếm
-    </button> -->
-</form>
-
-
-    <br>
 
   <%
         StaffDAOImpl staffDAO = new StaffDAOImpl();
@@ -139,13 +117,15 @@
             staffList = staffDAO.searchStaff(searchKey, filter != null && !filter.isEmpty() ? filter : "all");
         }
     %>
-
+<h2>Danh sách nhân viên</h2>
     <table id="staff" class="display">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Họ tên</th>
                 <th>Số điện thoại</th>
+                <th>Tên đăng nhập</th>
+                <th>Mật khẩu</th>
                 <th>Vai trò</th>
                 <th>Thời gian tạo</th>
                 <th>Hành động</th>
@@ -160,6 +140,8 @@
                 <td><%= staff.getId() %></td>
                 <td><%= staff.getName() %></td>
                 <td><%= staff.getPhone() %></td>
+                <td><%= staff.getUsername() %></td>
+                <td><%= staff.getPassword() %></td>
                 <td><%= staff.getRole() %></td>
                 <td><%= staff.getCreatedAt() != null ? staff.getCreatedAt().toString() : "N/A" %></td>
                 <td>

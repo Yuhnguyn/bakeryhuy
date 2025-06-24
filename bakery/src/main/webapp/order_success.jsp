@@ -250,7 +250,7 @@ hr {
 				<p><strong>Phương thức thanh toán:</strong> <%= request.getAttribute("payment") %></p>
 			</div>
 			<div class="button-container">
-				<a href="#">Tiếp tục mua hàng</a>
+				<a href="product.jsp">Tiếp tục mua hàng</a>
 			</div>
 			<div class="support-info">
 				<p>

@@ -2,6 +2,7 @@ package com.entity;
 
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 public class Orders {
@@ -35,6 +36,16 @@ public class Orders {
         return "ORDER-" + UUID.randomUUID().toString().substring(0, 8);
     }
 	
+	// định dạng ngày tháng năm
+	public String getFormattedCreatedAt() {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+        return createdAt != null ? formatter.format(createdAt) : "";
+    }
+
+    public String getFormattedUpdatedAt() {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+        return approvedAt != null ? formatter.format(approvedAt) : "";
+    }
     
 	public String getId() {
 		return id;

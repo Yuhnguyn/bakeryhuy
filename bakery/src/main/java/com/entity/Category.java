@@ -1,6 +1,7 @@
 package com.entity;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Category {
 	private String id;
@@ -14,7 +15,16 @@ public class Category {
 	private Timestamp updatedAt;
 	
 	
-	
+	// định dạng ngày tháng năm
+		public String getFormattedCreatedAt() {
+	        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+	        return createdAt != null ? formatter.format(createdAt) : "";
+	    }
+
+	    public String getFormattedUpdatedAt() {
+	        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+	        return updatedAt != null ? formatter.format(updatedAt) : "";
+	    }
 	public int getProductCount() {
 		return productCount;
 	}

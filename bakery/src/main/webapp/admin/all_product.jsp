@@ -16,9 +16,26 @@
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
 <!-- Tải DataTables JS -->
 <script>
-	$(document).ready(function() {
-		$('#product').DataTable();
-	});
+$(document).ready(function() {
+    var table = $('#product').DataTable({
+        // Tùy chọn DataTables
+        pageLength: 5, // Hiển thị 5 mục mỗi trang
+        lengthMenu: [5, 10, 25, 50, 100], // Các tùy chọn số lượng mục
+    });
+
+    // Áp dụng tìm kiếm cho từng cột
+    $('#product thead tr:eq(1) th').each(function(i) {
+        $('input', this).on('keyup change', function() {
+            if (table.column(i).search() !== this.value) {
+                table
+                    .column(i)
+                    .search(this.value)
+                    .draw();
+            }
+        });
+    });
+});
+
 </script>
 
 <meta charset="UTF-8">
@@ -106,6 +123,11 @@ h2 {
 .message.error {
 	color: red;
 }
+
+.small-column {
+    width: 50px; /* Chỉnh độ rộng theo ý muốn */
+    text-align: center; /* Căn giữa nội dung trong cột */
+}
 /* Căn giữa và thêm khoảng cách cho nút "Thêm sản phẩm" */
 tfoot td {
 	text-align: center;
@@ -132,48 +154,37 @@ tfoot .button {
         <div class="message error">${failMsg}</div>
         <c:remove var="failMsg" scope="session"/>
     </c:if>
-		<!-- <!-- Form tìm kiếm 
-		<form action="ProductSearchServlet" method="GET"
-			style="margin-bottom: 20px;">
-			<label for="searchKey">Tìm kiếm:</label> <input type="text"
-				id="searchKey" name="searchKey"
-				placeholder="Nhập mã sản phẩm hoặc tên sản phẩm..."
-				style="padding: 8px; margin-right: 10px;"> <label
-				for="filter">Sắp xếp theo:</label> <select id="filter" name="filter"
-				style="padding: 8px; margin-right: 10px;">
-				<option value="all">Tất cả</option>
-				<option value="id">Danh mục</option>
-				<option value="name">Mã sản phẩm</option>
-				<option value="price">Giá tăng dần</option>
-				<option value="price">Giá giảm dần</option>
-				<option value="latest">Mới nhất</option>
-			</select>
 
-			<button type="submit"
-				style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">Tìm
-				kiếm</button>
-		</form> -->
 
 
 		<table id="product" class="display">
-			<thead>
-				<tr>
+<thead>
+    <tr>
+        <th class="small-column">Mã DM</th>
+        <th>Tên DM</th>
+        <th class="small-column">Mã SP</th>
+        <th style="text-align:center">Tên SP</th>
+        <th>Giá</th>
+        <th>Mô tả</th>
+        <th>Thời gian tạo</th>
+        <th>Thời gian cập nhật</th>
+        <th>Hình ảnh</th>
+        <th>Thao tác</th>
+    </tr>
+<!--     <tr>
+        <th><input type="text" placeholder="Tìm mã DM" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm tên DM" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm mã SP" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm tên SP" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm giá" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm mô tả" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm thời gian tạo" class="column-search"></th>
+        <th><input type="text" placeholder="Tìm thời gian cập nhật" class="column-search"></th>
+        <th></th>
+        <th></th>
+    </tr> -->
+</thead>
 
-
-					<th>Mã DM</th>
-					<th>Tên DM</th>
-					<th>Mã SP</th>
-					<th>Tên SP</th>
-					<th>Giá</th>
-					<th>Giảm giá</th>
-					<th>Mô tả</th>
-					<th>Thời gian tạo</th>
-					<th>Thời gian cập nhật</th>
-					<th>Hình ảnh</th>
-					<th>Thao tác</th>
-
-				</tr>
-			</thead>
 			<tbody>
 
 				<%
@@ -183,14 +194,13 @@ tfoot .button {
 				%>
 				<tr>
 
-					<td><%=product.getCategoryId()%></td>
+					<td class="small-column"><%=product.getCategoryId()%></td>
 					<td><%=product.getCategory()%></td>
-					<td><%=product.getId()%></td>
+					<td class="small-column" style="text-align:center"><%=product.getId()%></td>
 					<td><%=product.getName()%></td>
-					<td><%=product.getFormattedBalance()%> </td>
-					<td><%=product.getDiscount()%></td>
+					<td><%=product.getPrice()%> </td>
 					<td><%=product.getDescription()%></td>
-					<td><%=product.getCreatedAt()%></td>
+					<td><%=product.getFormattedCreatedAt() %></td>
 					<td><%=product.getUpdatedAt()%></td>
 
 					<td><img src="../product/<%=product.getThumbnail() %>" alt="<%=product.getThumbnail() %>" style="width: 50px; height: 50px;"></td>

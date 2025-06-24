@@ -1,5 +1,7 @@
 package com.entity;
 
+import java.text.DecimalFormat;
+
 public class OrderDetails {
 	private int id; 
     private String orderId; 
@@ -10,6 +12,10 @@ public class OrderDetails {
     private String thumbnail;
     
     
+    public String getFormattedPrice() {
+        DecimalFormat df = new DecimalFormat("#,###"); 
+        return df.format(price); 
+    }
     
 	public String getProductName() {
 		return productName;
