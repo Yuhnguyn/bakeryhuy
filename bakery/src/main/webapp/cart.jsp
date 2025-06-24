@@ -15,17 +15,29 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <%@include file="all_component/header.jsp"%>
 
+<%@include file="all_component/header.jsp"%>
 
 <%
-    CartDAOImpl dao = new CartDAOImpl(DBConnect.getConn());
-    int userId = (int) session.getAttribute("user_id");
-    List<Cart> cartList = dao.getCartByUserId(userId);
-
+    List<Cart> cartList = null;
     NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new java.util.Locale("vi", "VN"));
     double totalPrice = 0;
+
+    Object userObj = session.getAttribute("userobj");
+
+    if (userObj != null) {
+        // Đã đăng nhập → lấy giỏ hàng từ DB
+        try {
+            int userId = (int) session.getAttribute("user_id");
+            CartDAOImpl dao = new CartDAOImpl(DBConnect.getConn());
+            cartList = dao.getCartByUserId(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } else {
+        // Chưa đăng nhập → lấy giỏ hàng từ session
+        cartList = (List<Cart>) session.getAttribute("guest_cart");
+    }
 %>
 
 <main class="cart-container">
@@ -33,39 +45,42 @@
     <%
         if (cartList != null && !cartList.isEmpty()) {
     %>
-    <p>Bạn đang có <strong><%= cartList.size() %></strong> sản phẩm trong giỏ hàng</p>
+        <p>Bạn đang có <strong><%= cartList.size() %></strong> sản phẩm trong giỏ hàng</p>
+
     <%
             for (Cart cartItem : cartList) {
-                double itemPrice = cartItem.getPrice() * cartItem.getQuantity();
+                // Nếu người dùng chưa đăng nhập, cartItem có thể thiếu tên/giá/ảnh, bạn cần query thêm nếu muốn
+                double itemPrice = (cartItem.getPrice() > 0 ? cartItem.getPrice() : 0) * cartItem.getQuantity();
                 totalPrice += itemPrice;
     %>
-<div class="cart-item">
-    <img src="product/<%= cartItem.getThumbnail() %>" alt="<%= cartItem.getProductName() %>" class="main-image">
-    <div class="item-details">
-        <h2><%= cartItem.getProductName() %></h2>
-        <p class="price">Giá: <%= currencyFormat.format(cartItem.getPrice()) %></p>
-        <p class="quantity">Số lượng: <%= cartItem.getQuantity() %></p>
-        <p class="total-item-price">Thành tiền: <%= currencyFormat.format(itemPrice) %></p>
-        <div class="item-controls">
-            <form action="UpdateCartServlet" method="post">
-                <input type="hidden" name="productId" value="<%= cartItem.getProductId() %>">
-                <button type="submit" name="action" value="decrease" class="btn-quantity">-</button>
-                <input type="number" name="quantity" value="<%= cartItem.getQuantity() %>" min="1">
-                <button type="submit" name="action" value="increase" class="btn-quantity">+</button>
-            </form>
-            <form action="DeleteCartServlet" method="post">
-                <input type="hidden" name="productId" value="<%= cartItem.getProductId() %>">
-                <button type="submit" class="btn-delete"><i class='bx bx-trash'></i></button>
-            </form>
-        </div>
+        <div class="cart-item">
+            <img src="product/<%= cartItem.getThumbnail() != null ? cartItem.getThumbnail() : "default.jpg" %>" alt="<%= cartItem.getProductName() %>" class="main-image">
+            <div class="item-details">
+    <h2><%= cartItem.getProductName() != null ? cartItem.getProductName() : "Tên sản phẩm" %></h2>
+    <p class="price">Giá: <%= cartItem.getPrice() > 0 ? currencyFormat.format(cartItem.getPrice()) : "?" %></p>
+    <p class="quantity">Số lượng: <%= cartItem.getQuantity() %></p>
+    <p class="total-item-price">Thành tiền: <%= currencyFormat.format(itemPrice) %></p>
+
+    <div class="item-controls">
+        <form action="<%= userObj != null ? "UpdateCartServlet" : "UpdateGuestCartServlet" %>" method="post">
+            <input type="hidden" name="productId" value="<%= cartItem.getProductId() %>">
+            <button type="submit" name="action" value="decrease" class="btn-quantity">-</button>
+            <input type="number" name="quantity" value="<%= cartItem.getQuantity() %>" min="1">
+            <button type="submit" name="action" value="increase" class="btn-quantity">+</button>
+        </form>
+        <form action="<%= userObj != null ? "DeleteCartServlet" : "DeleteGuestCartServlet" %>" method="post">
+            <input type="hidden" name="productId" value="<%= cartItem.getProductId() %>">
+            <button type="submit" class="btn-delete"><i class='bx bx-trash'></i></button>
+        </form>
     </div>
 </div>
 
+        </div>
     <%
             }
         } else {
     %>
-    <p>Giỏ hàng của bạn hiện đang trống.</p>
+        <p>Giỏ hàng của bạn hiện đang trống.</p>
     <%
         }
     %>
@@ -73,8 +88,18 @@
     <aside class="order-summary">
         <h3>Thông tin đơn hàng</h3>
         <p><span>Tổng tiền:</span> <strong><%= currencyFormat.format(totalPrice) %></strong></p>
-        <a href="OrderServlet" class="checkout-btn">Thanh toán</a>
 
+        <%
+            if (userObj != null) {
+        %>
+            <a href="OrderServlet" class="checkout-btn">Thanh toán</a>
+        <%
+            } else {
+        %>
+            <a href="login.jsp" class="checkout-btn">Đăng nhập để thanh toán</a>
+        <%
+            }
+        %>
         <a href="product.jsp" class="continue-shopping">Tiếp tục mua hàng →</a>
     </aside>
 </main>
